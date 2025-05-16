@@ -15,10 +15,12 @@ class Pipeline:
 
     STAGE_SEQUENCE = [
         "discovery",      # Nmap
-        "auth",           # Python script,will run only if cfg says so
-        "form_discovery", # FormDiscovery
-        "brute",          # Hydra\
-        "inject",         # SQLMap
+        "auth",           # static creds
+        "form_discovery", # HTML form crawl
+        "hydra_http",     # brute HTTP forms
+        "auth",           # dynamic creds
+        "sqlmap",         # injection
+        "brute",          # SSH brute
         "exploit",        # Metasploit
         "post"            # Empire
     ]
@@ -34,56 +36,109 @@ class Pipeline:
         self.logger = logger
         self.results: Dict[str, Dict[str, Any]] = {}
 
-    def run_stage(self, stage: str, targets: List[str]) -> None:
+    def run_stage(self, stage: str, targets: List[str], **kwargs) -> None:
         """
-        Run a single stage across all targets. Supports composite commands like 'net-scan'.
+        Run a single stage across all targets. Composite commands 
+        like 'net-scan' are handled here too.
         """
-        # Composite command handling
+        # Composite command support
         if stage == "net-scan":
-            for sub in ["discovery", "inject", "brute"]:
+            for sub in ("discovery", "inject", "brute"):
                 self.run_stage(sub, targets)
             return
 
-        driver = self.drivers.get(stage)
-        if not driver:
+        driver_cls = self.drivers.get(stage)
+        if not driver_cls:
             self.logger.warning(f"No driver for stage '{stage}', skipping.")
             return
+
+        # Instantiate once per stage, passing in the shared session_mgr for cookies
+        driver = driver_cls(self.config, self.session_mgr, self.logger)
 
         stage_results: Dict[str, Any] = {}
         for target in targets:
             self.logger.info(f"[{stage}] Starting target {target}")
             try:
-                # Execute tool
+                # run() may accept extra kwargs like forms, userlist, etc.
                 drv_result: DriverResult = driver.run(
                     target,
+                    **kwargs,
                     timeout=self.config.get("scan_timeout_sec")
                 )
-                # Parse output
                 parsed: ParsedResult = driver.parse(drv_result.raw_output)
                 stage_results[target] = parsed.data
                 self.logger.debug(f"[{stage}] Parsed data for {target}: {parsed.data}")
+
             except Exception as e:
                 self.logger.error(f"[{stage}] Failed on {target}: {e}")
 
         self.results[stage] = stage_results
 
+
     def run_full(self, targets: List[str]) -> None:
         """
-        Execute the entire pipeline in order, then generate the final report.
+        Execute the pipeline in a specific order that handles static creds,
+        dynamic brute, form crawl, SQLMap, and then the rest.
         """
-        # Determine active stages
-        stages = list(self.STAGE_SEQUENCE)
-        if not self.config.get("enable_wireless", True) and "brute" in stages:
-            # Example: skip wireless if later added
-            pass
-        if not self.config.get("enable_post", True):
-            for s in ["exploit", "post"]:
-                if s in stages:
-                    stages.remove(s)
+        # 1) Nmap discovery
+        self.run_stage("discovery", targets)
 
-        # Run each stage
-        for stage in stages:
+        # 2) Static auth (only for those in auth_required & with creds)
+        auth_req = set(self.config.get("auth_required", []))
+        static_creds = set(self.config.get("auth_credentials", {}).keys())
+        to_auth_static = [t for t in targets if t in auth_req and t in static_creds]
+        if to_auth_static:
+            self.run_stage("auth", to_auth_static)
+
+        # 3) Crawl forms on every target
+        self.run_stage("form_discovery", targets)
+
+        # 4) HydraHttp brute for auth_required but *no* static creds
+        to_brute_http = [t for t in targets if t in auth_req and t not in static_creds]
+        for t in to_brute_http:
+            forms = self.results.get("form_discovery", {})\
+                                .get(t, {})\
+                                .get("forms", [])
+            for form in forms:
+                # userlist/passlist from config
+                self.run_stage(
+                    "hydra_http",
+                    [t],
+                    form=form,
+                    userlist=self.config["hydra_userlist"],
+                    passlist=self.config["hydra_passlist"]
+                )
+            # if any creds found, pick first and inject into config for second auth pass
+            creds = self.results.get("hydra_http", {}).get(t, {}).get("credentials", [])
+            if creds:
+                user, pw = creds[0]["username"], creds[0]["password"]
+                self.config.setdefault("auth_credentials", {})[t] = {
+                    "login_url":       form["action"],
+                    "username_field":  self.config.get("username_field","username"),
+                    "password_field":  self.config.get("password_field","password"),
+                    "username":        user,
+                    "password":        pw
+                }
+
+        # 5) Dynamic auth with discovered creds
+        to_auth_dynamic = [t for t in targets if t in auth_req and t in self.config.get("auth_credentials", {})]
+        if to_auth_dynamic:
+            self.run_stage("auth", to_auth_dynamic)
+
+        # 6) SQLMap injection on every form
+        for t in targets:
+            forms = self.results.get("form_discovery", {})\
+                                .get(t, {})\
+                                .get("forms", [])
+            self.run_stage("sqlmap", [t], forms=forms)
+
+        # 7) SSH brute (unchanged)
+        self.run_stage("brute", targets)
+
+        # 8) Exploit and Post
+        for stage in ("exploit","post"):
             self.run_stage(stage, targets)
+
 
         # Generate report
         report_path = self.config.get("report_path", "results/final_report.json")

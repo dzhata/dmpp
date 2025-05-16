@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from core.driver import BaseToolDriver, DriverResult, ParsedResult
+from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
 
 class FormDiscoveryDriver(BaseToolDriver):
     name = "form_discovery"

@@ -2,7 +2,7 @@ import os
 import subprocess
 from tenacity import retry, stop_after_attempt, wait_fixed
 
-from core.driver import BaseToolDriver, DriverResult, ParsedResult
+from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
 
 class HydraHttpDriver(BaseToolDriver):
     """

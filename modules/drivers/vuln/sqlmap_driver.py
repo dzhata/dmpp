@@ -1,7 +1,7 @@
 # modules/drivers/vuln/sqlmap_driver.py
 import subprocess, json, os
 from tenacity import retry, stop_after_attempt, wait_fixed
-from core.driver import BaseToolDriver, DriverResult, ParsedResult
+from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
 
 class SQLMapDriver(BaseToolDriver):
     name = "sqlmap"

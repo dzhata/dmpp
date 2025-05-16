@@ -1,74 +1,97 @@
-import argparse
+#!/usr/bin/env python3
+import os
 import json
-import logging
 import sys
 from pathlib import Path
+from typing import Any
 
-# Core orchestration imports
-from modules.core.logger import setup_logging
-from modules.core.session_manager import SessionManager
-from modules.drivers.discovery.nmap_driver import NmapDriver
-from modules.drivers.discovery.form_discovery import FormDiscoveryDriver
-from modules.drivers.brute.hydra_driver import HydraDriver
-from modules.drivers.brute.hydra_http_driver import HydraHttpDriver
-from modules.core.pipeline import Pipeline
+from modules.core.logger           import setup_logging
+from modules.core.session_manager  import SessionManager
+from modules.core.pipeline         import Pipeline
 
-# TODO: import other drivers: AuthDriver, SQLMapDriver, WirelessDriver, MetasploitDriver, EmpireDriver
+from modules.drivers.discovery.nmap_driver        import NmapDriver
+from modules.drivers.exploitation.auth_driver          import AuthDriver
+from modules.drivers.discovery.form_discovery     import FormDiscoveryDriver
+from modules.drivers.brute.hydra_http_driver      import HydraHttpDriver
+from modules.drivers.vuln.sqlmap_driver           import SQLMapDriver
+from modules.drivers.brute.hydra_driver           import HydraDriver
+#from modules.drivers.exploitation.metasploit_driver    import MetasploitDriver
+#from modules.drivers.post_exploit.empire_driver           import EmpireDriver
 
+CONFIG_DEFAULT_PATH = "config/pentest_config.json"
 
-def load_config(path):
-    with open(path) as f:
+def load_config(path: str) -> dict:
+    """Load and parse the JSON configuration file."""
+    with open(path, "r") as f:
         return json.load(f)
 
+def load_targets(path: str) -> list[str]:
+    """Read the targets file, one target per non-empty line."""
+    text = Path(path).read_text().splitlines()
+    return [line.strip() for line in text if line.strip()]
 
-def load_targets(targets_path):
-    return [line.strip() for line in Path(targets_path).read_text().splitlines() if line.strip()]
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Automated Pentest Framework Controller"
-    )
-    parser.add_argument("-c", "--config", required=True,
-                        help="Path to pentest_config.json")
-    parser.add_argument("command", choices=["full", "net-scan", "discovery", "brute", "inject", "exploit", "post"],
-                        help="Pipeline stage to execute")
-    args = parser.parse_args()
-
-    # Load configuration and targets
-    config = load_config(args.config)
-    targets = load_targets(config.get("targets_file", "config/targets.txt"))
-
-    # Initialize logging
-    log_path = config.get("log_file", "results/logs/pipeline.log")
-    logger = setup_logging(log_path)
-    logger.info(f"Starting command: {args.command}")
-
-    # Initialize shared session manager for cookie reuse
-    session_mgr = SessionManager()
-
-    # Build driver instances
-    drivers = {
-        "discovery": NmapDriver(config, session_mgr, logger),
-        "brute": HydraDriver(config, session_mgr, logger),
-        # TODO: instantiate other drivers here
+#def build_drivers(config: dict, session_mgr: SessionManager, logger) -> dict[str, Any]:
+    """Instantiate all your drivers and return a mapping stage→driver instance."""
+    return {
+        "discovery":       NmapDriver(config, session_mgr, logger),
+        "auth":            AuthDriver(config, session_mgr, logger),
+        "form_discovery":  FormDiscoveryDriver(config, session_mgr, logger),
+        "hydra_http":      HydraHttpDriver(config, session_mgr, logger),
+        "sqlmap":          SQLMapDriver(config, session_mgr, logger),
+        "brute":           HydraDriver(config, session_mgr, logger),
+        "exploit":         MetasploitDriver(config, session_mgr, logger),
+        "post":            EmpireDriver(config, session_mgr, logger),
     }
 
-    # Initialize pipeline
-    pipeline = Pipeline(drivers, config, logger)
+def interactive_main():
+    # 1) Load config
+    config_path = input(f"Config file [{CONFIG_DEFAULT_PATH}]: ") or CONFIG_DEFAULT_PATH
+    if not os.path.isfile(config_path):
+        print(f"Error: config file not found at {config_path}")
+        sys.exit(1)
+    config = load_config(config_path)
 
+    # 2) Prepare logging, sessions, pipeline
+    log_path    = config.get("log_file", "results/logs/pipeline.log")
+    logger      = setup_logging(log_path)
+    session_mgr = SessionManager()
+    drivers     = {
+        "discovery": NmapDriver(config, session_mgr, logger),
+        "brute":     HydraDriver(config, session_mgr, logger),
+        #TODO: instantiate other drivers here
+    }
+    pipeline    = Pipeline(drivers, config, logger)
+
+    # 3) Load targets once
     try:
-        if args.command == "full":
-            pipeline.run_full(targets)
-        else:
-            pipeline.run_stage(args.command, targets)
-
+        targets = load_targets(config["targets_file"])
     except Exception as e:
-        logger.exception("Pipeline execution failed")
+        logger.error(f"Failed to load targets: {e}")
         sys.exit(1)
 
-    logger.info("Pipeline completed successfully")
+    # 4) Main menu loop
+    while True:
+        print("\n=== Automated Pentest Framework ===")
+        print("1 -- Start Scan")
+        print("2 -- Show Config")
+        print("99 -- Exit")
+        choice = input("Select an option: ").strip()
 
+        if choice == "1":
+            logger.info("Launching full pipeline")
+            try:
+                pipeline.run_full(targets)
+                logger.info("Full scan completed successfully")
+            except Exception:
+                logger.exception("Error during full scan")
+        elif choice == "2":
+            print("\n--- Current Configuration ---")
+            print(json.dumps(config, indent=2))
+        elif choice == "99":
+            print("Exiting. Goodbye!")
+            break
+        else:
+            print(f"Unknown option '{choice}'. Please enter 1, 2, or 99.")
 
 if __name__ == "__main__":
-    main()
+    interactive_main()
