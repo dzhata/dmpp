@@ -14,12 +14,13 @@ class Pipeline:
     """
 
     STAGE_SEQUENCE = [
-        "discovery",  # Nmap
-        "brute",      # Hydra
-        "auth",       # HTTP auth/cookie
-        "inject",     # SQLMap
-        "exploit",    # Metasploit
-        "post"        # Empire
+        "discovery",      # Nmap
+        "auth",           # Python script,will run only if cfg says so
+        "form_discovery", # FormDiscovery
+        "brute",          # Hydra\
+        "inject",         # SQLMap
+        "exploit",        # Metasploit
+        "post"            # Empire
     ]
 
     def __init__(

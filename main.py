@@ -8,7 +8,9 @@ from pathlib import Path
 from modules.core.logger import setup_logging
 from modules.core.session_manager import SessionManager
 from modules.drivers.discovery.nmap_driver import NmapDriver
+from modules.drivers.discovery.form_discovery import FormDiscoveryDriver
 from modules.drivers.brute.hydra_driver import HydraDriver
+from modules.drivers.brute.hydra_http_driver import HydraHttpDriver
 from modules.core.pipeline import Pipeline
 
 # TODO: import other drivers: AuthDriver, SQLMapDriver, WirelessDriver, MetasploitDriver, EmpireDriver
