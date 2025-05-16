@@ -1,0 +1,158 @@
+{
+  "report_metadata": {
+    "generated_at": "2025-05-16T12:24:18.280281Z",
+    "config": {
+      "#": "=== Orchestration Flags ===",
+      "targets_file": "config/targets.txt",
+      "log_file": "results/logs/pipeline.log",
+      "nmap_binary": "nmap",
+      "nmap_args": [
+        "-sV",
+        "-O",
+        "-A",
+        "-Pn",
+        "--script",
+        "default,vuln"
+      ],
+      "nmap_output_dir": "results/raw/nmap",
+      "hydra_binary": "hydra",
+      "hydra_args": [
+        "-L",
+        "config/targets.txt",
+        "-P",
+        "config/passwords.txt",
+        "-f",
+        "-o"
+      ],
+      "hydra_output_dir": "results/raw/hydra",
+      "sqlmap_binary": "sqlmap",
+      "sqlmap_args": [
+        "--batch",
+        "--level",
+        "5",
+        "--risk",
+        "3",
+        "--crawl",
+        "2"
+      ],
+      "sqlmap_output_dir": "results/raw/sqlmap",
+      "metasploit_path": "/opt/metasploit-framework/bin/msfconsole",
+      "metasploit_resource_dir": "modules/drivers/exploit/msf_scripts",
+      "metasploit_output_dir": "results/raw/metasploit",
+      "empire_api_url": "http://127.0.0.1:1337/api",
+      "empire_api_token": "REPLACE_WITH_YOUR_TOKEN",
+      "empire_output_dir": "results/raw/empire",
+      "retry_attempts": 3,
+      "retry_wait_sec": 5,
+      "scan_timeout_sec": 300,
+      "enable_wireless": true,
+      "enable_post": true
+    }
+  },
+  "summary": {
+    "total_targets": 1,
+    "critical_threshold": 7,
+    "critical_hosts": [],
+    "critical_count": 0
+  },
+  "targets": {
+    "127.0.0.1": {
+      "discovery": {
+        "hosts": [
+          {
+            "ip": "127.0.0.1",
+            "status": "up",
+            "ports": [
+              {
+                "port": 80,
+                "protocol": "tcp",
+                "state": "open",
+                "service": "http",
+                "product": "Apache httpd",
+                "version": "2.4.63",
+                "extrainfo": "(Debian)",
+                "scripts": [
+                  {
+                    "id": "http-dombased-xss",
+                    "output": "Couldn't find any DOM based XSS."
+                  },
+                  {
+                    "id": "http-title",
+                    "output": "Apache2 Debian Default Page: It works"
+                  },
+                  {
+                    "id": "http-server-header",
+                    "output": "Apache/2.4.63 (Debian)"
+                  },
+                  {
+                    "id": "http-csrf",
+                    "output": "Couldn't find any CSRF vulnerabilities."
+                  },
+                  {
+                    "id": "http-enum",
+                    "output": "\n  /server-status/: Potentially interesting folder\n"
+                  },
+                  {
+                    "id": "http-stored-xss",
+                    "output": "Couldn't find any stored XSS vulnerabilities."
+                  }
+                ],
+                "vulnerabilities": []
+              },
+              {
+                "port": 3306,
+                "protocol": "tcp",
+                "state": "open",
+                "service": "mysql",
+                "product": "MariaDB",
+                "version": "11.4.5",
+                "extrainfo": null,
+                "scripts": [
+                  {
+                    "id": "ssl-date",
+                    "output": "TLS randomness does not represent time"
+                  },
+                  {
+                    "id": "vulners",
+                    "output": "\n  cpe:/a:mariadb:mariadb:11.4.5: \n    \tCVE-2023-52971\t4.9\thttps://vulners.com/cve/CVE-2023-52971\n    \tCVE-2023-52970\t4.9\thttps://vulners.com/cve/CVE-2023-52970"
+                  },
+                  {
+                    "id": "ssl-cert",
+                    "output": "Subject: commonName=MariaDB Server\nNot valid before: 2025-05-15T16:43:55\nNot valid after:  2035-05-13T16:43:55"
+                  },
+                  {
+                    "id": "mysql-info",
+                    "output": "\n  Protocol: 10\n  Version: 11.4.5-MariaDB-1\n  Thread ID: 4654\n  Capabilities flags: 65534\n  Some Capabilities: FoundRows, SupportsLoadDataLocal, LongColumnFlag, ConnectWithDatabase, Support41Auth, IgnoreSpaceBeforeParenthesis, SupportsTransactions, ODBCClient, IgnoreSigpipes, SwitchToSSLAfterHandshake, Speaks41ProtocolOld, SupportsCompression, Speaks41ProtocolNew, DontAllowDatabaseTableColumn, InteractiveClient, SupportsMultipleResults, SupportsMultipleStatments, SupportsAuthPlugins\n  Status: Autocommit\n  Salt: J+8tdxMYU};H<0|DyY1'\n  Auth Plugin Name: mysql_native_password"
+                  },
+                  {
+                    "id": "ssl-dh-params",
+                    "output": "\n  VULNERABLE:\n  Anonymous Diffie-Hellman Key Exchange MitM Vulnerability\n    State: VULNERABLE\n      Transport Layer Security (TLS) services that use anonymous\n      Diffie-Hellman key exchange only provide protection against passive\n      eavesdropping, and are vulnerable to active man-in-the-middle attacks\n      which could completely compromise the confidentiality and integrity\n      of any data exchanged over the resulting session.\n    Check results:\n      ANONYMOUS DH GROUP 1\n            Cipher Suite: TLS_DH_anon_WITH_AES_256_CBC_SHA256\n            Modulus Type: Safe prime\n            Modulus Source: Unknown/Custom-generated\n            Modulus Length: 2048\n            Generator Length: 8\n            Public Key Length: 2048\n    References:\n      https://www.ietf.org/rfc/rfc2246.txt\n"
+                  }
+                ],
+                "vulnerabilities": [
+                  "CVE-2023-52971",
+                  "CVE-2023-52971",
+                  "CVE-2023-52970",
+                  "CVE-2023-52970",
+                  "Anonymous DH vulnerability"
+                ]
+              }
+            ],
+            "os": {
+              "name": "Linux 2.6.32",
+              "accuracy": "100",
+              "osfamily": "Linux"
+            }
+          }
+        ]
+      },
+      "brute": {
+        "credentials": []
+      },
+      "analysis": {
+        "by_tool": {},
+        "combined_severity": 0
+      }
+    }
+  }
+}

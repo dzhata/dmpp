@@ -1,0 +1,35 @@
+2025-05-15 12:54:02,843 INFO [pentest] [discovery] Starting target 127.0.0.1
+2025-05-15 12:54:02,844 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
+2025-05-15 12:54:49,650 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-15 12:54:49,650 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-15 12:54:49,696 WARNING [pentest] No driver for stage 'auth', skipping.
+2025-05-15 12:54:49,696 WARNING [pentest] No driver for stage 'inject', skipping.
+2025-05-15 12:54:49,696 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-15 12:54:49,697 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-15 12:54:49,698 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-15 12:54:49,698 INFO [pentest] Final report written to results/final_report.json
+2025-05-15 12:54:49,698 INFO [pentest] Pipeline completed successfully
+2025-05-15 13:36:54,762 INFO [pentest] Starting command: full
+2025-05-15 13:36:54,762 INFO [pentest] [discovery] Starting target 127.0.0.1
+2025-05-15 13:36:54,762 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
+2025-05-15 13:37:41,782 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-15 13:37:41,782 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'auth', skipping.
+2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'inject', skipping.
+2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-15 13:37:41,831 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-15 13:37:41,832 INFO [pentest] Final report written to results/final_report.json
+2025-05-15 13:37:41,835 INFO [pentest] Pipeline completed successfully
+2025-05-16 08:23:30,617 INFO [pentest] Starting command: full
+2025-05-16 08:23:30,617 INFO [pentest] [discovery] Starting target 127.0.0.1
+2025-05-16 08:23:30,618 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
+2025-05-16 08:24:18,208 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-16 08:24:18,208 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-16 08:24:18,278 WARNING [pentest] No driver for stage 'auth', skipping.
+2025-05-16 08:24:18,279 WARNING [pentest] No driver for stage 'inject', skipping.
+2025-05-16 08:24:18,279 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-16 08:24:18,279 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-16 08:24:18,280 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-16 08:24:18,281 INFO [pentest] Final report written to results/final_report.json
+2025-05-16 08:24:18,281 INFO [pentest] Pipeline completed successfully
