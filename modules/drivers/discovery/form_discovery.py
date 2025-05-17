@@ -16,6 +16,17 @@ class FormDiscoveryDriver(BaseToolDriver):
         raw_path= f"results/raw/forms/{target.replace('://','_')}.html"
         with open(raw_path, "w") as f:
             f.write(resp.text)
+
+        # Discover login forms at common paths
+        paths = ["/", "/admin", "/test", "/dvwa"]
+        forms = []
+        for p in paths:
+            candidate = f"http://{target}{p}/login.php"
+            resp = requests.get(candidate, timeout=5)
+            if resp.status_code == 200 and "DVWA – Login" in resp.text:
+                forms.append({"url": candidate, "method": "POST"})
+        # Optionally, save or log forms found here
+
         return DriverResult(raw_output=raw_path)
 
     def parse(self, raw_output_path: str) -> ParsedResult:

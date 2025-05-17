@@ -15,6 +15,7 @@ class Pipeline:
 
     STAGE_SEQUENCE = [
         "discovery",      # Nmap
+        "dirb",           # DirbDriver,
         "auth",           # static creds
         "form_discovery", # HTML form crawl
         "hydra_http",     # brute HTTP forms
@@ -29,11 +30,13 @@ class Pipeline:
         self,
         drivers: Dict[str, Any],
         config: Dict[str, Any],
-        logger
+        logger,
+        session_mgr, 
     ):
         self.drivers = drivers
         self.config = config
         self.logger = logger
+        self.session_mgr = session_mgr
         self.results: Dict[str, Dict[str, Any]] = {}
 
     def run_stage(self, stage: str, targets: List[str], **kwargs) -> None:
@@ -82,7 +85,8 @@ class Pipeline:
         """
         # 1) Nmap discovery
         self.run_stage("discovery", targets)
-
+        # 1.5) Dirb discovery
+        self.run_stage("dirb", targets)
         # 2) Static auth (only for those in auth_required & with creds)
         auth_req = set(self.config.get("auth_required", []))
         static_creds = set(self.config.get("auth_credentials", {}).keys())

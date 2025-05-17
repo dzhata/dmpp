@@ -10,11 +10,13 @@ from modules.core.session_manager  import SessionManager
 from modules.core.pipeline         import Pipeline
 
 from modules.drivers.discovery.nmap_driver        import NmapDriver
+from modules.drivers.discovery.dirb_driver       import DirbDriver
 from modules.drivers.exploitation.auth_driver          import AuthDriver
 from modules.drivers.discovery.form_discovery     import FormDiscoveryDriver
 from modules.drivers.brute.hydra_http_driver      import HydraHttpDriver
 from modules.drivers.vuln.sqlmap_driver           import SQLMapDriver
 from modules.drivers.brute.hydra_driver           import HydraDriver
+
 #from modules.drivers.exploitation.metasploit_driver    import MetasploitDriver
 #from modules.drivers.post_exploit.empire_driver           import EmpireDriver
 
@@ -55,12 +57,17 @@ def interactive_main():
     log_path    = config.get("log_file", "results/logs/pipeline.log")
     logger      = setup_logging(log_path)
     session_mgr = SessionManager()
-    drivers     = {
-        "discovery": NmapDriver(config, session_mgr, logger),
-        "brute":     HydraDriver(config, session_mgr, logger),
-        #TODO: instantiate other drivers here
+    drivers = {
+        "discovery":     NmapDriver,     # ← class!
+        "auth":          AuthDriver,
+        "dirb":          DirbDriver,
+        "form_discovery": FormDiscoveryDriver,
+        "hydra_http":    HydraHttpDriver,
+        "sqlmap":        SQLMapDriver,
+        "brute":         HydraDriver,
+        # …other drivers…
     }
-    pipeline    = Pipeline(drivers, config, logger)
+    pipeline    = Pipeline(drivers, config, logger,session_mgr)
 
     # 3) Load targets once
     try:
