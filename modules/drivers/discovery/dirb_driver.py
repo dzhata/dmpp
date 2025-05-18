@@ -4,6 +4,7 @@ import os
 import subprocess
 import logging
 
+from urllib.parse import urlparse, urlunparse
 from tenacity import retry, stop_after_attempt, wait_fixed
 from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
 
@@ -37,11 +38,20 @@ class DirbDriver(BaseToolDriver):
         :param target: e.g. "10.0.0.5" or "http://10.0.0.5"
         :return: DriverResult with path to the raw output file
         """
+        raw = target if target.startswith(("http://","https://")) else f"http://{target}"
+        p   = urlparse(raw)
+
+        host = p.netloc
+        # keep case of p.path (e.g. "/DVWA"), enforce trailing slash
+        path = p.path or "/"
+        if not path.endswith("/"):
+            path += "/"
         # Ensure we have a full URL
-        url = target if target.startswith("http") else f"http://{target}"
+        url = urlunparse((p.scheme, host, path, "", "", ""))
         # Filename-safe target identifier
-        safe = url.replace("://", "_").replace("/", "_")
+        safe = f"{host}{path}".replace("/", "_").strip("_")
         out_file = os.path.join(self.output_dir, f"{safe}.txt")
+        os.makedirs(os.path.dirname(out_file), exist_ok=True)
 
         cmd = [
             self.binary,

@@ -1,6 +1,6 @@
 {
   "report_metadata": {
-    "generated_at": "2025-05-17T15:46:07.576964Z",
+    "generated_at": "2025-05-18T14:38:29.879572Z",
     "config": {
       "#": "=== Authentication Settings ===",
       "targets_file": "config/targets.txt",
@@ -53,6 +53,15 @@
       "scan_timeout_sec": 300,
       "enable_wireless": true,
       "enable_post": true,
+      "dirb_wordlist": "/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt",
+      "dirb_args": [
+        "dir",
+        "-q",
+        "-s",
+        "200,301,302",
+        "-x",
+        "php,html"
+      ],
       "auth_required": [
         "http://127.0.0.1",
         "https://juice-shop:3000"
@@ -76,12 +85,24 @@
     }
   },
   "summary": {
-    "total_targets": 1,
+    "total_targets": 2,
     "critical_threshold": 7,
     "critical_hosts": [],
     "critical_count": 0
   },
   "targets": {
+    "127.0.0.1/DVWA/": {
+      "sqlmap": {
+        "injections": []
+      },
+      "brute": {
+        "credentials": []
+      },
+      "analysis": {
+        "by_tool": {},
+        "combined_severity": 0
+      }
+    },
     "127.0.0.1": {
       "discovery": {
         "hosts": [
@@ -99,28 +120,28 @@
                 "extrainfo": "(Debian)",
                 "scripts": [
                   {
-                    "id": "http-csrf",
-                    "output": "Couldn't find any CSRF vulnerabilities."
-                  },
-                  {
-                    "id": "http-enum",
-                    "output": "\n  /server-status/: Potentially interesting folder\n"
+                    "id": "http-stored-xss",
+                    "output": "Couldn't find any stored XSS vulnerabilities."
                   },
                   {
                     "id": "http-title",
                     "output": "Apache2 Debian Default Page: It works"
                   },
                   {
-                    "id": "http-dombased-xss",
-                    "output": "Couldn't find any DOM based XSS."
+                    "id": "http-csrf",
+                    "output": "Couldn't find any CSRF vulnerabilities."
                   },
                   {
                     "id": "http-server-header",
                     "output": "Apache/2.4.63 (Debian)"
                   },
                   {
-                    "id": "http-stored-xss",
-                    "output": "Couldn't find any stored XSS vulnerabilities."
+                    "id": "http-enum",
+                    "output": "\n  /server-status/: Potentially interesting folder\n"
+                  },
+                  {
+                    "id": "http-dombased-xss",
+                    "output": "Couldn't find any DOM based XSS."
                   }
                 ],
                 "vulnerabilities": []
@@ -135,8 +156,8 @@
                 "extrainfo": null,
                 "scripts": [
                   {
-                    "id": "ssl-dh-params",
-                    "output": "\n  VULNERABLE:\n  Anonymous Diffie-Hellman Key Exchange MitM Vulnerability\n    State: VULNERABLE\n      Transport Layer Security (TLS) services that use anonymous\n      Diffie-Hellman key exchange only provide protection against passive\n      eavesdropping, and are vulnerable to active man-in-the-middle attacks\n      which could completely compromise the confidentiality and integrity\n      of any data exchanged over the resulting session.\n    Check results:\n      ANONYMOUS DH GROUP 1\n            Cipher Suite: TLS_DH_anon_WITH_AES_128_CBC_SHA256\n            Modulus Type: Safe prime\n            Modulus Source: Unknown/Custom-generated\n            Modulus Length: 2048\n            Generator Length: 8\n            Public Key Length: 2048\n    References:\n      https://www.ietf.org/rfc/rfc2246.txt\n"
+                    "id": "vulners",
+                    "output": "\n  cpe:/a:mariadb:mariadb:11.4.5: \n    \tCVE-2023-52971\t4.9\thttps://vulners.com/cve/CVE-2023-52971\n    \tCVE-2023-52970\t4.9\thttps://vulners.com/cve/CVE-2023-52970"
                   },
                   {
                     "id": "ssl-date",
@@ -144,23 +165,23 @@
                   },
                   {
                     "id": "mysql-info",
-                    "output": "\n  Protocol: 10\n  Version: 11.4.5-MariaDB-1\n  Thread ID: 9279\n  Capabilities flags: 65534\n  Some Capabilities: Support41Auth, LongColumnFlag, Speaks41ProtocolOld, SupportsTransactions, IgnoreSigpipes, InteractiveClient, SupportsCompression, SwitchToSSLAfterHandshake, Speaks41ProtocolNew, SupportsLoadDataLocal, IgnoreSpaceBeforeParenthesis, FoundRows, DontAllowDatabaseTableColumn, ODBCClient, ConnectWithDatabase, SupportsAuthPlugins, SupportsMultipleStatments, SupportsMultipleResults\n  Status: Autocommit\n  Salt: Y$Gv>p=}!(C[|$8/#^5*\n  Auth Plugin Name: mysql_native_password"
+                    "output": "\n  Protocol: 10\n  Version: 11.4.5-MariaDB-1\n  Thread ID: 23166\n  Capabilities flags: 65534\n  Some Capabilities: InteractiveClient, Speaks41ProtocolNew, SupportsTransactions, IgnoreSigpipes, LongColumnFlag, ConnectWithDatabase, SwitchToSSLAfterHandshake, Support41Auth, Speaks41ProtocolOld, IgnoreSpaceBeforeParenthesis, FoundRows, SupportsLoadDataLocal, SupportsCompression, DontAllowDatabaseTableColumn, ODBCClient, SupportsMultipleStatments, SupportsMultipleResults, SupportsAuthPlugins\n  Status: Autocommit\n  Salt: k,7qR*t0.5`eYoA6,v0+\n  Auth Plugin Name: mysql_native_password"
+                  },
+                  {
+                    "id": "ssl-dh-params",
+                    "output": "\n  VULNERABLE:\n  Anonymous Diffie-Hellman Key Exchange MitM Vulnerability\n    State: VULNERABLE\n      Transport Layer Security (TLS) services that use anonymous\n      Diffie-Hellman key exchange only provide protection against passive\n      eavesdropping, and are vulnerable to active man-in-the-middle attacks\n      which could completely compromise the confidentiality and integrity\n      of any data exchanged over the resulting session.\n    Check results:\n      ANONYMOUS DH GROUP 1\n            Cipher Suite: TLS_DH_anon_WITH_AES_128_GCM_SHA256\n            Modulus Type: Safe prime\n            Modulus Source: Unknown/Custom-generated\n            Modulus Length: 2048\n            Generator Length: 8\n            Public Key Length: 2048\n    References:\n      https://www.ietf.org/rfc/rfc2246.txt\n"
                   },
                   {
                     "id": "ssl-cert",
-                    "output": "Subject: commonName=MariaDB Server\nNot valid before: 2025-05-15T16:43:55\nNot valid after:  2035-05-13T16:43:55"
-                  },
-                  {
-                    "id": "vulners",
-                    "output": "\n  cpe:/a:mariadb:mariadb:11.4.5: \n    \tCVE-2023-52971\t4.9\thttps://vulners.com/cve/CVE-2023-52971\n    \tCVE-2023-52970\t4.9\thttps://vulners.com/cve/CVE-2023-52970"
+                    "output": "Subject: commonName=MariaDB Server\nNot valid before: 2025-05-18T08:25:56\nNot valid after:  2035-05-16T08:25:56"
                   }
                 ],
                 "vulnerabilities": [
-                  "Anonymous DH vulnerability",
                   "CVE-2023-52971",
                   "CVE-2023-52971",
                   "CVE-2023-52970",
-                  "CVE-2023-52970"
+                  "CVE-2023-52970",
+                  "Anonymous DH vulnerability"
                 ]
               }
             ],
@@ -171,20 +192,6 @@
             }
           }
         ]
-      },
-      "dirb": {
-        "paths": [
-          "/.hta",
-          "/.htaccess",
-          "/.htpasswd",
-          "/index.html",
-          "/javascript",
-          "/server-status",
-          "/users"
-        ]
-      },
-      "sqlmap": {
-        "injections": []
       },
       "brute": {
         "credentials": []

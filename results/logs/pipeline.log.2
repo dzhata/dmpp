@@ -1,55 +1,43 @@
-2025-05-15 12:54:02,843 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-15 12:54:02,844 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-15 12:54:49,650 INFO [pentest] [brute] Starting target 127.0.0.1
-2025-05-15 12:54:49,650 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
-2025-05-15 12:54:49,696 WARNING [pentest] No driver for stage 'auth', skipping.
-2025-05-15 12:54:49,696 WARNING [pentest] No driver for stage 'inject', skipping.
-2025-05-15 12:54:49,696 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-15 12:54:49,697 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-15 12:54:49,698 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-15 12:54:49,698 INFO [pentest] Final report written to results/final_report.json
-2025-05-15 12:54:49,698 INFO [pentest] Pipeline completed successfully
-2025-05-15 13:36:54,762 INFO [pentest] Starting command: full
-2025-05-15 13:36:54,762 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-15 13:36:54,762 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-15 13:37:41,782 INFO [pentest] [brute] Starting target 127.0.0.1
-2025-05-15 13:37:41,782 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
-2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'auth', skipping.
-2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'inject', skipping.
-2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-15 13:37:41,828 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-15 13:37:41,831 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-15 13:37:41,832 INFO [pentest] Final report written to results/final_report.json
-2025-05-15 13:37:41,835 INFO [pentest] Pipeline completed successfully
-2025-05-16 08:23:30,617 INFO [pentest] Starting command: full
-2025-05-16 08:23:30,617 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-16 08:23:30,618 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-16 08:24:18,208 INFO [pentest] [brute] Starting target 127.0.0.1
-2025-05-16 08:24:18,208 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
-2025-05-16 08:24:18,278 WARNING [pentest] No driver for stage 'auth', skipping.
-2025-05-16 08:24:18,279 WARNING [pentest] No driver for stage 'inject', skipping.
-2025-05-16 08:24:18,279 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-16 08:24:18,279 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-16 08:24:18,280 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-16 08:24:18,281 INFO [pentest] Final report written to results/final_report.json
-2025-05-16 08:24:18,281 INFO [pentest] Pipeline completed successfully
-2025-05-16 11:10:01,591 INFO [pentest] Launching full pipeline
-2025-05-16 11:10:01,599 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-16 11:10:01,601 ERROR [pentest] [discovery] Failed on 127.0.0.1: 'NmapDriver' object is not callable
-2025-05-16 11:10:01,603 INFO [pentest] [form_discovery] Starting target 127.0.0.1
-2025-05-16 11:10:01,605 ERROR [pentest] [form_discovery] Failed on 127.0.0.1: 'FormDiscoveryDriver' object is not callable
-2025-05-16 11:10:01,605 INFO [pentest] [sqlmap] Starting target 127.0.0.1
-2025-05-16 11:10:01,606 ERROR [pentest] [sqlmap] Failed on 127.0.0.1: 'SQLMapDriver' object is not callable
-2025-05-16 11:10:01,606 INFO [pentest] [brute] Starting target 127.0.0.1
-2025-05-16 11:10:01,606 ERROR [pentest] [brute] Failed on 127.0.0.1: 'HydraDriver' object is not callable
-2025-05-16 11:10:01,606 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-16 11:10:01,606 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-16 11:10:01,607 INFO [pentest] Full scan completed successfully
-2025-05-16 11:30:50,725 INFO [pentest] Launching full pipeline
-2025-05-16 11:30:50,728 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-16 11:30:50,728 ERROR [pentest] [discovery] Failed on 127.0.0.1: 'NmapDriver' object is not callable
-2025-05-16 11:30:50,728 INFO [pentest] [form_discovery] Starting target 127.0.0.1
-2025-05-16 11:30:50,728 ERROR [pentest] [form_discovery] Failed on 127.0.0.1: 'FormDiscoveryDriver' object is not callable
-2025-05-16 11:30:50,728 INFO [pentest] [sqlmap] Starting target 127.0.0.1
-2025-05-16 11:30:50,729 ERROR [pentest] [sqlmap] Failed on 127.0.0.1: 'SQLMapDriver' object is not callable
-2025-05-16 11:30:50,729 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-18 05:46:46,407 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA/
+2025-05-18 05:46:46,407 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/http_127.0.0.1_DVWA_.txt
+2025-05-18 05:46:46,419 ERROR [pentest] [dirb] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/dirb/http_127.0.0.1_DVWA_.txt'
+2025-05-18 05:46:46,419 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 05:46:46,428 ERROR [pentest] [form_discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1/DVWA/.html'
+2025-05-18 05:46:46,428 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA/
+2025-05-18 05:46:46,429 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-18 05:46:46,429 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-18 05:46:46,470 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 05:46:46,471 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-18 05:46:46,472 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-18 05:46:46,472 INFO [pentest] Final report written to results/final_report.json
+2025-05-18 05:46:46,472 INFO [pentest] Full scan completed successfully
+2025-05-18 05:47:29,344 INFO [pentest] Launching full pipeline
+2025-05-18 05:47:29,344 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA
+2025-05-18 05:47:29,344 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA.xml 127.0.0.1/DVWA
+2025-05-18 05:47:29,434 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA.xml'
+2025-05-18 05:47:29,434 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA
+2025-05-18 05:47:29,434 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/http_127.0.0.1_DVWA.txt
+2025-05-18 05:47:29,442 ERROR [pentest] [dirb] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/dirb/http_127.0.0.1_DVWA.txt'
+2025-05-18 05:47:29,442 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA
+2025-05-18 05:47:29,457 ERROR [pentest] [form_discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1/DVWA.html'
+2025-05-18 05:47:29,458 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA
+2025-05-18 05:47:29,458 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA
+2025-05-18 05:47:29,460 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA_hydra.txt 127.0.0.1/DVWA
+2025-05-18 05:47:29,502 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 05:47:29,502 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-18 05:47:29,504 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-18 05:47:29,504 INFO [pentest] Final report written to results/final_report.json
+2025-05-18 05:47:29,504 INFO [pentest] Full scan completed successfully
+2025-05-18 10:26:36,330 INFO [pentest] Launching full pipeline
+2025-05-18 10:26:36,330 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA
+2025-05-18 10:26:36,331 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA.xml 127.0.0.1/DVWA
+2025-05-18 10:26:36,442 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA.xml'
+2025-05-18 10:26:36,442 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA
+2025-05-18 10:26:36,443 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/127.0.0.1_DVWA.txt
+2025-05-18 10:26:36,454 ERROR [pentest] [dirb] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/dirb/127.0.0.1_DVWA.txt'
+2025-05-18 10:26:36,454 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA
+2025-05-18 10:26:36,469 ERROR [pentest] [form_discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1/DVWA.html'
+2025-05-18 10:26:36,469 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA
+2025-05-18 10:26:36,469 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA
+2025-05-18 10:26:36,469 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA_hydra.txt 127.0.0.1/DVWA
+2025-05-18 10:26:36,523 WARNING [pentest] No driver for stage 'exploit', skipping.

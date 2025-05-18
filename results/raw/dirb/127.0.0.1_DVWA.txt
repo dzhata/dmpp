@@ -1,0 +1,6 @@
+/docs                [36m (Status: 301)[0m [Size: 310][34m [--> http://127.0.0.1/DVWA/docs/][0m
+/tests               [36m (Status: 301)[0m [Size: 311][34m [--> http://127.0.0.1/DVWA/tests/][0m
+/database            [36m (Status: 301)[0m [Size: 314][34m [--> http://127.0.0.1/DVWA/database/][0m
+/external            [36m (Status: 301)[0m [Size: 314][34m [--> http://127.0.0.1/DVWA/external/][0m
+/config              [36m (Status: 301)[0m [Size: 312][34m [--> http://127.0.0.1/DVWA/config/][0m
+/vulnerabilities     [36m (Status: 301)[0m [Size: 321][34m [--> http://127.0.0.1/DVWA/vulnerabilities/][0m
