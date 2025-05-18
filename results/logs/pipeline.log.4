@@ -1,0 +1,44 @@
+2025-05-18 13:01:13,504 INFO [pentest] [SQLMap] ['sqlmap', '-u', 'login.php', '--data', 'username=&password=&Login=Login&user_token=cb351dd3d1f22b323e0d644d91d9a73e', '--batch', '--level', '5', '--risk', '3', '--crawl', '2', '-oJ', '-']
+2025-05-18 13:01:19,188 INFO [pentest] [SQLMap] ['sqlmap', '-u', 'login.php', '--data', 'username=&password=&Login=Login&user_token=cb351dd3d1f22b323e0d644d91d9a73e', '--batch', '--level', '5', '--risk', '3', '--crawl', '2', '-oJ', '-']
+2025-05-18 13:01:19,878 ERROR [pentest] [sqlmap] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/sqlmap/127.0.0.1/DVWA/_0.json'
+2025-05-18 13:01:19,879 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-18 13:01:19,880 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-18 13:01:19,927 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:01:19,927 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-18 13:01:19,969 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 13:01:19,970 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-18 13:01:19,972 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-18 13:01:19,974 INFO [pentest] Final report written to results/final_report.json
+2025-05-18 13:01:19,974 INFO [pentest] Full scan completed successfully
+2025-05-18 13:16:56,051 INFO [pentest] Launching full pipeline
+2025-05-18 13:16:56,051 INFO [pentest] [discovery] Starting target 127.0.0.1
+2025-05-18 13:16:56,051 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
+2025-05-18 13:17:43,594 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:17:43,598 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
+2025-05-18 13:17:43,729 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
+2025-05-18 13:17:43,733 INFO [pentest] [gobuster] Starting target 127.0.0.1
+2025-05-18 13:17:43,734 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1.txt
+2025-05-18 13:17:43,758 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:17:43,758 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1_DVWA.txt
+2025-05-18 13:17:43,767 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:17:43,767 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-18 13:17:43,791 INFO [pentest] [form_discovery] Starting target 127.0.0.1
+2025-05-18 13:17:43,791 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1
+2025-05-18 13:17:43,797 INFO [pentest] [sqlmap] Starting target 127.0.0.1
+2025-05-18 13:17:43,797 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:17:43,797 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/login.php --data username=&password=&Login=Login&user_token=81e5f18e0536719ff77076db64937f43 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2 --technique BEUSTQ -v 2 -oJ -
+2025-05-18 13:17:44,563 ERROR [pentest] [SQLMapDriver] Error on form #0: Usage: python3 sqlmap [options]
+
+sqlmap: error: no such option: -J
+
+2025-05-18 13:17:44,563 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-18 13:17:44,563 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-18 13:17:44,603 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:17:44,603 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-18 13:17:44,640 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 13:17:44,640 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-18 13:17:44,641 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-18 13:17:44,641 INFO [pentest] Final report written to results/final_report.json
+2025-05-18 13:17:44,642 INFO [pentest] Full scan completed successfully
+2025-05-18 13:21:40,958 INFO [pentest] Launching full pipeline
+2025-05-18 13:21:40,959 INFO [pentest] [discovery] Starting target 127.0.0.1

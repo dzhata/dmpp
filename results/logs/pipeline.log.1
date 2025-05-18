@@ -1,42 +1,40 @@
-2025-05-18 10:26:36,523 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-18 10:26:36,525 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-18 10:26:36,525 INFO [pentest] Final report written to results/final_report.json
-2025-05-18 10:26:36,525 INFO [pentest] Full scan completed successfully
-2025-05-18 10:27:17,497 INFO [pentest] Launching full pipeline
-2025-05-18 10:27:17,498 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-18 10:27:17,498 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-18 10:28:10,044 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA
-2025-05-18 10:28:10,044 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA.xml 127.0.0.1/DVWA
-2025-05-18 10:28:10,138 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA.xml'
-2025-05-18 10:28:10,138 INFO [pentest] [dirb] Starting target 127.0.0.1
-2025-05-18 10:28:10,139 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/127.0.0.1.txt
-2025-05-18 10:28:10,148 ERROR [pentest] [dirb] Failed on 127.0.0.1: [Errno 2] No such file or directory: 'results/raw/dirb/127.0.0.1.txt'
-2025-05-18 10:28:10,148 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA
-2025-05-18 10:28:10,149 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/127.0.0.1_DVWA.txt
-2025-05-18 10:28:10,157 ERROR [pentest] [dirb] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/dirb/127.0.0.1_DVWA.txt'
-2025-05-18 10:28:10,157 INFO [pentest] [form_discovery] Starting target 127.0.0.1
-2025-05-18 10:28:10,160 ERROR [pentest] [form_discovery] Failed on 127.0.0.1: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1.html'
-2025-05-18 10:28:10,160 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA
-2025-05-18 10:28:10,177 ERROR [pentest] [form_discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1/DVWA.html'
-2025-05-18 10:28:10,177 INFO [pentest] [sqlmap] Starting target 127.0.0.1
-2025-05-18 10:28:10,177 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA
-2025-05-18 10:28:10,177 INFO [pentest] [brute] Starting target 127.0.0.1
-2025-05-18 10:28:10,178 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
-2025-05-18 10:28:10,223 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA
-2025-05-18 10:28:10,223 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA_hydra.txt 127.0.0.1/DVWA
-2025-05-18 10:28:10,269 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-18 10:28:10,269 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-18 10:28:10,271 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-18 10:28:10,271 INFO [pentest] Final report written to results/final_report.json
-2025-05-18 10:28:10,271 INFO [pentest] Full scan completed successfully
-2025-05-18 10:37:43,434 INFO [pentest] Launching full pipeline
-2025-05-18 10:37:43,434 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-18 10:37:43,435 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-18 10:38:29,660 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
-2025-05-18 10:38:29,660 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
-2025-05-18 10:38:29,762 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
-2025-05-18 10:38:29,764 INFO [pentest] [dirb] Starting target 127.0.0.1
-2025-05-18 10:38:29,764 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/127.0.0.1.txt
-2025-05-18 10:38:29,772 ERROR [pentest] [dirb] Failed on 127.0.0.1: [Errno 2] No such file or directory: 'results/raw/dirb/127.0.0.1.txt'
-2025-05-18 10:38:29,772 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA/
-2025-05-18 10:38:29,772 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/127.0.0.1_DVWA.txt
+2025-05-18 16:45:11,068 INFO [pentest] [discovery] Starting target 127.0.0.1
+2025-05-18 16:45:11,086 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
+2025-05-18 16:46:04,259 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:46:04,260 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
+2025-05-18 16:46:04,350 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
+2025-05-18 16:46:04,352 INFO [pentest] [gobuster] Starting target 127.0.0.1
+2025-05-18 16:46:04,352 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1.txt
+2025-05-18 16:46:04,368 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:46:04,368 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1_DVWA.txt
+2025-05-18 16:46:04,374 INFO [pentest] [form_discovery] Starting target 127.0.0.1
+2025-05-18 16:46:04,375 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1
+2025-05-18 16:46:04,388 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:46:04,388 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-18 16:46:04,403 INFO [pentest] [sqlmap] Starting target 127.0.0.1
+2025-05-18 16:46:04,403 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:46:04,403 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/login.php --data username=&password=&Login=Login&user_token=97f886388a319162247e4c8f2490db59 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2 --dump-format JSON
+2025-05-18 16:46:05,136 ERROR [pentest] [SQLMapDriver] Failed to parse /home/kali/dmpp/results/raw/sqlmap/127.0.0.1/form_0.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-05-18 16:46:05,137 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-18 16:46:05,137 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-18 16:46:05,211 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:46:05,212 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-18 16:46:05,260 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 16:46:05,260 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-18 16:46:05,262 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-18 16:46:05,264 INFO [pentest] Final report written to results/final_report.json
+2025-05-18 16:46:05,264 INFO [pentest] Full scan completed successfully
+2025-05-18 16:51:13,771 INFO [pentest] Launching full pipeline
+2025-05-18 16:51:13,777 INFO [pentest] [discovery] Starting target 127.0.0.1
+2025-05-18 16:51:13,777 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
+2025-05-18 16:52:05,999 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:52:05,999 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
+2025-05-18 16:52:06,094 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
+2025-05-18 16:52:06,094 INFO [pentest] [gobuster] Starting target 127.0.0.1
+2025-05-18 16:52:06,094 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1.txt
+2025-05-18 16:52:06,108 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:52:06,109 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1_DVWA.txt
+2025-05-18 16:52:06,119 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 16:52:06,119 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-18 16:52:06,129 INFO [pentest] [form_discovery] Starting target 127.0.0.1
+2025-05-18 16:52:06,132 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1

@@ -1,43 +1,40 @@
-2025-05-18 05:46:46,407 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA/
-2025-05-18 05:46:46,407 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/http_127.0.0.1_DVWA_.txt
-2025-05-18 05:46:46,419 ERROR [pentest] [dirb] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/dirb/http_127.0.0.1_DVWA_.txt'
-2025-05-18 05:46:46,419 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
-2025-05-18 05:46:46,428 ERROR [pentest] [form_discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1/DVWA/.html'
-2025-05-18 05:46:46,428 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA/
-2025-05-18 05:46:46,429 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
-2025-05-18 05:46:46,429 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
-2025-05-18 05:46:46,470 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-18 05:46:46,471 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-18 05:46:46,472 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-18 05:46:46,472 INFO [pentest] Final report written to results/final_report.json
-2025-05-18 05:46:46,472 INFO [pentest] Full scan completed successfully
-2025-05-18 05:47:29,344 INFO [pentest] Launching full pipeline
-2025-05-18 05:47:29,344 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA
-2025-05-18 05:47:29,344 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA.xml 127.0.0.1/DVWA
-2025-05-18 05:47:29,434 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA.xml'
-2025-05-18 05:47:29,434 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA
-2025-05-18 05:47:29,434 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/http_127.0.0.1_DVWA.txt
-2025-05-18 05:47:29,442 ERROR [pentest] [dirb] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/dirb/http_127.0.0.1_DVWA.txt'
-2025-05-18 05:47:29,442 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA
-2025-05-18 05:47:29,457 ERROR [pentest] [form_discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1/DVWA.html'
-2025-05-18 05:47:29,458 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA
-2025-05-18 05:47:29,458 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA
-2025-05-18 05:47:29,460 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA_hydra.txt 127.0.0.1/DVWA
-2025-05-18 05:47:29,502 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-18 05:47:29,502 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-18 05:47:29,504 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-18 05:47:29,504 INFO [pentest] Final report written to results/final_report.json
-2025-05-18 05:47:29,504 INFO [pentest] Full scan completed successfully
-2025-05-18 10:26:36,330 INFO [pentest] Launching full pipeline
-2025-05-18 10:26:36,330 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA
-2025-05-18 10:26:36,331 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA.xml 127.0.0.1/DVWA
-2025-05-18 10:26:36,442 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA.xml'
-2025-05-18 10:26:36,442 INFO [pentest] [dirb] Starting target 127.0.0.1/DVWA
-2025-05-18 10:26:36,443 INFO [pentest] [DirbDriver] Running: gobuster dir -q -s 200,301,302 -x php,html -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o results/raw/dirb/127.0.0.1_DVWA.txt
-2025-05-18 10:26:36,454 ERROR [pentest] [dirb] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/dirb/127.0.0.1_DVWA.txt'
-2025-05-18 10:26:36,454 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA
-2025-05-18 10:26:36,469 ERROR [pentest] [form_discovery] Failed on 127.0.0.1/DVWA: [Errno 2] No such file or directory: 'results/raw/forms/127.0.0.1/DVWA.html'
-2025-05-18 10:26:36,469 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA
-2025-05-18 10:26:36,469 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA
-2025-05-18 10:26:36,469 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA_hydra.txt 127.0.0.1/DVWA
-2025-05-18 10:26:36,523 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 13:57:47,942 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:57:47,942 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/login.php --data username=&password=&Login=Login&user_token=0c66748c8456205d7ef8a390a784da39 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2 --dump-format JSON --technique BEUSTQ -v 2 --dump-format JSON --technique BEUSTQ -v 2 --dump-format JSON
+2025-05-18 13:57:48,652 ERROR [pentest] [SQLMapDriver] Failed to parse /home/kali/dmpp/results/raw/sqlmap/127.0.0.1/form_0.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-05-18 13:57:48,653 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-18 13:57:48,653 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-18 13:57:48,697 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-18 13:57:48,697 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-18 13:57:48,740 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 13:57:48,740 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-18 13:57:48,741 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-18 13:57:48,741 INFO [pentest] Final report written to results/final_report.json
+2025-05-18 13:57:48,741 INFO [pentest] Full scan completed successfully
+2025-05-18 15:28:23,318 INFO [pentest] Launching full pipeline
+2025-05-18 15:28:23,319 INFO [pentest] [discovery] Starting target 127.0.0.1
+2025-05-18 15:28:23,319 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
+2025-05-18 15:29:11,271 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 15:29:11,271 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
+2025-05-18 15:29:11,364 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
+2025-05-18 15:29:11,364 INFO [pentest] [gobuster] Starting target 127.0.0.1
+2025-05-18 15:29:11,364 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1.txt
+2025-05-18 15:29:11,374 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
+2025-05-18 15:29:11,375 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1_DVWA.txt
+2025-05-18 15:29:11,385 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-18 15:29:11,385 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-18 15:29:11,396 INFO [pentest] [form_discovery] Starting target 127.0.0.1
+2025-05-18 15:29:11,396 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1
+2025-05-18 15:29:11,403 INFO [pentest] [sqlmap] Starting target 127.0.0.1
+2025-05-18 15:29:11,404 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA/
+2025-05-18 15:29:11,404 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/login.php --data username=&password=&Login=Login&user_token=d22827595ae113a0921e7184bc641e36 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2 --dump-format JSON --technique BEUSTQ -v 2 --dump-format JSON --technique BEUSTQ -v 2 --dump-format JSON
+2025-05-18 15:29:12,093 ERROR [pentest] [SQLMapDriver] Failed to parse /home/kali/dmpp/results/raw/sqlmap/127.0.0.1/form_0.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-05-18 15:29:12,093 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-18 15:29:12,093 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-18 15:29:12,141 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-18 15:29:12,141 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-18 15:29:12,187 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-18 15:29:12,187 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-18 15:29:12,188 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-18 15:29:12,188 INFO [pentest] Final report written to results/final_report.json
+2025-05-18 15:29:12,188 INFO [pentest] Full scan completed successfully
+2025-05-18 16:45:11,066 INFO [pentest] Launching full pipeline

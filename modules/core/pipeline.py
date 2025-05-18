@@ -15,7 +15,7 @@ class Pipeline:
 
     STAGE_SEQUENCE = [
         "discovery",      # Nmap
-        "dirb",           # DirbDriver,
+        "gobuster", # Gobuster Driver,
         "auth",           # static creds
         "form_discovery", # HTML form crawl
         "hydra_http",     # brute HTTP forms
@@ -86,7 +86,7 @@ class Pipeline:
         # 1) Nmap discovery
         self.run_stage("discovery", targets)
         # 1.5) Dirb discovery
-        self.run_stage("dirb", targets)
+        self.run_stage("gobuster", targets)
         # 2) Static auth (only for those in auth_required & with creds)
         auth_req = set(self.config.get("auth_required", []))
         static_creds = set(self.config.get("auth_credentials", {}).keys())
@@ -94,8 +94,21 @@ class Pipeline:
         if to_auth_static:
             self.run_stage("auth", to_auth_static)
 
-        # 3) Crawl forms on every target
-        self.run_stage("form_discovery", targets)
+        # 2) Build full list of URLs for form crawling:
+        form_targets = set()
+        # a) include the original targets (will be normalized by the driver)
+        form_targets.update(targets)
+        # b) for each host, append each dir path Gobuster found
+        for host, data in self.results.get("dirb", {}).items():
+            for subpath in data.get("paths", []):
+                # ensure leading slash, then build a full URL
+                suffix = subpath if subpath.startswith("/") else f"/{subpath}"
+                url = host if host.startswith("http") else f"http://{host}"
+                form_targets.add(f"{url.rstrip('/')}{suffix}")
+    
+        # 3) Crawl forms on every discovered URL
+        self.run_stage("form_discovery", list(form_targets))
+
 
         # 4) HydraHttp brute for auth_required but *no* static creds
         to_brute_http = [t for t in targets if t in auth_req and t not in static_creds]

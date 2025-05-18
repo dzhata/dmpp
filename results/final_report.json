@@ -1,6 +1,6 @@
 {
   "report_metadata": {
-    "generated_at": "2025-05-18T14:38:29.879572Z",
+    "generated_at": "2025-05-18T20:58:18.364741Z",
     "config": {
       "#": "=== Authentication Settings ===",
       "targets_file": "config/targets.txt",
@@ -26,6 +26,21 @@
         "-o"
       ],
       "hydra_output_dir": "results/raw/hydra",
+      "gobuster_binary": "gobuster",
+      "gobuster_args": [
+        "dir",
+        "-r",
+        "--recursion-depth",
+        "3",
+        "-t",
+        "100",
+        "-b",
+        "404,403",
+        "-x",
+        "php,html",
+        "-q"
+      ],
+      "gobuster_wordlist": "/usr/share/seclists/Discovery/Web-Content/common.txt",
       "hydra_http": {
         "username_field": "username",
         "password_field": "password",
@@ -39,9 +54,14 @@
         "--risk",
         "3",
         "--crawl",
+        "2",
+        "--technique",
+        "BEUSTQ",
+        "-v",
         "2"
       ],
       "sqlmap_output_dir": "results/raw/sqlmap",
+      "sqlmap_cookie_dir": "results/raw/cookies",
       "metasploit_path": "/opt/metasploit-framework/bin/msfconsole",
       "metasploit_resource_dir": "modules/drivers/exploit/msf_scripts",
       "metasploit_output_dir": "results/raw/metasploit",
@@ -56,7 +76,6 @@
       "dirb_wordlist": "/usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt",
       "dirb_args": [
         "dir",
-        "-q",
         "-s",
         "200,301,302",
         "-x",
@@ -92,6 +111,38 @@
   },
   "targets": {
     "127.0.0.1/DVWA/": {
+      "gobuster": {
+        "paths": [
+          "/index.php",
+          "/security.php",
+          "/docs",
+          "/about.php",
+          "/login.php",
+          "/tests",
+          "/database",
+          "/external",
+          "/logout.php",
+          "/config",
+          "/setup.php",
+          "/vulnerabilities",
+          "/instructions.php",
+          "/phpinfo.php"
+        ]
+      },
+      "form_discovery": {
+        "forms": [
+          {
+            "action": "login.php",
+            "method": "post",
+            "fields": {
+              "username": "",
+              "password": "",
+              "Login": "Login",
+              "user_token": "699d7d31f8ded6c1c640b4075e6c1060"
+            }
+          }
+        ]
+      },
       "sqlmap": {
         "injections": []
       },
@@ -120,28 +171,28 @@
                 "extrainfo": "(Debian)",
                 "scripts": [
                   {
-                    "id": "http-stored-xss",
-                    "output": "Couldn't find any stored XSS vulnerabilities."
-                  },
-                  {
                     "id": "http-title",
                     "output": "Apache2 Debian Default Page: It works"
                   },
                   {
-                    "id": "http-csrf",
-                    "output": "Couldn't find any CSRF vulnerabilities."
+                    "id": "http-dombased-xss",
+                    "output": "Couldn't find any DOM based XSS."
+                  },
+                  {
+                    "id": "http-stored-xss",
+                    "output": "Couldn't find any stored XSS vulnerabilities."
                   },
                   {
                     "id": "http-server-header",
                     "output": "Apache/2.4.63 (Debian)"
                   },
                   {
-                    "id": "http-enum",
-                    "output": "\n  /server-status/: Potentially interesting folder\n"
+                    "id": "http-csrf",
+                    "output": "Couldn't find any CSRF vulnerabilities."
                   },
                   {
-                    "id": "http-dombased-xss",
-                    "output": "Couldn't find any DOM based XSS."
+                    "id": "http-enum",
+                    "output": "\n  /server-status/: Potentially interesting folder\n"
                   }
                 ],
                 "vulnerabilities": []
@@ -156,42 +207,53 @@
                 "extrainfo": null,
                 "scripts": [
                   {
-                    "id": "vulners",
-                    "output": "\n  cpe:/a:mariadb:mariadb:11.4.5: \n    \tCVE-2023-52971\t4.9\thttps://vulners.com/cve/CVE-2023-52971\n    \tCVE-2023-52970\t4.9\thttps://vulners.com/cve/CVE-2023-52970"
+                    "id": "ssl-cert",
+                    "output": "Subject: commonName=MariaDB Server\nNot valid before: 2025-05-18T08:25:56\nNot valid after:  2035-05-16T08:25:56"
+                  },
+                  {
+                    "id": "ssl-dh-params",
+                    "output": "\n  VULNERABLE:\n  Anonymous Diffie-Hellman Key Exchange MitM Vulnerability\n    State: VULNERABLE\n      Transport Layer Security (TLS) services that use anonymous\n      Diffie-Hellman key exchange only provide protection against passive\n      eavesdropping, and are vulnerable to active man-in-the-middle attacks\n      which could completely compromise the confidentiality and integrity\n      of any data exchanged over the resulting session.\n    Check results:\n      ANONYMOUS DH GROUP 1\n            Cipher Suite: TLS_DH_anon_WITH_AES_128_CBC_SHA\n            Modulus Type: Safe prime\n            Modulus Source: Unknown/Custom-generated\n            Modulus Length: 2048\n            Generator Length: 8\n            Public Key Length: 2048\n    References:\n      https://www.ietf.org/rfc/rfc2246.txt\n"
                   },
                   {
                     "id": "ssl-date",
                     "output": "TLS randomness does not represent time"
                   },
                   {
+                    "id": "vulners",
+                    "output": "\n  cpe:/a:mariadb:mariadb:11.4.5: \n    \tCVE-2023-52971\t4.9\thttps://vulners.com/cve/CVE-2023-52971\n    \tCVE-2023-52970\t4.9\thttps://vulners.com/cve/CVE-2023-52970"
+                  },
+                  {
                     "id": "mysql-info",
-                    "output": "\n  Protocol: 10\n  Version: 11.4.5-MariaDB-1\n  Thread ID: 23166\n  Capabilities flags: 65534\n  Some Capabilities: InteractiveClient, Speaks41ProtocolNew, SupportsTransactions, IgnoreSigpipes, LongColumnFlag, ConnectWithDatabase, SwitchToSSLAfterHandshake, Support41Auth, Speaks41ProtocolOld, IgnoreSpaceBeforeParenthesis, FoundRows, SupportsLoadDataLocal, SupportsCompression, DontAllowDatabaseTableColumn, ODBCClient, SupportsMultipleStatments, SupportsMultipleResults, SupportsAuthPlugins\n  Status: Autocommit\n  Salt: k,7qR*t0.5`eYoA6,v0+\n  Auth Plugin Name: mysql_native_password"
-                  },
-                  {
-                    "id": "ssl-dh-params",
-                    "output": "\n  VULNERABLE:\n  Anonymous Diffie-Hellman Key Exchange MitM Vulnerability\n    State: VULNERABLE\n      Transport Layer Security (TLS) services that use anonymous\n      Diffie-Hellman key exchange only provide protection against passive\n      eavesdropping, and are vulnerable to active man-in-the-middle attacks\n      which could completely compromise the confidentiality and integrity\n      of any data exchanged over the resulting session.\n    Check results:\n      ANONYMOUS DH GROUP 1\n            Cipher Suite: TLS_DH_anon_WITH_AES_128_GCM_SHA256\n            Modulus Type: Safe prime\n            Modulus Source: Unknown/Custom-generated\n            Modulus Length: 2048\n            Generator Length: 8\n            Public Key Length: 2048\n    References:\n      https://www.ietf.org/rfc/rfc2246.txt\n"
-                  },
-                  {
-                    "id": "ssl-cert",
-                    "output": "Subject: commonName=MariaDB Server\nNot valid before: 2025-05-18T08:25:56\nNot valid after:  2035-05-16T08:25:56"
+                    "output": "\n  Protocol: 10\n  Version: 11.4.5-MariaDB-1\n  Thread ID: 47849\n  Capabilities flags: 65534\n  Some Capabilities: Speaks41ProtocolNew, SupportsTransactions, SupportsLoadDataLocal, Speaks41ProtocolOld, IgnoreSpaceBeforeParenthesis, LongColumnFlag, DontAllowDatabaseTableColumn, InteractiveClient, SwitchToSSLAfterHandshake, IgnoreSigpipes, SupportsCompression, Support41Auth, FoundRows, ODBCClient, ConnectWithDatabase, SupportsMultipleStatments, SupportsAuthPlugins, SupportsMultipleResults\n  Status: Autocommit\n  Salt: ,ZaYxsW9V%ST-$hb2p_i\n  Auth Plugin Name: mysql_native_password"
                   }
                 ],
                 "vulnerabilities": [
+                  "Anonymous DH vulnerability",
                   "CVE-2023-52971",
                   "CVE-2023-52971",
                   "CVE-2023-52970",
-                  "CVE-2023-52970",
-                  "Anonymous DH vulnerability"
+                  "CVE-2023-52970"
                 ]
               }
             ],
             "os": {
-              "name": "Linux 2.6.32",
+              "name": "Linux 5.0 - 6.2",
               "accuracy": "100",
               "osfamily": "Linux"
             }
           }
         ]
+      },
+      "gobuster": {
+        "paths": [
+          "/index.html",
+          "/users",
+          "/javascript",
+          "/server-status"
+        ]
+      },
+      "form_discovery": {
+        "forms": []
       },
       "brute": {
         "credentials": []

@@ -11,6 +11,7 @@ from modules.core.pipeline         import Pipeline
 
 from modules.drivers.discovery.nmap_driver        import NmapDriver
 from modules.drivers.discovery.dirb_driver       import DirbDriver
+from modules.drivers.discovery.gobuster_driver  import GobusterDriver
 from modules.drivers.exploitation.auth_driver          import AuthDriver
 from modules.drivers.discovery.form_discovery     import FormDiscoveryDriver
 from modules.drivers.brute.hydra_http_driver      import HydraHttpDriver
@@ -60,8 +61,8 @@ def interactive_main():
     drivers = {
         "discovery":     NmapDriver,     # ← class!
         "auth":          AuthDriver,
-        "dirb":          DirbDriver,
-        "form_discovery": FormDiscoveryDriver,
+        "gobuster":GobusterDriver,
+        "form_discovery":FormDiscoveryDriver,
         "hydra_http":    HydraHttpDriver,
         "sqlmap":        SQLMapDriver,
         "brute":         HydraDriver,
