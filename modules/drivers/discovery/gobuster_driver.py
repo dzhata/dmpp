@@ -47,7 +47,7 @@ class GobusterDriver(BaseToolDriver):
         url  = urlunparse((p.scheme, host, path, "", "", ""))
 
         # 2) Prepare safe filename & ensure its directory exists
-        safe     = f"{host}{path}".replace("/", "_").strip("_")
+        safe = f"{host}{path}".replace("/", "_").replace(":", "_").strip("_")
         out_file = os.path.join(self.output_dir, f"{safe}.txt")
         os.makedirs(os.path.dirname(out_file), exist_ok=True)
 

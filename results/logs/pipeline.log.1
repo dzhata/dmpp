@@ -1,40 +1,42 @@
-2025-05-18 16:45:11,068 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-18 16:45:11,086 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-18 16:46:04,259 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:46:04,260 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
-2025-05-18 16:46:04,350 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
-2025-05-18 16:46:04,352 INFO [pentest] [gobuster] Starting target 127.0.0.1
-2025-05-18 16:46:04,352 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1.txt
-2025-05-18 16:46:04,368 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:46:04,368 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1_DVWA.txt
-2025-05-18 16:46:04,374 INFO [pentest] [form_discovery] Starting target 127.0.0.1
-2025-05-18 16:46:04,375 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1
-2025-05-18 16:46:04,388 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:46:04,388 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
-2025-05-18 16:46:04,403 INFO [pentest] [sqlmap] Starting target 127.0.0.1
-2025-05-18 16:46:04,403 INFO [pentest] [sqlmap] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:46:04,403 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/login.php --data username=&password=&Login=Login&user_token=97f886388a319162247e4c8f2490db59 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2 --dump-format JSON
-2025-05-18 16:46:05,136 ERROR [pentest] [SQLMapDriver] Failed to parse /home/kali/dmpp/results/raw/sqlmap/127.0.0.1/form_0.json: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
-2025-05-18 16:46:05,137 INFO [pentest] [brute] Starting target 127.0.0.1
-2025-05-18 16:46:05,137 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
-2025-05-18 16:46:05,211 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:46:05,212 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
-2025-05-18 16:46:05,260 WARNING [pentest] No driver for stage 'exploit', skipping.
-2025-05-18 16:46:05,260 WARNING [pentest] No driver for stage 'post', skipping.
-2025-05-18 16:46:05,262 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-18 16:46:05,264 INFO [pentest] Final report written to results/final_report.json
-2025-05-18 16:46:05,264 INFO [pentest] Full scan completed successfully
-2025-05-18 16:51:13,771 INFO [pentest] Launching full pipeline
-2025-05-18 16:51:13,777 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-18 16:51:13,777 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-18 16:52:05,999 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:52:05,999 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
-2025-05-18 16:52:06,094 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
-2025-05-18 16:52:06,094 INFO [pentest] [gobuster] Starting target 127.0.0.1
-2025-05-18 16:52:06,094 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1.txt
-2025-05-18 16:52:06,108 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:52:06,109 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1_DVWA.txt
-2025-05-18 16:52:06,119 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
-2025-05-18 16:52:06,119 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
-2025-05-18 16:52:06,129 INFO [pentest] [form_discovery] Starting target 127.0.0.1
-2025-05-18 16:52:06,132 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1
+2025-05-19 13:38:57,021 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/docs
+2025-05-19 13:38:57,408 INFO [pentest] [form_discovery] Starting target 127.0.0.1
+2025-05-19 13:38:57,408 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1
+2025-05-19 13:38:58,416 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-19 13:38:58,417 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-19 13:38:58,427 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/about.php
+2025-05-19 13:38:58,427 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/about.php
+2025-05-19 13:38:59,432 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/logout.php
+2025-05-19 13:38:59,432 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/logout.php
+2025-05-19 13:38:59,445 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/external
+2025-05-19 13:38:59,445 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/external
+2025-05-19 13:38:59,451 INFO [pentest] [form_discovery] Starting target localhost:3000
+2025-05-19 13:38:59,451 INFO [pentest] [FormDiscoveryDriver] Fetching http://localhost:3000
+2025-05-19 13:38:59,459 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/javascript
+2025-05-19 13:38:59,460 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/javascript
+2025-05-19 13:39:04,467 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/javascript
+2025-05-19 13:39:09,471 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/javascript
+2025-05-19 13:39:09,476 ERROR [pentest] [form_discovery] Failed on http://127.0.0.1/javascript: 403 Client Error: Forbidden for url: http://127.0.0.1/javascript/
+2025-05-19 13:39:09,476 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/login.php
+2025-05-19 13:39:09,477 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/login.php
+2025-05-19 13:39:09,493 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/database
+2025-05-19 13:39:09,494 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/database
+2025-05-19 13:39:09,505 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/vulnerabilities
+2025-05-19 13:39:09,506 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/vulnerabilities
+2025-05-19 13:39:09,529 INFO [pentest] [sqlmap] Starting target http://127.0.0.1/DVWA/login.php
+2025-05-19 13:39:09,530 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/login.php --data username=&password=&Login=Login&user_token=56bf4c18f3175aa3231f926f2f4b6834 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-19 13:39:11,739 INFO [pentest] [sqlmap] Starting target http://127.0.0.1/users
+2025-05-19 13:39:11,743 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/users --data id=&Submit=Submit --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-19 13:39:14,650 INFO [pentest] [sqlmap] Starting target http://127.0.0.1/DVWA/setup.php
+2025-05-19 13:39:14,652 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/setup.php --data create_db=Create / Reset Database&user_token=90b6b6dc1957c4f85ccc636d7698a239 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-19 13:44:19,669 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/setup.php --data create_db=Create / Reset Database&user_token=90b6b6dc1957c4f85ccc636d7698a239 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-19 13:49:24,684 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/setup.php --data create_db=Create / Reset Database&user_token=90b6b6dc1957c4f85ccc636d7698a239 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-19 13:54:24,697 ERROR [pentest] [sqlmap] Failed on http://127.0.0.1/DVWA/setup.php: name 'action_url' is not defined
+2025-05-19 13:54:24,697 INFO [pentest] [brute] Starting target 127.0.0.1
+2025-05-19 13:54:24,698 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1_hydra.txt 127.0.0.1
+2025-05-19 13:54:24,743 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-19 13:54:24,743 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-19 13:54:24,786 INFO [pentest] [brute] Starting target localhost:3000
+2025-05-19 13:54:24,786 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/localhost_3000_hydra.txt localhost:3000
+2025-05-19 13:54:24,827 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-19 13:54:24,828 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-19 13:54:24,832 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json

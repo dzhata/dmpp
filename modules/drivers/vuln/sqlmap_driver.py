@@ -66,7 +66,9 @@ class SQLMapDriver(BaseToolDriver):
             # Build the absolute URL for the form's action
             action = form.get("action") or target
             if not action.startswith(("http://", "https://")):
-                action = urljoin(f"{url_parsed.scheme}://{host}", action)
+                # Instead of joining with the host, join with the URL of the form itself!
+                action = urljoin(target if target.startswith(("http://", "https://")) else f"http://{target}", action)
+
 
             # Assemble the POST data string (e.g., "user=1&pass=2")
             post_data = "&".join(f"{k}={v}" for k, v in fields.items())
@@ -85,12 +87,18 @@ class SQLMapDriver(BaseToolDriver):
 
             self.logger.info(f"[SQLMapDriver] Running: {' '.join(cmd)}", extra={"target": target, "form": idx})
             # Execute SQLMap as a subprocess, capturing output and errors
-            proc = subprocess.run(
-                cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                timeout=self.config.get("scan_timeout_sec", 300)
-            )
+            try:
+                proc = subprocess.run(
+                    cmd,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    timeout=self.config.get("scan_timeout_sec", 300)
+                )
+            except subprocess.TimeoutExpired as e:
+                self.logger.error(f"SQLMap timeout on {action_url}: {e}")
+                # Do not re-queue! Just continue
+                continue
+
 
             # Only accept standard SQLMap return codes (0 = no SQLi, 1 = SQLi found)
             if proc.returncode not in (0, 1):

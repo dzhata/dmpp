@@ -1,6 +1,7 @@
 import os
 import json
 from typing import Dict, List, Any
+from urllib.parse import urljoin
 
 from modules.core.driver import DriverResult, ParsedResult
 from modules.core.logger import setup_logging
@@ -99,7 +100,7 @@ class Pipeline:
         # a) include the original targets (will be normalized by the driver)
         form_targets.update(targets)
         # b) for each host, append each dir path Gobuster found
-        for host, data in self.results.get("dirb", {}).items():
+        for host, data in self.results.get("gobuster", {}).items():
             for subpath in data.get("paths", []):
                 # ensure leading slash, then build a full URL
                 suffix = subpath if subpath.startswith("/") else f"/{subpath}"
@@ -143,11 +144,33 @@ class Pipeline:
             self.run_stage("auth", to_auth_dynamic)
 
         # 6) SQLMap injection on every form
-        for t in targets:
-            forms = self.results.get("form_discovery", {})\
-                                .get(t, {})\
-                                .get("forms", [])
-            self.run_stage("sqlmap", [t], forms=forms)
+        # Deduplicate forms across all discovered URLs
+        seen = set()
+        unique_sqlmap_jobs = []
+
+        for t, result in self.results.get("form_discovery", {}).items():
+            forms = result.get("forms", [])
+            for form in forms:
+                # Properly resolve the action URL
+                action = form.get("action") or t
+                if not action.startswith(("http://", "https://")):
+                    action_url = urljoin(t if t.startswith("http") else f"http://{t}", action)
+                else:
+                    action_url = action
+                form_key = (action_url, tuple(sorted(form.get("fields", {}).keys())))
+                if form_key in seen:
+                    continue
+                seen.add(form_key)
+                unique_sqlmap_jobs.append((action_url, form))
+
+
+        for action_url, form in unique_sqlmap_jobs:
+            try:
+                self.run_stage("sqlmap", [action_url], forms=[form])
+            except Exception as e:
+                # log the error, but DON'T remove from seen—never reschedule!
+                self.logger.error(f"SQLMap failed on {action_url}: {e}")
+
 
         # 7) SSH brute (unchanged)
         self.run_stage("brute", targets)
