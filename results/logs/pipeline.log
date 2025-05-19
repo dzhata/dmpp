@@ -1,2 +1,10 @@
-2025-05-19 13:54:24,833 INFO [pentest] Final report written to results/final_report.json
-2025-05-19 13:54:24,833 INFO [pentest] Full scan completed successfully
+2025-05-19 19:19:37,073 ERROR [pentest] [postexploit] Failed on 127.0.0.1/DVWA/vulnerabilities/: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/launcher
+2025-05-19 19:19:37,074 INFO [pentest] [postexploit] Starting target 127.0.0.1/DVWA/
+2025-05-19 19:19:37,075 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
+2025-05-19 19:19:37,078 ERROR [pentest] [postexploit] Failed on 127.0.0.1/DVWA/: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/launcher
+2025-05-19 19:19:37,079 INFO [pentest] [postexploit] Starting target localhost:3000
+2025-05-19 19:19:37,079 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
+2025-05-19 19:19:37,081 ERROR [pentest] [postexploit] Failed on localhost:3000: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/launcher
+2025-05-19 19:19:37,084 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-19 19:19:37,084 INFO [pentest] Final report written to results/final_report.json
+2025-05-19 19:19:37,084 INFO [pentest] Full scan completed successfully

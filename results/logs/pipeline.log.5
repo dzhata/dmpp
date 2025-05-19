@@ -1,42 +1,36 @@
-2025-05-19 13:18:54,443 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/setup.php --data create_db=Create / Reset Database&user_token=a876d38497dcc1210696137b944484f7 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
-2025-05-19 13:19:39,990 INFO [pentest] Launching full pipeline
-2025-05-19 13:19:39,990 INFO [pentest] [discovery] Starting target 127.0.0.1
-2025-05-19 13:19:39,990 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1.xml 127.0.0.1
-2025-05-19 13:20:37,085 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
-2025-05-19 13:20:37,086 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
-2025-05-19 13:20:37,187 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
-2025-05-19 13:20:37,187 INFO [pentest] [discovery] Starting target localhost:3000
-2025-05-19 13:20:37,187 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/localhost_3000.xml localhost:3000
-2025-05-19 13:20:47,539 INFO [pentest] [gobuster] Starting target 127.0.0.1
-2025-05-19 13:20:47,540 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1.txt
-2025-05-19 13:20:47,552 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
-2025-05-19 13:20:47,553 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/127.0.0.1_DVWA.txt
-2025-05-19 13:20:47,569 INFO [pentest] [gobuster] Starting target localhost:3000
-2025-05-19 13:20:47,569 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://localhost:3000/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/localhost:3000.txt
-2025-05-19 13:20:47,578 ERROR [pentest] [gobuster] Failed on localhost:3000: [Errno 2] No such file or directory: '/home/kali/dmpp/results/raw/dirb/localhost:3000.txt'
-2025-05-19 13:20:47,578 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/index.html
-2025-05-19 13:20:47,579 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/index.html
-2025-05-19 13:20:47,586 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/users
-2025-05-19 13:20:47,586 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/users
-2025-05-19 13:20:48,083 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/docs
-2025-05-19 13:20:48,083 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/docs
-2025-05-19 13:20:48,090 INFO [pentest] [form_discovery] Starting target localhost:3000
-2025-05-19 13:20:48,090 INFO [pentest] [FormDiscoveryDriver] Fetching http://localhost:3000
-2025-05-19 13:20:48,096 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/logout.php
-2025-05-19 13:20:48,096 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/logout.php
-2025-05-19 13:20:48,119 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/vulnerabilities
-2025-05-19 13:20:48,120 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/vulnerabilities
-2025-05-19 13:20:48,128 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/about.php
-2025-05-19 13:20:48,128 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/about.php
-2025-05-19 13:20:48,140 INFO [pentest] [form_discovery] Starting target 127.0.0.1
-2025-05-19 13:20:48,140 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1
-2025-05-19 13:20:48,146 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/javascript
-2025-05-19 13:20:48,146 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/javascript
-2025-05-19 13:20:53,152 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/javascript
-2025-05-19 13:20:58,157 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/javascript
-2025-05-19 13:20:58,162 ERROR [pentest] [form_discovery] Failed on http://127.0.0.1/javascript: 403 Client Error: Forbidden for url: http://127.0.0.1/javascript/
-2025-05-19 13:20:58,162 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/config
-2025-05-19 13:20:58,162 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/config
-2025-05-19 13:20:58,169 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/phpinfo.php
-2025-05-19 13:20:58,169 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/phpinfo.php
-2025-05-19 13:20:58,183 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/instructions.php
+2025-05-19 15:26:14,579 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/login.php --data username=&password=&Login=Login&user_token=6c4a9183bfd7256670a0c6ee9b00d11c --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-19 15:26:16,490 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/vulnerabilities/
+2025-05-19 15:26:16,492 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/vulnerabilities/_hydra.txt 127.0.0.1/DVWA/vulnerabilities/
+2025-05-19 15:26:16,865 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-19 15:26:16,865 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-19 15:26:16,911 INFO [pentest] [brute] Starting target localhost:3000
+2025-05-19 15:26:16,912 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/localhost_3000_hydra.txt localhost:3000
+2025-05-19 15:26:16,980 WARNING [pentest] No driver for stage 'exploit', skipping.
+2025-05-19 15:26:16,980 WARNING [pentest] No driver for stage 'post', skipping.
+2025-05-19 15:26:16,989 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-19 15:26:16,989 INFO [pentest] Final report written to results/final_report.json
+2025-05-19 15:26:16,990 INFO [pentest] Full scan completed successfully
+2025-05-19 15:33:26,324 INFO [pentest] Launching full pipeline
+2025-05-19 15:33:26,325 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/vulnerabilities/
+2025-05-19 15:33:26,325 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/vulnerabilities/.xml 127.0.0.1/DVWA/vulnerabilities/
+2025-05-19 15:33:26,427 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/vulnerabilities/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/vulnerabilities/.xml'
+2025-05-19 15:33:26,427 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
+2025-05-19 15:33:26,428 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
+2025-05-19 15:33:26,536 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
+2025-05-19 15:33:26,542 INFO [pentest] [discovery] Starting target localhost:3000
+2025-05-19 15:33:26,542 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/localhost_3000.xml localhost:3000
+2025-05-19 15:33:36,872 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/vulnerabilities/
+2025-05-19 15:33:36,872 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/vulnerabilities/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA_vulnerabilities.txt
+2025-05-19 15:33:36,885 WARNING [pentest] [GobusterDriver] No output file produced for 127.0.0.1/DVWA/vulnerabilities/: /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA_vulnerabilities.txt
+2025-05-19 15:33:36,887 WARNING [pentest] [GobusterDriver] Missing output file, skipping parse: /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA_vulnerabilities.txt
+2025-05-19 15:33:36,887 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
+2025-05-19 15:33:36,887 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA.txt
+2025-05-19 15:33:36,896 WARNING [pentest] [GobusterDriver] No output file produced for 127.0.0.1/DVWA/: /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA.txt
+2025-05-19 15:33:36,896 WARNING [pentest] [GobusterDriver] Missing output file, skipping parse: /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA.txt
+2025-05-19 15:33:36,896 INFO [pentest] [gobuster] Starting target localhost:3000
+2025-05-19 15:33:36,896 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://localhost:3000/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_localhost_3000.txt
+2025-05-19 15:33:36,906 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/vulnerabilities/
+2025-05-19 15:33:36,907 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/vulnerabilities/
+2025-05-19 15:33:36,940 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-19 15:33:36,941 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-19 15:33:37,018 INFO [pentest] [form_discovery] Starting target localhost:3000

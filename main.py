@@ -17,6 +17,7 @@ from modules.drivers.discovery.form_discovery     import FormDiscoveryDriver
 from modules.drivers.brute.hydra_http_driver      import HydraHttpDriver
 from modules.drivers.vuln.sqlmap_driver           import SQLMapDriver
 from modules.drivers.brute.hydra_driver           import HydraDriver
+from modules.drivers.post_exploit.empire_driver import EmpireDriver
 
 #from modules.drivers.exploitation.metasploit_driver    import MetasploitDriver
 #from modules.drivers.post_exploit.empire_driver           import EmpireDriver
@@ -66,6 +67,7 @@ def interactive_main():
         "hydra_http":    HydraHttpDriver,
         "sqlmap":        SQLMapDriver,
         "brute":         HydraDriver,
+        "postexploit": EmpireDriver,
         # …other drivers…
     }
     pipeline    = Pipeline(drivers, config, logger,session_mgr)

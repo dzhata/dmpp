@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 from modules.core.driver import DriverResult, ParsedResult
 from modules.core.logger import setup_logging
 from modules.core.session_manager import SessionManager
-
+from modules.core.utils import should_skip_sqlmap_form,safe_filename
 
 class Pipeline:
     """
@@ -24,7 +24,7 @@ class Pipeline:
         "sqlmap",         # injection
         "brute",          # SSH brute
         "exploit",        # Metasploit
-        "post"            # Empire
+        "postexploit"            # Empire
     ]
 
     def __init__(
@@ -144,6 +144,9 @@ class Pipeline:
             self.run_stage("auth", to_auth_dynamic)
 
         # 6) SQLMap injection on every form
+        # In pipeline.py, before appending unique_sqlmap_jobs
+        
+
         # Deduplicate forms across all discovered URLs
         seen = set()
         unique_sqlmap_jobs = []
@@ -151,17 +154,23 @@ class Pipeline:
         for t, result in self.results.get("form_discovery", {}).items():
             forms = result.get("forms", [])
             for form in forms:
-                # Properly resolve the action URL
                 action = form.get("action") or t
                 if not action.startswith(("http://", "https://")):
                     action_url = urljoin(t if t.startswith("http") else f"http://{t}", action)
                 else:
                     action_url = action
+
+                # ADD FILTER HERE
+                if should_skip_sqlmap_form(action_url, form):
+                    self.logger.info(f"[pipeline] Skipping filtered form for SQLMap: {action_url}")
+                    continue
+
                 form_key = (action_url, tuple(sorted(form.get("fields", {}).keys())))
                 if form_key in seen:
                     continue
                 seen.add(form_key)
                 unique_sqlmap_jobs.append((action_url, form))
+
 
 
         for action_url, form in unique_sqlmap_jobs:
@@ -176,7 +185,7 @@ class Pipeline:
         self.run_stage("brute", targets)
 
         # 8) Exploit and Post
-        for stage in ("exploit","post"):
+        for stage in ("exploit","postexploit"):
             self.run_stage(stage, targets)
 
 

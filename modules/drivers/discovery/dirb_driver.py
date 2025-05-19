@@ -5,7 +5,7 @@ import subprocess
 from urllib.parse import urlparse, urlunparse
 from tenacity import retry, stop_after_attempt, wait_fixed
 from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
-
+from modules.core.utils import safe_filename
 class DirbDriver(BaseToolDriver):
     name = "dirb"
 

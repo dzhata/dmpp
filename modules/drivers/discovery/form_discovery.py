@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from tenacity import retry, stop_after_attempt, wait_fixed
 from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
-
+from modules.core.utils import safe_filename
 class FormDiscoveryDriver(BaseToolDriver):
     """
     Crawl a list of URLs, save raw HTML, and extract every form.
@@ -45,7 +45,7 @@ class FormDiscoveryDriver(BaseToolDriver):
 
         # 3) Save raw HTML
         #    filename: replace :// and / with _
-        safe = url.replace("://", "_").replace("/", "_").strip("_")
+        safe = safe_filename(url)
         raw_path = os.path.join(self.output_dir, f"{safe}.html")
         os.makedirs(os.path.dirname(raw_path), exist_ok=True)
 
