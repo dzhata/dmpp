@@ -95,7 +95,7 @@ class SQLMapDriver(BaseToolDriver):
                     timeout=self.config.get("scan_timeout_sec", 300)
                 )
             except subprocess.TimeoutExpired as e:
-                self.logger.error(f"SQLMap timeout on {action_url}: {e}")
+                self.logger.error(f"SQLMap timeout on {action}: {e}")
                 # Do not re-queue! Just continue
                 continue
 

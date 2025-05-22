@@ -1,0 +1,83 @@
+2025-05-22 10:20:17,175 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA.txt
+2025-05-22 10:20:17,241 INFO [pentest] [gobuster] Starting target localhost:3000
+2025-05-22 10:20:17,241 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://localhost:3000/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_localhost_3000.txt
+2025-05-22 10:20:17,249 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:20:17,249 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-22 10:20:17,269 INFO [pentest] [form_discovery] Starting target localhost:3000
+2025-05-22 10:20:17,269 INFO [pentest] [FormDiscoveryDriver] Fetching http://localhost:3000
+2025-05-22 10:20:17,284 INFO [pentest] [sqlmap] Starting target http://127.0.0.1/DVWA/login.php
+2025-05-22 10:20:17,284 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/login.php --data username=&password=&Login=Login&user_token=a80773442cfb4e2ce1469ab83c048f55 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-22 10:20:18,455 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:20:18,457 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-22 10:20:18,910 INFO [pentest] [brute] Starting target localhost:3000
+2025-05-22 10:20:18,910 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/localhost_3000_hydra.txt localhost:3000
+2025-05-22 10:20:18,957 INFO [pentest] [exploit] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:20:45,537 INFO [pentest] [MetasploitDriver] Output saved to results/raw/metasploit/127.0.0.1_DVWA_.txt
+2025-05-22 10:20:45,538 INFO [pentest] [exploit] Starting target localhost:3000
+2025-05-22 10:21:10,712 INFO [pentest] [MetasploitDriver] Output saved to results/raw/metasploit/localhost_3000.txt
+2025-05-22 10:21:10,713 INFO [pentest] [postexploit] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:21:10,714 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'http'
+2025-05-22 10:21:10,718 ERROR [pentest] [EmpireDriver] API error: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/api/stagers/
+2025-05-22 10:21:10,720 WARNING [pentest] [EmpireDriver] Cannot read None: expected str, bytes or os.PathLike object, not NoneType
+2025-05-22 10:21:10,722 INFO [pentest] [postexploit] Starting target localhost:3000
+2025-05-22 10:21:10,722 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'http'
+2025-05-22 10:21:10,725 ERROR [pentest] [EmpireDriver] API error: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/api/stagers/
+2025-05-22 10:21:10,725 WARNING [pentest] [EmpireDriver] Cannot read None: expected str, bytes or os.PathLike object, not NoneType
+2025-05-22 10:21:10,726 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-22 10:21:10,727 INFO [pentest] Final report written to results/final_report.json
+2025-05-22 10:21:10,727 INFO [pentest] Full scan completed successfully
+2025-05-22 10:24:05,007 INFO [pentest] Launching full pipeline
+2025-05-22 10:24:05,008 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:24:05,008 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
+2025-05-22 10:24:05,108 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
+2025-05-22 10:24:05,109 INFO [pentest] [discovery] Starting target localhost:3000
+2025-05-22 10:24:05,114 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/localhost_3000.xml localhost:3000
+2025-05-22 10:24:05,412 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:24:05,413 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA.txt
+2025-05-22 10:24:05,425 INFO [pentest] [gobuster] Starting target localhost:3000
+2025-05-22 10:24:05,425 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://localhost:3000/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_localhost_3000.txt
+2025-05-22 10:24:05,437 INFO [pentest] [form_discovery] Starting target localhost:3000
+2025-05-22 10:24:05,439 INFO [pentest] [FormDiscoveryDriver] Fetching http://localhost:3000
+2025-05-22 10:24:05,447 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:24:05,448 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-22 10:24:05,469 INFO [pentest] [sqlmap] Starting target http://127.0.0.1/DVWA/login.php
+2025-05-22 10:24:05,470 INFO [pentest] [SQLMapDriver] Running: sqlmap -u http://127.0.0.1/DVWA/login.php --data username=&password=&Login=Login&user_token=2b17f0c72207f13ecded95754c79df06 --batch --level 5 --risk 3 --crawl 2 --technique BEUSTQ -v 2
+2025-05-22 10:24:06,578 INFO [pentest] [brute] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:24:06,578 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/127.0.0.1/DVWA/_hydra.txt 127.0.0.1/DVWA/
+2025-05-22 10:24:06,626 INFO [pentest] [brute] Starting target localhost:3000
+2025-05-22 10:24:06,628 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/localhost_3000_hydra.txt localhost:3000
+2025-05-22 10:24:06,678 INFO [pentest] [exploit] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:24:32,677 INFO [pentest] [MetasploitDriver] Output saved to results/raw/metasploit/127.0.0.1_DVWA_.txt
+2025-05-22 10:24:32,678 INFO [pentest] [exploit] Starting target localhost:3000
+2025-05-22 10:24:58,922 INFO [pentest] [MetasploitDriver] Output saved to results/raw/metasploit/localhost_3000.txt
+2025-05-22 10:24:58,922 INFO [pentest] [postexploit] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:24:58,922 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'http'
+2025-05-22 10:24:58,929 ERROR [pentest] [EmpireDriver] API error: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/api/stagers/
+2025-05-22 10:24:58,930 WARNING [pentest] [EmpireDriver] Cannot read None: expected str, bytes or os.PathLike object, not NoneType
+2025-05-22 10:24:58,930 INFO [pentest] [postexploit] Starting target localhost:3000
+2025-05-22 10:24:58,931 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'http'
+2025-05-22 10:24:58,934 ERROR [pentest] [EmpireDriver] API error: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/api/stagers/
+2025-05-22 10:24:58,935 WARNING [pentest] [EmpireDriver] Cannot read None: expected str, bytes or os.PathLike object, not NoneType
+2025-05-22 10:24:58,940 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-22 10:24:58,941 INFO [pentest] Final report written to results/final_report.json
+2025-05-22 10:24:58,941 INFO [pentest] Full scan completed successfully
+2025-05-22 10:26:41,872 INFO [pentest] Launching full pipeline
+2025-05-22 10:26:41,872 INFO [pentest] [discovery] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:26:41,872 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/127.0.0.1/DVWA/.xml 127.0.0.1/DVWA/
+2025-05-22 10:26:41,973 ERROR [pentest] [discovery] Failed on 127.0.0.1/DVWA/: [Errno 2] No such file or directory: 'results/raw/nmap/127.0.0.1/DVWA/.xml'
+2025-05-22 10:26:41,974 INFO [pentest] [discovery] Starting target localhost:3000
+2025-05-22 10:26:41,974 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/localhost_3000.xml localhost:3000
+2025-05-22 10:26:42,290 INFO [pentest] [gobuster] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:26:42,290 INFO [pentest] [GobusterDriver] Running: gobuster dir -r -t 100 -b 404,403 -x php,html -q -u http://127.0.0.1/DVWA/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_127.0.0.1_DVWA.txt
+2025-05-22 10:27:31,801 INFO [pentest] [gobuster] Starting target localhost:3000
+2025-05-22 10:27:31,803 INFO [pentest] [GobusterDriver] Running: gobuster dir -r -t 100 -b 404,403 -x php,html -q -u http://localhost:3000/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_localhost_3000.txt
+2025-05-22 10:27:31,859 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/instructions.php
+2025-05-22 10:27:31,862 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/instructions.php
+2025-05-22 10:27:31,896 INFO [pentest] [form_discovery] Starting target 127.0.0.1/DVWA/
+2025-05-22 10:27:31,898 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/
+2025-05-22 10:27:31,914 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/about.php
+2025-05-22 10:27:31,915 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/about.php
+2025-05-22 10:27:31,926 INFO [pentest] [form_discovery] Starting target http://127.0.0.1/DVWA/logout.php
+2025-05-22 10:27:31,927 INFO [pentest] [FormDiscoveryDriver] Fetching http://127.0.0.1/DVWA/logout.php
+2025-05-22 10:27:31,940 INFO [pentest] [form_discovery] Starting target localhost:3000
+2025-05-22 10:27:31,941 INFO [pentest] [FormDiscoveryDriver] Fetching http://localhost:3000

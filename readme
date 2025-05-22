@@ -7,3 +7,6 @@ cd /opt
 sudo git clone https://github.com/BC-SECURITY/Empire.git
 sudo chown -R $USER:$USER Empire
 cd Empire
+
+cd /opt/Empire
+source empire-env/bin/activate 
