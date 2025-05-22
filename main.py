@@ -9,18 +9,17 @@ from modules.core.logger           import setup_logging
 from modules.core.session_manager  import SessionManager
 from modules.core.pipeline         import Pipeline
 
-from modules.drivers.discovery.nmap_driver        import NmapDriver
-from modules.drivers.discovery.dirb_driver       import DirbDriver
-from modules.drivers.discovery.gobuster_driver  import GobusterDriver
-from modules.drivers.exploitation.auth_driver          import AuthDriver
-from modules.drivers.discovery.form_discovery     import FormDiscoveryDriver
-from modules.drivers.brute.hydra_http_driver      import HydraHttpDriver
-from modules.drivers.vuln.sqlmap_driver           import SQLMapDriver
-from modules.drivers.brute.hydra_driver           import HydraDriver
-from modules.drivers.post_exploit.empire_driver import EmpireDriver
+from modules.drivers.discovery.nmap_driver              import NmapDriver
+from modules.drivers.discovery.dirb_driver              import DirbDriver
+from modules.drivers.discovery.gobuster_driver          import GobusterDriver
+from modules.drivers.exploitation.auth_driver           import AuthDriver
+from modules.drivers.discovery.form_discovery           import FormDiscoveryDriver
+from modules.drivers.brute.hydra_http_driver            import HydraHttpDriver
+from modules.drivers.vuln.sqlmap_driver                 import SQLMapDriver
+from modules.drivers.brute.hydra_driver                 import HydraDriver
+from modules.drivers.exploitation.metasploitable_driver import MetasploitDriver
+from modules.drivers.post_exploit.empire_driver         import EmpireDriver
 
-#from modules.drivers.exploitation.metasploit_driver    import MetasploitDriver
-#from modules.drivers.post_exploit.empire_driver           import EmpireDriver
 
 CONFIG_DEFAULT_PATH = "config/pentest_config.json"
 
@@ -33,19 +32,6 @@ def load_targets(path: str) -> list[str]:
     """Read the targets file, one target per non-empty line."""
     text = Path(path).read_text().splitlines()
     return [line.strip() for line in text if line.strip()]
-
-#def build_drivers(config: dict, session_mgr: SessionManager, logger) -> dict[str, Any]:
-    """Instantiate all your drivers and return a mapping stage→driver instance."""
-    return {
-        "discovery":       NmapDriver(config, session_mgr, logger),
-        "auth":            AuthDriver(config, session_mgr, logger),
-        "form_discovery":  FormDiscoveryDriver(config, session_mgr, logger),
-        "hydra_http":      HydraHttpDriver(config, session_mgr, logger),
-        "sqlmap":          SQLMapDriver(config, session_mgr, logger),
-        "brute":           HydraDriver(config, session_mgr, logger),
-        "exploit":         MetasploitDriver(config, session_mgr, logger),
-        "post":            EmpireDriver(config, session_mgr, logger),
-    }
 
 def interactive_main():
     # 1) Load config
@@ -62,12 +48,13 @@ def interactive_main():
     drivers = {
         "discovery":     NmapDriver,     # ← class!
         "auth":          AuthDriver,
-        "gobuster":GobusterDriver,
+        "gobuster":      GobusterDriver,
         "form_discovery":FormDiscoveryDriver,
         "hydra_http":    HydraHttpDriver,
         "sqlmap":        SQLMapDriver,
         "brute":         HydraDriver,
-        "postexploit": EmpireDriver,
+        "exploit":       MetasploitDriver,
+        "postexploit":   EmpireDriver,
         # …other drivers…
     }
     pipeline    = Pipeline(drivers, config, logger,session_mgr)

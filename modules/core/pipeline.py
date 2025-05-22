@@ -16,7 +16,7 @@ class Pipeline:
 
     STAGE_SEQUENCE = [
         "discovery",      # Nmap
-        "gobuster", # Gobuster Driver,
+        "gobuster",       # Gobuster Driver,
         "auth",           # static creds
         "form_discovery", # HTML form crawl
         "hydra_http",     # brute HTTP forms
@@ -24,7 +24,7 @@ class Pipeline:
         "sqlmap",         # injection
         "brute",          # SSH brute
         "exploit",        # Metasploit
-        "postexploit"            # Empire
+        "postexploit"     # Empire
     ]
 
     def __init__(
@@ -184,9 +184,11 @@ class Pipeline:
         # 7) SSH brute (unchanged)
         self.run_stage("brute", targets)
 
-        # 8) Exploit and Post
-        for stage in ("exploit","postexploit"):
-            self.run_stage(stage, targets)
+        # 8) Exploit
+        self.run_stage("exploit", targets)
+        
+        # 8) Post
+        self.run_stage("postexploit", targets)
 
 
         # Generate report

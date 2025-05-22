@@ -28,9 +28,9 @@ def setup_logging(log_file: str, level: int = logging.INFO) -> logging.Logger:
         "%(asctime)s %(levelname)s [%(name)s] %(message)s"
     )
 
-    # Rotating file handler: 5MB per file, keep 5 backups
+    # Rotating file handler: 10MB per file, keep 2 backups
     file_handler = RotatingFileHandler(
-        log_file, maxBytes=5 * 1024, backupCount=5
+        log_file, maxBytes=10 * 1024, backupCount=2
     )
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)

@@ -24,7 +24,7 @@ class NmapDriver(BaseToolDriver):
         os.makedirs(self.output_dir, exist_ok=True)
 
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(5), reraise=True)
-    def run(self, target: str, timeout: int = 300) -> DriverResult:
+    def run(self, target: str, timeout: int = 1200) -> DriverResult:
         """
         Run an Nmap scan against the given target.
 

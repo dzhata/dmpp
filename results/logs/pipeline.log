@@ -1,10 +1,71 @@
-2025-05-19 19:19:37,073 ERROR [pentest] [postexploit] Failed on 127.0.0.1/DVWA/vulnerabilities/: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/launcher
-2025-05-19 19:19:37,074 INFO [pentest] [postexploit] Starting target 127.0.0.1/DVWA/
-2025-05-19 19:19:37,075 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
-2025-05-19 19:19:37,078 ERROR [pentest] [postexploit] Failed on 127.0.0.1/DVWA/: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/launcher
-2025-05-19 19:19:37,079 INFO [pentest] [postexploit] Starting target localhost:3000
-2025-05-19 19:19:37,079 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
-2025-05-19 19:19:37,081 ERROR [pentest] [postexploit] Failed on localhost:3000: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/launcher
-2025-05-19 19:19:37,084 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
-2025-05-19 19:19:37,084 INFO [pentest] Final report written to results/final_report.json
-2025-05-19 19:19:37,084 INFO [pentest] Full scan completed successfully
+2025-05-21 13:29:58,987 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-21 13:29:58,987 INFO [pentest] Final report written to results/final_report.json
+2025-05-21 13:29:58,988 INFO [pentest] Full scan completed successfully
+2025-05-21 18:11:43,648 INFO [pentest] Launching full pipeline
+2025-05-21 18:11:43,648 INFO [pentest] [discovery] Starting target 192.168.56.103
+2025-05-21 18:11:43,649 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/192.168.56.103.xml 192.168.56.103
+2025-05-21 18:20:51,329 INFO [pentest] [gobuster] Starting target 192.168.56.103
+2025-05-21 18:20:51,330 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://192.168.56.103/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_192.168.56.103.txt
+2025-05-21 18:20:51,343 INFO [pentest] [form_discovery] Starting target 192.168.56.103
+2025-05-21 18:20:51,344 INFO [pentest] [FormDiscoveryDriver] Fetching http://192.168.56.103
+2025-05-21 18:20:51,375 INFO [pentest] [brute] Starting target 192.168.56.103
+2025-05-21 18:20:51,376 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/192.168.56.103_hydra.txt 192.168.56.103
+2025-05-21 18:20:51,461 INFO [pentest] [exploit] Starting target 192.168.56.103
+2025-05-21 18:20:51,463 ERROR [pentest] [exploit] Failed on 192.168.56.103: [Errno 2] No such file or directory: '/opt/metasploit-framework/bin/msfconsole'
+2025-05-21 18:20:51,463 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-21 18:20:51,463 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
+2025-05-21 18:20:51,464 ERROR [pentest] [postexploit] Failed on 192.168.56.103: HTTPConnectionPool(host='127.0.0.1', port=1337): Max retries exceeded with url: /api/v2/launcher (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fdfb2dbf890>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-05-21 18:20:51,466 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-21 18:20:51,466 INFO [pentest] Final report written to results/final_report.json
+2025-05-21 18:20:51,466 INFO [pentest] Full scan completed successfully
+2025-05-21 18:24:56,100 INFO [pentest] Launching full pipeline
+2025-05-21 18:24:56,100 INFO [pentest] [discovery] Starting target 192.168.56.103
+2025-05-21 18:24:56,100 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/192.168.56.103.xml 192.168.56.103
+2025-05-21 18:34:09,460 INFO [pentest] [gobuster] Starting target 192.168.56.103
+2025-05-21 18:34:09,461 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://192.168.56.103/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_192.168.56.103.txt
+2025-05-21 18:34:09,470 INFO [pentest] [form_discovery] Starting target 192.168.56.103
+2025-05-21 18:34:09,470 INFO [pentest] [FormDiscoveryDriver] Fetching http://192.168.56.103
+2025-05-21 18:34:09,504 INFO [pentest] [brute] Starting target 192.168.56.103
+2025-05-21 18:34:09,504 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/192.168.56.103_hydra.txt 192.168.56.103
+2025-05-21 18:34:09,552 INFO [pentest] [exploit] Starting target 192.168.56.103
+2025-05-21 18:44:09,600 ERROR [pentest] [exploit] Failed on 192.168.56.103: Command '['/usr/bin/msfconsole', '-r', 'modules/drivers/exploitation/msf_scripts/192.168.56.103.rc', '-q']' timed out after 599.9999736669997 seconds
+2025-05-21 18:44:09,602 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-21 18:44:09,602 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
+2025-05-21 18:44:09,603 ERROR [pentest] [postexploit] Failed on 192.168.56.103: HTTPConnectionPool(host='127.0.0.1', port=1337): Max retries exceeded with url: /api/v2/launcher (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fb2c0fcf890>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-05-21 18:44:09,605 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-21 18:44:09,606 INFO [pentest] Final report written to results/final_report.json
+2025-05-21 18:44:09,606 INFO [pentest] Full scan completed successfully
+2025-05-21 18:46:16,166 INFO [pentest] Launching full pipeline
+2025-05-21 18:46:16,167 INFO [pentest] [discovery] Starting target 192.168.56.103
+2025-05-21 18:46:16,167 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/192.168.56.103.xml 192.168.56.103
+2025-05-21 18:55:24,503 INFO [pentest] [gobuster] Starting target 192.168.56.103
+2025-05-21 18:55:24,504 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://192.168.56.103/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_192.168.56.103.txt
+2025-05-21 18:55:24,513 INFO [pentest] [form_discovery] Starting target 192.168.56.103
+2025-05-21 18:55:24,515 INFO [pentest] [FormDiscoveryDriver] Fetching http://192.168.56.103
+2025-05-21 18:55:24,555 INFO [pentest] [brute] Starting target 192.168.56.103
+2025-05-21 18:55:24,555 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/192.168.56.103_hydra.txt 192.168.56.103
+2025-05-21 18:55:24,627 INFO [pentest] [exploit] Starting target 192.168.56.103
+2025-05-21 18:56:19,261 INFO [pentest] [MetasploitDriver] Output saved to results/raw/metasploit/192.168.56.103.txt
+2025-05-21 18:56:19,262 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-21 18:56:19,262 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
+2025-05-21 18:56:19,264 ERROR [pentest] [postexploit] Failed on 192.168.56.103: HTTPConnectionPool(host='127.0.0.1', port=1337): Max retries exceeded with url: /api/v2/launcher (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7ff1ab59b890>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-05-21 18:56:19,267 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-21 18:56:19,267 INFO [pentest] Final report written to results/final_report.json
+2025-05-21 18:56:19,267 INFO [pentest] Full scan completed successfully
+2025-05-21 19:28:08,148 INFO [pentest] Launching full pipeline
+2025-05-21 19:28:08,152 INFO [pentest] [discovery] Starting target 192.168.56.103
+2025-05-21 19:28:08,153 INFO [pentest] [NmapDriver] Running scan: nmap -sV -O -A -Pn --script default,vuln -oX results/raw/nmap/192.168.56.103.xml 192.168.56.103
+2025-05-21 19:37:13,032 INFO [pentest] [gobuster] Starting target 192.168.56.103
+2025-05-21 19:37:13,033 INFO [pentest] [GobusterDriver] Running: gobuster dir -r --recursion-depth 3 -t 100 -b 404,403 -x php,html -q -u http://192.168.56.103/ -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -o /home/kali/dmpp/results/raw/dirb/http_192.168.56.103.txt
+2025-05-21 19:37:13,051 INFO [pentest] [form_discovery] Starting target 192.168.56.103
+2025-05-21 19:37:13,051 INFO [pentest] [FormDiscoveryDriver] Fetching http://192.168.56.103
+2025-05-21 19:37:13,082 INFO [pentest] [brute] Starting target 192.168.56.103
+2025-05-21 19:37:13,082 INFO [pentest] [HydraDriver] Running default: hydra -L config/targets.txt -P config/passwords.txt -f -o -o results/raw/hydra/192.168.56.103_hydra.txt 192.168.56.103
+2025-05-21 19:37:13,133 INFO [pentest] [exploit] Starting target 192.168.56.103
+2025-05-21 19:57:13,160 ERROR [pentest] [exploit] Failed on 192.168.56.103: Command '['/usr/bin/msfconsole', '-r', 'modules/drivers/exploitation/msf_scripts/192.168.56.103.rc', '-q']' timed out after 1199.9999855940005 seconds
+2025-05-21 19:57:13,161 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-21 19:57:13,161 INFO [pentest] [EmpireDriver] Generating bash stager for listener 'http'
+2025-05-21 19:57:13,164 ERROR [pentest] [postexploit] Failed on 192.168.56.103: 405 Client Error: Method Not Allowed for url: http://127.0.0.1:1337/api/v2/launcher
+2025-05-21 19:57:13,167 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-21 19:57:13,167 INFO [pentest] Final report written to results/final_report.json
+2025-05-21 19:57:13,167 INFO [pentest] Full scan completed successfully
