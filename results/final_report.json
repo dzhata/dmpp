@@ -1,6 +1,6 @@
 {
   "report_metadata": {
-    "generated_at": "2025-05-22T14:32:37.912541Z",
+    "generated_at": "2025-05-26T00:57:33.948747Z",
     "config": {
       "#": "=== Authentication Settings ===",
       "targets_file": "config/targets.txt",
@@ -25,6 +25,9 @@
         "-f",
         "-o"
       ],
+      "hydra_userlist": "config/passwords.txt",
+      "hydra_passlist": "config/passwords.txt",
+      "http_fail_string": "Login failed",
       "hydra_output_dir": "results/raw/hydra",
       "gobuster_binary": "gobuster",
       "gobuster_args": [
@@ -44,6 +47,8 @@
         "password_field": "password",
         "submit_field": "Login"
       },
+      "cookie_header": "PHPSESSID=YOUR_ID;security=low",
+      "fail_string": "Username and/or password incorrect.",
       "sqlmap_binary": "sqlmap",
       "sqlmap_args": [
         "--batch",
@@ -63,8 +68,12 @@
       "metasploit_path": "/usr/bin/msfconsole",
       "metasploit_resource_dir": "modules/drivers/exploitation/msf_scripts",
       "metasploit_output_dir": "results/raw/metasploit",
-      "empire_api_url": "http://127.0.0.1:1337/api",
-      "empire_api_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbXBpcmVhZG1pbiIsImV4cCI6MTc0Nzc4MjkyM30.8Wl9JlO9fhF9TdM3SCowV9rZpKwz6w8lVk0k_qTvmpI",
+      "lhost": "192.168.56.102",
+      "empire_api_url": "http://127.0.0.1:1337/api/v2",
+      "emoire_url": "http://127.0.0.1:1337",
+      "empire_username": "empireadmin",
+      "empire_password": "password123",
+      "empire_listener": "Metaploitable2",
       "empire_output_dir": "results/raw/empire",
       "retry_attempts": 3,
       "retry_wait_sec": 5,
@@ -80,375 +89,22 @@
         "php,html"
       ],
       "auth_required": [
-        "http://127.0.0.1",
-        "https://juice-shop:3000"
+        "http://127.0.0.1/DVWAlogin.php",
+        "http://localhost:3000/#/login"
       ],
-      "auth_credentials": {
-        "http://127.0.0.1": {
-          "login_url": "http://127.0.0.1/login.php",
-          "username_field": "username",
-          "password_field": "password",
-          "username": "admin",
-          "password": "password"
-        },
-        "https://juice-shop:3000": {
-          "login_url": "https://juice-shop:3000/rest/user/login",
-          "username_field": "email",
-          "password_field": "password",
-          "username": "demo@juice.shop",
-          "password": "shopdemo123"
-        }
-      }
+      "metasploit_sessions": {
+        "192.168.56.103": [
+          1
+        ]
+      },
+      "empire_api_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbXBpcmVhZG1pbiIsImV4cCI6MTc0ODMwNzQ0NX0.Dr0JJvui5aQghZDxgbg27nCopXst0ghG6-JmFalnMaw"
     }
   },
   "summary": {
-    "total_targets": 21,
+    "total_targets": 0,
     "critical_threshold": 7,
     "critical_hosts": [],
     "critical_count": 0
   },
-  "targets": {
-    "http://127.0.0.1/DVWA/tests": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/login.php": {
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "81cf4597a64aa9225d861d05ecd65cdb"
-            }
-          }
-        ]
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/setup.php": {
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "#",
-            "method": "post",
-            "fields": {
-              "create_db": "Create / Reset Database",
-              "user_token": "fef9b1377ed70a784aef9a1aaf02eb5a"
-            }
-          }
-        ]
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/database": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/vulnerabilities/sqli/source": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/external": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/about.php": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/phpinfo.php": {
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "1163465fdd0b3b93705a3f333b34e718"
-            }
-          }
-        ]
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/index.php": {
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "dcca67e5298021acd4b88cfe5a1e8a4d"
-            }
-          }
-        ]
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/vulnerabilities/sqli/login.php": {
-      "sqlmap": {
-        "injections": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "localhost:3000": {
-      "discovery": {
-        "hosts": []
-      },
-      "gobuster": {
-        "paths": []
-      },
-      "form_discovery": {
-        "forms": []
-      },
-      "brute": {
-        "credentials": []
-      },
-      "exploit": {
-        "exploits": [],
-        "sessions": []
-      },
-      "postexploit": {},
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/docs": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/vulnerabilities": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/config": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/vulnerabilities/sqli/index.php": {
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "eeeaf34b3d6953a6e47081a205aa11b9"
-            }
-          }
-        ]
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/logout.php": {
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "20dbde731182bd88af7cd8a3dc3a9adc"
-            }
-          }
-        ]
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "127.0.0.1/DVWA/vulnerabilities/sqli/": {
-      "gobuster": {
-        "paths": [
-          "/index.php",
-          "/help",
-          "/test.php",
-          "/source"
-        ]
-      },
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "3d8e9552c3d6de9b3316acd13e52834c"
-            }
-          }
-        ]
-      },
-      "brute": {
-        "credentials": []
-      },
-      "exploit": {
-        "exploits": [],
-        "sessions": []
-      },
-      "postexploit": {},
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/vulnerabilities/sqli/help": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "127.0.0.1/DVWA/": {
-      "gobuster": {
-        "paths": [
-          "/security.php",
-          "/login.php",
-          "/docs",
-          "/tests",
-          "/index.php",
-          "/database",
-          "/external",
-          "/logout.php",
-          "/config",
-          "/setup.php",
-          "/about.php",
-          "/vulnerabilities",
-          "/instructions.php",
-          "/phpinfo.php"
-        ]
-      },
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "c0e5c72eb4a09a2be80a28e4c6ca1628"
-            }
-          }
-        ]
-      },
-      "brute": {
-        "credentials": []
-      },
-      "exploit": {
-        "exploits": [],
-        "sessions": []
-      },
-      "postexploit": {},
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/security.php": {
-      "form_discovery": {
-        "forms": [
-          {
-            "action": "login.php",
-            "method": "post",
-            "fields": {
-              "username": "",
-              "password": "",
-              "Login": "Login",
-              "user_token": "68a1c161f58cd2c31a4e1c3d6194b638"
-            }
-          }
-        ]
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    },
-    "http://127.0.0.1/DVWA/instructions.php": {
-      "form_discovery": {
-        "forms": []
-      },
-      "analysis": {
-        "by_tool": {},
-        "combined_severity": 0
-      }
-    }
-  }
+  "targets": {}
 }

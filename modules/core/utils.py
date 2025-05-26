@@ -1,3 +1,29 @@
+from pymetasploit3.msfrpc import MsfRpcClient
+
+def get_ip(target):
+    import re
+    m = re.match(r'(?:https?://)?([\d\.]+)', target)
+    return m.group(1) if m else target
+
+def update_metasploit_sessions(config, logger=None):
+    msfrpc_pass = config.get("msfrpc_password", "workplease")
+    msfrpc_host = config.get("msfrpc_host", "127.0.0.1")
+    msfrpc_port = config.get("msfrpc_port", 55553)
+    client = MsfRpcClient(msfrpc_pass, server=msfrpc_host, port=msfrpc_port)
+
+    session_map = {}
+    for sid, session in client.sessions.list.items():
+        # Extract target IP or hostname from session info (host, etc)
+        target = session.get("target_host") or session.get("session_host") or session.get("tunnel_peer")
+        if target:
+            # Remove port from tunnel_peer if present
+            if ":" in target:
+                target = target.split(":")[0]
+            session_map.setdefault(target, []).append(sid)
+    config["metasploit_sessions"] = session_map
+    if logger:
+        logger.info(f"[Pipeline] Updated Meterpreter sessions: {session_map}")
+
 def should_skip_sqlmap_form(action_url: str, form: dict) -> bool:
         """
         Returns True if a form should NOT be scanned by SQLMap.
@@ -20,7 +46,13 @@ def should_skip_sqlmap_form(action_url: str, form: dict) -> bool:
         return False
 
 def safe_filename(target: str) -> str:
-    return target.replace('://', '_').replace(':', '_').replace('/', '_')
+    return target.replace('://', '_').replace(':', '_').replace('/', '_').replace('.', '_')
+
+def is_plain_host(target):
+            # Accepts only hostnames or IPs, not URLs or paths
+            import re
+            # Must NOT contain '/', must be just word/number/dot/hyphen
+            return re.match(r'^[a-zA-Z0-9.\-]+$', target) is not None
 
 def safe_target_path(target: str, path: str = "") -> str:
     """

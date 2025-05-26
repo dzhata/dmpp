@@ -9,14 +9,14 @@ from modules.core.session_manager  import SessionManager
 from modules.core.pipeline         import Pipeline
 
 from modules.drivers.discovery.nmap_driver              import NmapDriver
-from modules.drivers.discovery.dirb_driver              import DirbDriver
 from modules.drivers.discovery.gobuster_driver          import GobusterDriver
 from modules.drivers.exploitation.auth_driver           import AuthDriver
 from modules.drivers.discovery.form_discovery           import FormDiscoveryDriver
 from modules.drivers.brute.hydra_http_driver            import HydraHttpDriver
 from modules.drivers.vuln.sqlmap_driver                 import SQLMapDriver
 from modules.drivers.brute.hydra_driver                 import HydraDriver
-from modules.drivers.exploitation.metasploitable_driver import MetasploitDriver
+from modules.drivers.exploitation.metasploit_manager    import MetasploitManager
+from modules.drivers.post_exploit.deliviry_driver       import DeliveryDriver
 from modules.drivers.post_exploit.empire_driver         import EmpireDriver
 
 
@@ -45,14 +45,15 @@ def interactive_main():
     logger      = setup_logging(log_path)
     session_mgr = SessionManager()
     drivers = {
-        "discovery":     NmapDriver,     # ← class!
+        #"discovery":     NmapDriver,     # ← class!
         "auth":          AuthDriver,
-        "gobuster":      GobusterDriver,
-        "form_discovery":FormDiscoveryDriver,
-        "hydra_http":    HydraHttpDriver,
-        "sqlmap":        SQLMapDriver,
-        "brute":         HydraDriver,
-        "exploit":       MetasploitDriver,
+        #"gobuster":      GobusterDriver,
+        #"form_discovery":FormDiscoveryDriver,
+        #"hydra_http":    HydraHttpDriver,
+        #"brute":         HydraDriver,
+        #"sqlmap":        SQLMapDriver,
+        "exploit":       MetasploitManager,
+        "delivery":      DeliveryDriver,
         "postexploit":   EmpireDriver,
         # …other drivers…
     }

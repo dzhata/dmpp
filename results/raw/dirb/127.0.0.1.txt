@@ -1,4 +1,0 @@
-/index.html           (Status: 200) [Size: 10701]
-/users                (Status: 200) [Size: 703334]
-/javascript           (Status: 301) [Size: 311] [--> http://127.0.0.1/javascript/]
-/server-status        (Status: 200) [Size: 33113]

@@ -1,4 +1,0 @@
-/index.php            (Status: 200) [Size: 1342]
-/help                 (Status: 200) [Size: 1009]
-/test.php             (Status: 500) [Size: 0]
-/source               (Status: 200) [Size: 1618]

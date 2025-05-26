@@ -1,30 +1,30 @@
         ___
        __H__
  ___ ___[.]_____ ___ ___  {1.9.2#stable}
-|_ -| . [']     | .'| . |
-|___|_  [.]_|_|_|__,|  _|
+|_ -| . [(]     | .'| . |
+|___|_  [,]_|_|_|__,|  _|
       |_|V...       |_|   https://sqlmap.org
 
 [!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not responsible for any misuse or damage caused by this program
 
-[*] starting @ 10:31:13 /2025-05-22/
+[*] starting @ 12:18:32 /2025-05-25/
 
-[10:31:13] [DEBUG] cleaning up configuration parameters
-[10:31:13] [DEBUG] setting the HTTP timeout
-[10:31:13] [DEBUG] setting the HTTP User-Agent header
-[10:31:13] [DEBUG] creating HTTP requests opener object
+[12:18:32] [DEBUG] cleaning up configuration parameters
+[12:18:32] [DEBUG] setting the HTTP timeout
+[12:18:32] [DEBUG] setting the HTTP User-Agent header
+[12:18:32] [DEBUG] creating HTTP requests opener object
 do you want to check for the existence of site's sitemap(.xml) [y/N] N
-[10:31:13] [DEBUG] used the default behavior, running in batch mode
-[10:31:13] [INFO] starting crawler for target URL 'http://127.0.0.1/DVWA/vulnerabilities/sqli/login.php'
-[10:31:13] [INFO] searching for links with depth 1
-[10:31:13] [DEBUG] declared web page charset 'iso-8859-1'
-[10:31:13] [DEBUG] page not found (404)
-[10:31:13] [DEBUG] declared web page charset 'utf-8'
-[10:31:13] [INFO] searching for links with depth 2
+[12:18:32] [DEBUG] used the default behavior, running in batch mode
+[12:18:32] [INFO] starting crawler for target URL 'http://127.0.0.1/DVWA/vulnerabilities/login.php'
+[12:18:32] [INFO] searching for links with depth 1
+[12:18:32] [DEBUG] declared web page charset 'utf-8'
+[12:18:32] [DEBUG] declared web page charset 'iso-8859-1'
+[12:18:32] [DEBUG] page not found (404)
+[12:18:32] [INFO] searching for links with depth 2
 please enter number of threads? [Enter for 1 (current)] 1
-[10:31:13] [DEBUG] used the default behavior, running in batch mode
-[10:31:13] [WARNING] running in a single-thread mode. This could take a while
-[10:31:14] [WARNING] no usable links found (with GET parameters)
+[12:18:32] [DEBUG] used the default behavior, running in batch mode
+[12:18:32] [WARNING] running in a single-thread mode. This could take a while
+[12:18:33] [WARNING] no usable links found (with GET parameters)
 
-[*] ending @ 10:31:14 /2025-05-22/
+[*] ending @ 12:18:33 /2025-05-25/
 
