@@ -1,6 +1,6 @@
 {
   "report_metadata": {
-    "generated_at": "2025-05-26T00:57:33.948747Z",
+    "generated_at": "2025-05-26T16:50:45.811846Z",
     "config": {
       "#": "=== Authentication Settings ===",
       "targets_file": "config/targets.txt",
@@ -97,7 +97,18 @@
           1
         ]
       },
-      "empire_api_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbXBpcmVhZG1pbiIsImV4cCI6MTc0ODMwNzQ0NX0.Dr0JJvui5aQghZDxgbg27nCopXst0ghG6-JmFalnMaw"
+      "metasploit_session_details": {
+        "192.168.56.103": [
+          {
+            "session_id": 1,
+            "exploit": "168",
+            "rc_file": "modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc",
+            "out_file": "results/raw/metasploit/192_168_56_103_samba.rc.txt",
+            "session_type": "Command shell"
+          }
+        ]
+      },
+      "empire_api_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlbXBpcmVhZG1pbiIsImV4cCI6MTc0ODM2NDY0MX0.TsmCw_OEl6klM0QHReYV8gxP-XIW0NvKEgKjttXXiWk"
     }
   },
   "summary": {

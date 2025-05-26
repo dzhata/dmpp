@@ -1,13 +1,13 @@
 import os
 import json
 import sys
+import logging
 from pathlib import Path
 from typing import Any
 
 from modules.core.logger           import setup_logging
 from modules.core.session_manager  import SessionManager
 from modules.core.pipeline         import Pipeline
-
 from modules.drivers.discovery.nmap_driver              import NmapDriver
 from modules.drivers.discovery.gobuster_driver          import GobusterDriver
 from modules.drivers.exploitation.auth_driver           import AuthDriver
@@ -42,7 +42,7 @@ def interactive_main():
 
     # 2) Prepare logging, sessions, pipeline
     log_path    = config.get("log_file", "results/logs/pipeline.log")
-    logger      = setup_logging(log_path)
+    logger = setup_logging(log_path, logging.DEBUG)
     session_mgr = SessionManager()
     drivers = {
         #"discovery":     NmapDriver,     # ← class!

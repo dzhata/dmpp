@@ -1,0 +1,493 @@
+2025-05-25 22:52:50,240 INFO [pentest] Launching full pipeline
+2025-05-25 22:52:50,240 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-25 22:52:50,240 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-25 22:52:50,240 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-25 22:52:50,240 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-25 22:52:50,241 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-25 22:53:29,575 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 22:53:29,585 ERROR [pentest] Error during full scan
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+        (self._dns_host, self.port),
+    ...<2 lines>...
+        socket_options=self.socket_options,
+    )
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 85, in create_connection
+    raise err
+  File "/usr/lib/python3/dist-packages/urllib3/util/connection.py", line 73, in create_connection
+    sock.connect(sa)
+    ~~~~~~~~~~~~^^^^
+ConnectionRefusedError: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 493, in _make_request
+    conn.request(
+    ~~~~~~~~~~~~^
+        method,
+        ^^^^^^^
+    ...<6 lines>...
+        enforce_content_length=enforce_content_length,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 445, in request
+    self.endheaders()
+    ~~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3.13/http/client.py", line 1333, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/http/client.py", line 1093, in _send_output
+    self.send(msg)
+    ~~~~~~~~~^^^^^
+  File "/usr/lib/python3.13/http/client.py", line 1037, in send
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 276, in connect
+    self.sock = self._new_conn()
+                ~~~~~~~~~~~~~~^^
+  File "/usr/lib/python3/dist-packages/urllib3/connection.py", line 213, in _new_conn
+    raise NewConnectionError(
+        self, f"Failed to establish a new connection: {e}"
+    ) from e
+urllib3.exceptions.NewConnectionError: <urllib3.connection.HTTPConnection object at 0x7fc6ceac2270>: Failed to establish a new connection: [Errno 111] Connection refused
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/usr/lib/python3/dist-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/usr/lib/python3/dist-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=1337): Max retries exceeded with url: /token (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fc6ceac2270>: Failed to establish a new connection: [Errno 111] Connection refused'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kali/dmpp/main.py", line 80, in interactive_main
+    pipeline.run_full(targets)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/kali/dmpp/modules/core/pipeline.py", line 282, in run_full
+    self.run_stage("postexploit", session_targets)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/dmpp/modules/core/pipeline.py", line 63, in run_stage
+    driver = driver_cls(self.config, self.session_mgr, self.logger)
+  File "/home/kali/dmpp/modules/drivers/post_exploit/empire_driver.py", line 107, in __init__
+    self.token = get_empire_token(
+                 ~~~~~~~~~~~~~~~~^
+        self.host_url,
+        ^^^^^^^^^^^^^^
+        config["empire_username"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        config["empire_password"]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/kali/dmpp/modules/drivers/post_exploit/empire_api.py", line 19, in get_empire_token
+    resp = requests.post(url, headers=headers, data=data, timeout=10, verify=False)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 115, in post
+    return request("post", url, data=data, json=json, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python3/dist-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python3/dist-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPConnectionPool(host='127.0.0.1', port=1337): Max retries exceeded with url: /token (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x7fc6ceac2270>: Failed to establish a new connection: [Errno 111] Connection refused'))
+2025-05-25 22:58:27,251 INFO [pentest] Launching full pipeline
+2025-05-25 22:58:27,259 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-25 22:58:27,262 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-25 22:58:27,262 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-25 22:58:27,263 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-25 22:58:27,267 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-25 22:58:50,440 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 22:58:51,039 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 22:58:51,039 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 22:58:51,083 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-25 22:58:51,084 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 22:58:52,084 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 22:58:55,187 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-25 22:58:55,188 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 22:58:55,207 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 22:58:55,207 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 22:58:55,240 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-25 22:58:55,240 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 22:58:56,244 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 22:58:59,303 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-25 22:58:59,314 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-25 22:58:59,314 INFO [pentest] Final report written to results/final_report.json
+2025-05-25 22:58:59,314 INFO [pentest] Full scan completed successfully
+2025-05-25 23:07:59,986 INFO [pentest] Launching full pipeline
+2025-05-25 23:07:59,994 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-25 23:07:59,994 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-25 23:07:59,995 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-25 23:07:59,996 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-25 23:07:59,999 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-25 23:08:29,229 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:08:29,558 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:08:29,559 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:08:29,598 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-25 23:08:29,599 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:08:30,600 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 23:08:30,636 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 23:08:30,649 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-25 23:08:30,653 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:08:30,665 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:08:30,666 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:08:30,693 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-25 23:08:30,699 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:08:31,700 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 23:08:31,739 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 23:08:31,747 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-25 23:08:31,752 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-25 23:08:31,753 INFO [pentest] Final report written to results/final_report.json
+2025-05-25 23:08:31,753 INFO [pentest] Full scan completed successfully
+2025-05-25 23:11:26,235 INFO [pentest] Launching full pipeline
+2025-05-25 23:11:26,235 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-25 23:11:26,236 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-25 23:11:26,236 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-25 23:11:26,236 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-25 23:11:26,236 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-25 23:11:52,002 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:11:52,257 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:11:52,258 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:11:52,287 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-25 23:11:52,291 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:11:53,292 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 23:11:56,354 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-25 23:11:56,354 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:11:56,369 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:11:56,369 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:11:56,410 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-25 23:11:56,410 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:11:57,411 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-25 23:12:00,457 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-25 23:12:00,458 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-25 23:12:00,458 INFO [pentest] Final report written to results/final_report.json
+2025-05-25 23:12:00,458 INFO [pentest] Full scan completed successfully
+2025-05-25 23:13:37,340 INFO [pentest] Launching full pipeline
+2025-05-25 23:13:37,340 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-25 23:13:37,340 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-25 23:13:37,340 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-25 23:13:37,340 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-25 23:13:37,341 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-25 23:13:59,928 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:14:00,186 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:14:00,186 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:14:00,224 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-25 23:14:00,224 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:14:01,227 INFO [pentest] [EmpireDriver] Requesting stager 'http' for listener 'Metaploitable2'
+2025-05-25 23:14:01,237 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-25 23:14:01,238 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:14:01,252 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:14:01,252 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:14:01,265 INFO [pentest] [EmpireDriver] Stager 'autostager_192.168.56.103' not found, nothing to delete.
+2025-05-25 23:14:01,267 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:14:02,268 INFO [pentest] [EmpireDriver] Requesting stager 'http' for listener 'Metaploitable2'
+2025-05-25 23:14:02,281 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-25 23:14:02,283 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-25 23:14:02,283 INFO [pentest] Final report written to results/final_report.json
+2025-05-25 23:14:02,283 INFO [pentest] Full scan completed successfully
+2025-05-25 23:17:03,542 INFO [pentest] Launching full pipeline
+2025-05-25 23:17:03,543 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-25 23:17:03,543 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-25 23:17:03,543 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-25 23:17:03,543 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-25 23:17:03,544 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-25 23:17:26,197 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:17:26,431 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:17:26,431 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:17:26,439 INFO [pentest] [EmpireDriver] Stager 'autostager_192.168.56.103' not found, nothing to delete.
+2025-05-25 23:17:26,442 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:17:27,443 INFO [pentest] [EmpireDriver] Requesting stager 'http' for listener 'Metaploitable2'
+2025-05-25 23:17:27,457 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-25 23:17:27,458 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-25 23:17:27,467 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-25 23:17:27,467 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-25 23:17:27,479 INFO [pentest] [EmpireDriver] Stager 'autostager_192.168.56.103' not found, nothing to delete.
+2025-05-25 23:17:27,479 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-25 23:17:28,479 INFO [pentest] [EmpireDriver] Requesting stager 'http' for listener 'Metaploitable2'
+2025-05-25 23:17:28,496 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-25 23:17:28,500 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-25 23:17:28,501 INFO [pentest] Final report written to results/final_report.json
+2025-05-25 23:17:28,501 INFO [pentest] Full scan completed successfully
+2025-05-26 06:10:34,262 INFO [pentest] Launching full pipeline
+2025-05-26 06:10:34,263 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 06:10:34,263 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 06:10:34,263 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 06:10:34,263 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 06:10:34,270 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 06:10:59,290 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 06:10:59,532 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 06:10:59,533 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 06:10:59,538 INFO [pentest] [EmpireDriver] Stager 'autostager_192.168.56.103' not found, nothing to delete.
+2025-05-26 06:10:59,539 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 06:11:00,543 INFO [pentest] [EmpireDriver] Requesting stager 'http' for listener 'Metaploitable2'
+2025-05-26 06:11:00,544 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "http"}
+2025-05-26 06:11:00,552 DEBUG [pentest] [EmpireDriver] Empire API response: 400 {"detail":"Stager Template http not found"}
+2025-05-26 06:11:00,552 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-26 06:11:00,553 DEBUG [pentest] [postexploit] Parsed data for 192.168.56.103: {'status': 'Stager deployed'}
+2025-05-26 06:11:00,553 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 06:11:00,566 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 06:11:00,566 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 06:11:00,578 INFO [pentest] [EmpireDriver] Stager 'autostager_192.168.56.103' not found, nothing to delete.
+2025-05-26 06:11:00,579 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 06:11:01,582 INFO [pentest] [EmpireDriver] Requesting stager 'http' for listener 'Metaploitable2'
+2025-05-26 06:11:01,583 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "http"}
+2025-05-26 06:11:01,594 DEBUG [pentest] [EmpireDriver] Empire API response: 400 {"detail":"Stager Template http not found"}
+2025-05-26 06:11:01,594 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-26 06:11:01,595 DEBUG [pentest] [postexploit] Parsed data for 192.168.56.103: {'status': 'Stager deployed'}
+2025-05-26 06:11:01,596 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 06:11:01,596 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 06:11:01,598 INFO [pentest] Full scan completed successfully
+2025-05-26 06:28:21,347 INFO [pentest] Launching full pipeline
+2025-05-26 06:28:21,347 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 06:28:21,347 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 06:28:21,348 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 06:28:21,348 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 06:28:21,348 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 06:28:44,440 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 06:28:44,679 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 06:28:44,679 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 06:28:44,692 INFO [pentest] [EmpireDriver] Stager 'autostager_192.168.56.103' not found, nothing to delete.
+2025-05-26 06:28:44,692 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 06:28:45,694 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 06:28:45,695 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 06:28:45,724 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":1007,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":1007,"filename":"2daa2447-3d82-4844-9ee4-94f648765fcc.txt","link":"/api/v2/downloads/1007/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 06:28:48,745 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 06:28:48,745 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 06:28:48,759 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 06:28:48,759 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 06:28:48,796 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 06:28:48,796 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 06:28:49,797 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 06:28:49,798 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 06:28:49,838 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":1008,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":1008,"filename":"35c8e593-9b23-4091-a040-89e0e82d4f1c.txt","link":"/api/v2/downloads/1008/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 06:28:52,869 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 06:28:52,871 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 06:28:52,871 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 06:28:52,871 INFO [pentest] Full scan completed successfully
+2025-05-26 06:39:36,968 INFO [pentest] Launching full pipeline
+2025-05-26 06:39:36,982 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 06:39:36,983 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 06:39:36,983 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 06:39:36,983 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 06:39:36,993 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 06:40:01,772 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 06:40:02,070 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 06:40:02,070 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 06:40:02,113 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 06:40:02,114 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 06:40:03,730 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 06:40:03,731 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 06:40:03,971 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":2001,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":2001,"filename":"8addc33e-4b1e-4802-908a-6a5439a43841.txt","link":"/api/v2/downloads/2001/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 06:40:07,402 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 06:40:07,402 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 06:40:07,419 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 06:40:07,420 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 06:40:07,437 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 06:40:07,438 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 06:40:08,439 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 06:40:08,439 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 06:40:08,463 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":2002,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":2002,"filename":"71c16f54-37ff-4911-8b29-2ce892bf2aff.txt","link":"/api/v2/downloads/2002/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 06:40:11,535 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 06:40:11,547 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 06:40:11,547 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 06:40:11,547 INFO [pentest] Full scan completed successfully
+2025-05-26 07:02:54,005 INFO [pentest] Launching full pipeline
+2025-05-26 07:02:54,008 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 07:02:54,008 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 07:02:54,008 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 07:02:54,008 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 07:02:54,020 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 07:05:54,044 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 07:05:54,073 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 07:05:54,403 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 07:05:54,411 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 07:05:54,476 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 07:05:54,476 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 07:05:55,477 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 07:05:55,478 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 07:05:55,560 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":3001,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":3001,"filename":"cdb22736-a5b0-43e2-b751-05ff21831fed.txt","link":"/api/v2/downloads/3001/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 07:05:58,689 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 07:05:58,689 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 07:05:58,707 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 07:05:58,707 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 07:05:58,731 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 07:05:58,732 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 07:05:59,739 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 07:05:59,739 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 07:05:59,767 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":3002,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":3002,"filename":"b17e420f-4180-4913-9a22-487d63dbd48d.txt","link":"/api/v2/downloads/3002/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 07:06:02,790 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 07:06:02,804 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 07:06:02,805 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 07:06:02,805 INFO [pentest] Full scan completed successfully
+2025-05-26 09:03:18,751 INFO [pentest] Launching full pipeline
+2025-05-26 09:03:18,751 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 09:03:18,752 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 09:03:18,752 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 09:03:18,753 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 09:03:18,753 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 09:06:18,782 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 09:06:18,792 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 09:06:19,193 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 09:06:19,193 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 09:06:19,263 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 09:06:19,264 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 09:06:20,265 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 09:06:20,265 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 09:06:20,346 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":3003,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":3003,"filename":"6283bfdd-6d04-4945-bcaa-9d8bc97ea29a.txt","link":"/api/v2/downloads/3003/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 09:06:23,384 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 09:06:23,390 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 09:06:23,390 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 09:06:23,390 INFO [pentest] Full scan completed successfully
+2025-05-26 09:17:20,841 INFO [pentest] Launching full pipeline
+2025-05-26 09:17:20,842 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 09:17:20,842 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 09:17:20,842 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 09:17:20,842 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 09:17:20,843 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 09:20:20,879 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 09:20:20,880 INFO [pentest] Targets with sessions for post-exploitation: []
+2025-05-26 09:20:20,883 WARNING [pentest] Skipping post-exploitation; no sessions found.
+2025-05-26 09:20:20,885 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 09:20:20,886 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 09:20:20,886 INFO [pentest] Full scan completed successfully
+2025-05-26 09:35:59,332 INFO [pentest] Launching full pipeline
+2025-05-26 09:35:59,332 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 09:35:59,332 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 09:35:59,333 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 09:35:59,333 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 09:35:59,333 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 09:38:59,369 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 09:38:59,380 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 09:38:59,644 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 09:38:59,644 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 09:38:59,671 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 09:38:59,675 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 09:39:00,677 INFO [pentest] [EmpireDriver] Requesting stager 'multi_launcher' for listener 'Metaploitable2'
+2025-05-26 09:39:00,677 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "multi_launcher"}
+2025-05-26 09:39:00,716 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":3004,"name":"autostager_192.168.56.103","template":"multi_launcher","one_liner":true,"downloads":[{"id":3004,"filename":"1b2ad9b3-d4cc-4738-8022-7c737819abf2.txt","link":"/api/v2/downloads/3004/download"}],"options":{"Listener":"Metaploitable2","Language":"powershell","StagerRetries":"0","OutFile":"","Base64":"True","Obfuscate":"False","ObfuscateCommand":"","SafeChecks":"True","UserAgent":"default","Proxy":"default","ProxyCreds":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26
+2025-05-26 09:39:03,755 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 09:39:03,757 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 09:39:03,759 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 09:39:03,759 INFO [pentest] Full scan completed successfully
+2025-05-26 11:09:01,723 INFO [pentest] Launching full pipeline
+2025-05-26 11:09:01,723 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 11:09:01,723 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 11:09:01,726 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 11:09:01,728 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 11:09:01,728 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 11:12:01,767 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 11:12:01,779 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 11:12:02,036 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 11:12:02,038 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 11:12:02,095 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 11:12:02,096 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 11:12:03,097 INFO [pentest] [EmpireDriver] Requesting stager 'linux_bash' for listener 'Metaploitable2'
+2025-05-26 11:12:03,098 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "powershell", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "linux_bash"}
+2025-05-26 11:12:03,111 DEBUG [pentest] [EmpireDriver] Empire API response: 400 {"detail":"Language must be set to one of the suggested values."}
+2025-05-26 11:12:03,111 ERROR [pentest] [EmpireDriver] API error: 400 Client Error: Bad Request for url: http://127.0.0.1:1337/api/v2/stagers/
+2025-05-26 11:12:03,112 DEBUG [pentest] [postexploit] Parsed data for 192.168.56.103: {'status': 'Stager deployed'}
+2025-05-26 11:12:03,119 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 11:12:03,119 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 11:12:03,119 INFO [pentest] Full scan completed successfully
+2025-05-26 11:43:19,581 INFO [pentest] Launching full pipeline
+2025-05-26 11:43:19,581 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 11:43:19,581 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 11:43:19,582 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 11:43:19,582 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 11:43:19,583 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 11:46:19,623 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 11:46:19,631 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 11:46:19,887 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 11:46:19,888 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 11:46:19,897 INFO [pentest] [EmpireDriver] Stager 'autostager_192.168.56.103' not found, nothing to delete.
+2025-05-26 11:46:19,899 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 11:46:20,900 INFO [pentest] [EmpireDriver] Requesting stager 'linux_bash' for listener 'Metaploitable2'
+2025-05-26 11:46:20,900 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "python", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "linux_bash"}
+2025-05-26 11:46:20,939 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":3006,"name":"autostager_192.168.56.103","template":"linux_bash","one_liner":true,"downloads":[{"id":3006,"filename":"d7b3a813-1ce9-4622-95f3-9fcdad102513.txt","link":"/api/v2/downloads/3006/download"}],"options":{"Listener":"Metaploitable2","Language":"python","OutFile":"","SafeChecks":"True","UserAgent":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26T15:46:20Z","updated_at":"2025-05-26T15:46:20Z"}
+2025-05-26 11:46:23,982 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 11:46:23,987 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 11:46:23,987 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 11:46:23,988 INFO [pentest] Full scan completed successfully
+2025-05-26 11:58:14,189 INFO [pentest] Launching full pipeline
+2025-05-26 11:58:14,192 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 11:58:14,193 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 11:58:14,193 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 11:58:14,193 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 11:58:14,194 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 12:01:14,235 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 12:01:14,240 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 12:01:14,242 ERROR [pentest] Error during full scan
+Traceback (most recent call last):
+  File "/home/kali/dmpp/main.py", line 80, in interactive_main
+    pipeline.run_full(targets)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/kali/dmpp/modules/core/pipeline.py", line 287, in run_full
+    self.run_stage("postexploit", session_targets)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kali/dmpp/modules/core/pipeline.py", line 63, in run_stage
+    driver = driver_cls(self.config, self.session_mgr, self.logger)
+  File "/home/kali/dmpp/modules/drivers/post_exploit/empire_driver.py", line 104, in __init__
+    self.delivery_driver = DeliveryDriver(config, session_mgr, logger)
+                           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Can't instantiate abstract class DeliveryDriver without an implementation for abstract method 'parse'
+2025-05-26 12:01:35,919 INFO [pentest] Launching full pipeline
+2025-05-26 12:01:35,920 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 12:01:35,922 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 12:01:35,922 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 12:01:35,922 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 12:01:35,923 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 12:04:35,957 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 12:04:35,958 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 12:04:36,224 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 12:04:36,224 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 12:04:36,269 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 12:04:36,271 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 12:04:37,276 INFO [pentest] [EmpireDriver] Requesting stager 'linux_bash' for listener 'Metaploitable2'
+2025-05-26 12:04:37,276 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "python", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "linux_bash"}
+2025-05-26 12:04:37,313 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":3007,"name":"autostager_192.168.56.103","template":"linux_bash","one_liner":true,"downloads":[{"id":3007,"filename":"cf6c4b92-2a04-43c6-a1dd-7b4cbce030b3.txt","link":"/api/v2/downloads/3007/download"}],"options":{"Listener":"Metaploitable2","Language":"python","OutFile":"","SafeChecks":"True","UserAgent":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26T16:04:37Z","updated_at":"2025-05-26T16:04:37Z"}
+2025-05-26 12:04:40,355 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 12:04:40,361 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 12:04:40,362 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 12:04:40,362 INFO [pentest] Full scan completed successfully
+2025-05-26 12:47:41,254 INFO [pentest] Launching full pipeline
+2025-05-26 12:47:41,264 WARNING [pentest] No driver for stage 'discovery', skipping.
+2025-05-26 12:47:41,265 WARNING [pentest] No driver for stage 'gobuster', skipping.
+2025-05-26 12:47:41,265 WARNING [pentest] No driver for stage 'form_discovery', skipping.
+2025-05-26 12:47:41,265 WARNING [pentest] No driver for stage 'brute', skipping.
+2025-05-26 12:47:41,267 INFO [pentest] [MetasploitManager] Running modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 12:50:41,303 ERROR [pentest] [MetasploitManager] Timeout on modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc
+2025-05-26 12:50:41,314 INFO [pentest] Targets with sessions for post-exploitation: ['192.168.56.103']
+2025-05-26 12:50:41,678 INFO [pentest] [postexploit] Starting target 192.168.56.103
+2025-05-26 12:50:41,678 INFO [pentest] [EmpireDriver] Checking for existing stager 'autostager_192.168.56.103' to delete.
+2025-05-26 12:50:41,726 INFO [pentest] [EmpireDriver] Delete response status: 204
+2025-05-26 12:50:41,726 INFO [pentest] [EmpireDriver] Deleted existing stager 'autostager_192.168.56.103' (if any).
+2025-05-26 12:50:42,728 INFO [pentest] [EmpireDriver] Requesting stager 'linux_bash' for listener 'Metaploitable2'
+2025-05-26 12:50:42,728 DEBUG [pentest] [EmpireDriver] POST payload: {"name": "autostager_192.168.56.103", "options": {"Base64": "True", "Bypasses": "", "Language": "python", "Listener": "Metaploitable2", "Obfuscate": "False", "ObfuscateCommand": "", "OutFile": "", "Proxy": "default", "ProxyCreds": "default", "SafeChecks": "True", "StagerRetries": "0", "UserAgent": "default"}, "template": "linux_bash"}
+2025-05-26 12:50:42,770 DEBUG [pentest] [EmpireDriver] Empire API response: 201 {"id":3008,"name":"autostager_192.168.56.103","template":"linux_bash","one_liner":true,"downloads":[{"id":3008,"filename":"7f29e6b0-41b1-4355-84fe-a0458ea37f09.txt","link":"/api/v2/downloads/3008/download"}],"options":{"Listener":"Metaploitable2","Language":"python","OutFile":"","SafeChecks":"True","UserAgent":"default","Bypasses":""},"user_id":1,"created_at":"2025-05-26T16:50:42Z","updated_at":"2025-05-26T16:50:42Z"}
+2025-05-26 12:50:45,808 ERROR [pentest] [postexploit] Failed on 192.168.56.103: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
+2025-05-26 12:50:45,817 INFO [pentest] [ReportGenerator] Final report saved to results/final_report.json
+2025-05-26 12:50:45,817 INFO [pentest] Final report written to results/final_report.json
+2025-05-26 12:50:45,818 INFO [pentest] Full scan completed successfully

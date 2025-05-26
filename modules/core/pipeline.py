@@ -9,7 +9,7 @@ from modules.core.driver import DriverResult, ParsedResult
 from modules.core.logger import setup_logging
 from modules.core.session_manager import SessionManager
 from modules.drivers.exploitation.metasploit_manager import MetasploitManager, generate_per_exploit_rcs,clean_rc_dir
-from modules.core.utils import should_skip_sqlmap_form,safe_filename, is_plain_host,update_metasploit_sessions
+from modules.core.utils import should_skip_sqlmap_form,safe_filename,get_ip, is_plain_host,update_metasploit_sessions
 
 class Pipeline:
     """
@@ -245,51 +245,49 @@ class Pipeline:
 
         # -- Run all exploits (writes output files) --
         msf_manager.run_all()
-        for out_file in glob.glob(os.path.join(output_dir, "*.txt")):
-            print("[DEBUG] About to parse:", out_file)
-            with open(out_file) as f:
-                print("[DEBUG] First 10 lines of file:")
-                for i, line in enumerate(f):
-                    print(line.rstrip())
-                    if i > 10:
-                        break
+
+        # --- Map: { target_ip: [ {session_id, exploit, rc_file, out_file} ] } ---
+        detailed_sessions_map = {}
+
+        for rc_file in rc_files:
+            exploit_name = os.path.basename(rc_file).split("_")[1]  # crude: 192_168_56_101_samba.rc → samba
+            out_file = os.path.join(output_dir, os.path.basename(rc_file) + ".txt")
             sessions = msf_manager.parse_sessions_from_output(out_file)
-            print("[DEBUG] Sessions parsed:", sessions)
-        # -- Parse session map from Metasploit outputs --
-        sessions_map = msf_manager.monitor_sessions(stop_on_session=False)
+            for sess in sessions:
+                target_ip = sess["rhost"]
+                detailed = {
+                    "session_id": sess["id"],
+                    "exploit": exploit_name,
+                    "rc_file": rc_file,
+                    "out_file": out_file,
+                    "session_type": sess["type"],
+                }
+                detailed_sessions_map.setdefault(target_ip, []).append(detailed)
 
-        # -- Debug: Show session map and match keys --
-        def get_ip(target):
-            import re
-            m = re.match(r'(?:https?://)?([\d\.]+)', target)
-            return m.group(1) if m else target
+        print("[DEBUG] Detailed Metasploit session map:", json.dumps(detailed_sessions_map, indent=2))
 
-        print("[DEBUG] Metasploit sessions_map:", sessions_map)
-        print("[DEBUG] pipeline targets:", targets)
-        print("[DEBUG] session_map keys:", list(sessions_map.keys()))
+        # -- Build simplified map for post-ex stages and session_targets list --
+        session_targets = []
+        simple_sessions_map = {}
+        for t in targets:
+            ip = get_ip(t)
+            if ip in detailed_sessions_map:
+                session_targets.append(t)
+                # Keep only session_ids (old format)
+                simple_sessions_map[ip] = [entry["session_id"] for entry in detailed_sessions_map[ip]]
 
-        # -- Normalize targets for post-exploitation --
-        session_targets = [t for t in targets if sessions_map.get(get_ip(t))]
         self.logger.info(f"Targets with sessions for post-exploitation: {session_targets}")
 
-        if sessions_map:
-            self.config["metasploit_sessions"] = sessions_map
-        else:
-            self.logger.warning("No sessions discovered by MetasploitManager.")
+        # Save both maps for downstream use (EmpireDriver/DeliveryDriver may want exploit info)
+        self.config["metasploit_sessions"] = simple_sessions_map
+        self.config["metasploit_session_details"] = detailed_sessions_map
 
-        # 8) Post
         if session_targets:
+            # Pass extra context for post-exploitation if needed
             self.run_stage("postexploit", session_targets)
         else:
             self.logger.warning("Skipping post-exploitation; no sessions found.")
 
-        # 8) Post
-        session_targets = [t for t in targets if sessions_map.get(t)]  # <-- use sessions_map here!
-        self.logger.info(f"Targets with sessions for post-exploitation: {session_targets}")
-        if session_targets:
-            self.run_stage("postexploit", session_targets)
-        else:
-            self.logger.warning("Skipping post-exploitation; no sessions found.")
 
         # Generate report
         report_path = self.config.get("report_path", "results/final_report.json")
