@@ -45,13 +45,13 @@ def interactive_main():
     logger = setup_logging(log_path, logging.DEBUG)
     session_mgr = SessionManager()
     drivers = {
-        #"discovery":     NmapDriver,     # ← class!
+        "discovery":     NmapDriver,     # ← class!
         "auth":          AuthDriver,
-        #"gobuster":      GobusterDriver,
-        #"form_discovery":FormDiscoveryDriver,
-        #"hydra_http":    HydraHttpDriver,
-        #"brute":         HydraDriver,
-        #"sqlmap":        SQLMapDriver,
+        "gobuster":      GobusterDriver,
+        "form_discovery":FormDiscoveryDriver,
+        "hydra_http":    HydraHttpDriver,
+        "brute":         HydraDriver,
+        "sqlmap":        SQLMapDriver,
         "exploit":       MetasploitManager,
         "delivery":      DeliveryDriver,
         "postexploit":   EmpireDriver,
