@@ -1,3 +1,108 @@
+# DMPP
+
+A Python-based, modular penetration testing framework that automates the orchestration of industry-standard tools (Nmap, Gobuster, Hydra, SQLMap, Metasploit, Empire, etc.) for end-to-end assessments. Designed for CLI-first workflows, extensibility, and robust headless operation on Kali Linux.
+
+## Features
+
+- **Modular Architecture:** Easily extend or swap out tool drivers.
+- **Automated Pipeline:** Fully automated multi-stage pentest pipeline.
+- **Orchestrates Industry Tools:** Integrates Nmap, Hydra, SQLMap, Metasploit, Empire, etc.
+- **Real Reporting:** Aggregates raw and parsed results for real-world analysis.
+- **Session Management:** Tracks shells/creds/artifacts between tools for chained attacks.
+- **CLI-First:** Zero GUI dependencies; ideal for virtualized or remote ops.
+
+## Quick Start
+
+1. **Clone & Install**
+    ```sh
+    git clone https://github.com/dzhata/dmpp
+    cd dmpp
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+2. **Configure**
+    - Edit `config.yaml` with tool paths, creds, and environment variables.
+
+3. **Run Full Pipeline**
+    ```sh
+    python main.py --targets targets.txt --full
+    ```
+    - Or run stage-by-stage (see `--help`).
+
+4. **View Results**
+    - Raw tool outputs in `results/raw/`
+    - Aggregated/final reports in `results/reports/`
+
+## Tool Integration
+
+- **Nmap** – Host/port/vuln scan & parsing
+- **Gobuster** – Directory brute-force (optional)
+- **Hydra** – Auth brute-force with form/cookie handoff
+- **SQLMap** – Automated SQL injection after form discovery
+- **Metasploit** – Exploitation, shell delivery, output parsing
+- **Empire** – Post-exploitation, PowerShell/LinPE scripts
+
+## Extending
+
+- Add a new tool by creating a driver in `modules/`.
+- Register it in the pipeline (`automated_pentest.py`).
+- Write unit tests in `tests/`.
+
+## Requirements
+
+- **Python 3.8+**
+- **Kali Linux (recommended)**
+- External tools: nmap, hydra, sqlmap, msfconsole, Empire (see config for paths)
+
+## Notes
+
+- Designed for headless/CLI operation (VirtualBox/VM/cloud).
+- Raw logs and outputs are retained for auditing/replay.
+- Logging and error handling are critical: check logs for troubleshooting.
+
+## Third-Party Tools Notice
+
+This framework automates, integrates, and orchestrates a number of external penetration testing tools, including but not limited to:
+
+- Nmap (https://nmap.org/)
+- Hydra (https://github.com/vanhauser-thc/thc-hydra)
+- SQLMap (https://sqlmap.org/)
+- Metasploit Framework (https://metasploit.com/)
+- Empire (https://github.com/BC-SECURITY/Empire)
+
+These tools are **not included** in this repository, nor are they authored or maintained by the DMPP project. Each tool is subject to its own license and terms of use. Please consult the respective upstream projects for their licensing, copyright, and usage restrictions.
+
+**The authors of this framework do not claim any ownership or responsibility for these third-party tools. This project is purely an automation/orchestration layer. Use all integrated tools in compliance with their licenses and applicable laws.**
+
+
+## License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+
+
+
+
 python3 main.py -c config/pentest_config.json net-scan
 
 sudo apt update && sudo apt install seclists
@@ -10,15 +115,6 @@ cd Empire
 
 cd /opt/Empire
 source empire-env/bin/activate 
-
-hydra -L /home/kali/dmpp/config/users.txt -P /home/kali/dmpp/config/users.txt 127.0.0.1 http-get-form '/DVWA/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:Username and/or password incorrect.H=Cookie:PHPSESSID:"96e74c44254b1afc3b71362e4bc594b1"'
-hydra -l admin -P /home/kali/dmpp/config/passwords.txt 127.0.0.1 http-get-form "/dvwa/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie:PHPSESSID=96e74c44254b1afc3b71362e4bc594b1;security=low:F=Username and/or password incorrect."
-PHPSESSID:"96e74c44254b1afc3b71362e4bc594b1"
-
-hydra -l admin -P /home/kali/dmpp/config/users.txt 127.0.0.1 http-get-form "/DVWA/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie:PHPSESSID=96e74c44254b1afc3b71362e4bc594b1;security=low:F=Username and/or password incorrect."
-
-hydra -l admin -P /home/kali/dmpp/config/users.txt 127.0.0.1 http-post-form "/DVWA/login.php:username=admin&password=^PASS^&Login=Login&user_token=bb26bdd6b7f28671dbda002f7852775b: H-Cookie:security-low; PHPSESSID=3d16cc0a86d372fba0dfb8f1d82f81d6" -v
-
 
 
 msfrpcd -P workplease -S -a 127.0.0.1 -p 55553
