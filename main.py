@@ -42,7 +42,7 @@ def interactive_main():
 
     # 2) Prepare logging, sessions, pipeline
     log_path    = config.get("log_file", "results/logs/pipeline.log")
-    logger = setup_logging(log_path, logging.DEBUG)
+    logger = setup_logging(log_path)
     session_mgr = SessionManager()
     drivers = {
         "discovery":     NmapDriver,     # ← class!

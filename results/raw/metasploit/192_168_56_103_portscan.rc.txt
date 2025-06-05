@@ -5,10 +5,10 @@ resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_portscan.rc)> 
 resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_portscan.rc)> set PORTS 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
 [0mPORTS => 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
 resource (modules/drivers/exploitation/msf_scripts/192_168_56_103_portscan.rc)> run
-[0m[1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:22 - TCP OPEN
-[1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:23 - TCP OPEN
+[0m[1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:23 - TCP OPEN
 [1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:25 - TCP OPEN
 [1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:80 - TCP OPEN
+[1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:22 - TCP OPEN
 [1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:139 - TCP OPEN
 [1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:445 - TCP OPEN
 [1m[32m[+][0m 192.168.56.103:       - 192.168.56.103:3306 - TCP OPEN

@@ -14,69 +14,110 @@ class HydraHttpDriver(BaseToolDriver):
     """
     name = "hydra_http"
 
+    
     def __init__(self, config, session_mgr, logger):
         super().__init__(config, session_mgr, logger)
         self.binary    = config["hydra_binary"]
         self.output_dir= config["hydra_output_dir"]
         os.makedirs(self.output_dir, exist_ok=True)
 
+    def get_dvwa_cookies_and_level(self, target):
+        """
+        Try to retrieve the PHPSESSID and security level for DVWA.
+        Returns: dict (cookies), str (security level) or (None, None)
+        """
+        session = self.session_mgr.get(target)
+        cookies = {}
+        security_level = "low"
+
+        if session:
+            cookies = session.cookies.get_dict()
+            # Optionally, fetch the security level if needed
+            try:
+                resp = session.get(f"{target}/security.php", timeout=5)
+                if "security level" in resp.text.lower():
+                    import re
+                    m = re.search(r'value="([a-z]+)" selected', resp.text)
+                    if m:
+                        security_level = m.group(1)
+            except Exception as e:
+                self.logger.info(f"[hydra_http] Could not determine DVWA security level: {e}")
+        return cookies, security_level
+
+
     @retry(stop=stop_after_attempt(3), wait=wait_fixed(5), reraise=True)
     def run(self, target: str, form: dict, userlist: str, passlist: str, **kwargs):
-        # Normalize the form action URL
-        action = form.get("action") or target
-        if not action.startswith(("http://","https://")):
-            action = f"http://{target.rstrip('/')}{action}"
-
-        # Build the USER/PASS template
-        fields = form.get("fields", {})
-        tpl_parts = []
-        for name, val in fields.items():
-            nl = name.lower()
-            if nl == self.config["hydra_http"]["username_field"]:
-                tpl_parts.append(f"{name}=^USER^")
-            elif nl == self.config["hydra_http"]["password_field"]:
-                tpl_parts.append(f"{name}=^PASS^")
-            else:
-                tpl_parts.append(f"{name}={val}")
-        form_tpl = "&".join(tpl_parts)
-
-        # 1) Try to grab cookies from SessionManager
-        session = self.session_mgr.get(target)
-        ck = session.cookies.get_dict()
-        if ck:
-            cookie_header = ";".join(f"{k}={v}" for k, v in ck.items())
-        else:
-            # 2) Fallback to config override
-            cookie_header = self.config["hydra_http"].get("cookie_header", "")
-
-        # 3) Pick the failure string (allow override)
-        fail_str = self.config["hydra_http"].get(
-            "fail_string",
-            self.config.get("http_fail_string", "invalid")
-        )
-
-        # 4) Build module argument
-        module_arg = f"{action}:{form_tpl}:H=Cookie: {cookie_header}:F={fail_str}"
-
-        # 5) Assemble & launch Hydra
-        outfile = os.path.join(
-            self.output_dir,
-            f"{target.replace('://','_')}_hydra_http.txt"
-        )
-        cmd = [
-            self.binary,
-            "-L", userlist,
+        session = kwargs.get("session") or self.session_mgr.get(target)
+        if not session:
+            self.logger.warning(f"[hydra_http] No session found for {target}, skipping cookie brute.")
+            return None
+        cookies = session.cookies.get_dict()
+        phpsessid = cookies.get("PHPSESSID")
+        security_level = cookies.get("security", "low")
+        cookie_hdr = f"H=Cookie: PHPSESSID={phpsessid}; security={security_level}"
+        hydra_args = [
+            "hydra",
+            "-l", userlist,   # or "-L", userlist, if you want to brute a list
             "-P", passlist,
-            "-f",            # stop on first valid
-            "-o", outfile,
             target,
-            "http-form-post",
-            module_arg
+            "http-get-form",
+            f"{form['action']}:"
+            f"{form['username_field']}=^USER^&{form['password_field']}=^PASS^&Login=Login:"
+            f"{form.get('fail_string', 'Login failed.')}:{cookie_hdr}"
         ]
-        self.logger.info(f"[HydraHTTP] Running: {' '.join(cmd)}")
-        subprocess.run(cmd, timeout=self.config["scan_timeout_sec"])
-        return DriverResult(raw_output=outfile)
+        proc = subprocess.run(hydra_args, capture_output=True, text=True)
+        output = proc.stdout + "\n" + proc.stderr
+        # Use output in your result handling
+        drv_result = DriverResult(output)
 
+        
+        # DEBUG: Show all cookies for troubleshooting
+        self.logger.info(f"[hydra_http] Cookies for {target}: {cookies}")
+
+        if phpsessid:
+            self.logger.info(f"[hydra_http] PHPSESSID found for {target}, running cookie brute.")
+            return self._run_cookie_brute(
+                target, form, userlist, passlist, phpsessid, security_level
+            )
+        else:
+            self.logger.warning(f"[hydra_http] No PHPSESSID in cookies for {target}. Not running _run_cookie_brute.")
+            return None
+
+
+
+
+
+
+
+
+
+
+    def _run_cookie_brute(self, target, form, userlist, passlist, phpsessid, security_level):
+        """
+        Launches Hydra with the required cookies in the HTTP header.
+        """
+        # Compose cookie header
+        cookie_hdr = f"H=Cookie: PHPSESSID={phpsessid}; security={security_level}"
+        # Example: fill in login form parameters and action as needed
+        form_action = form.get("action", "/DVWA/login.php")
+        user_field = form.get("username_field", "username")
+        pass_field = form.get("password_field", "password")
+        fail_str = form.get("fail_string", "Login failed.")
+        print("I'm ALIVE")
+        hydra_args = [
+            "hydra",
+            "-l", userlist,
+            "-P", passlist,
+            target,
+            "http-get-form",
+            f"{form_action}:{user_field}=^USER^&{pass_field}=^PASS^&Login=Login:{fail_str}:{cookie_hdr}"
+        ]
+
+        self.logger.info(f"[hydra_http] Running Hydra with cookies for {target}: {' '.join(hydra_args)}")
+        result = subprocess.run(hydra_args, capture_output=True, text=True)
+        # Optionally, parse results here...
+        return result
+        
     def parse(self, raw_output_path: str) -> ParsedResult:
         """
         Parse hydra's output file lines like:

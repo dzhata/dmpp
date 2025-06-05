@@ -9,6 +9,7 @@ from modules.core.driver import DriverResult, ParsedResult
 from modules.core.logger import setup_logging
 from modules.core.session_manager import SessionManager
 from modules.drivers.exploitation.metasploit_manager import MetasploitManager, generate_per_exploit_rcs,clean_rc_dir
+from modules.drivers.exploitation.auth_driver import DVWAAuthDriver
 from modules.core.utils import should_skip_sqlmap_form,safe_filename,get_ip, is_plain_host,update_metasploit_sessions
 
 class Pipeline:
@@ -18,8 +19,8 @@ class Pipeline:
     """
 
     STAGE_SEQUENCE = [
-        "discovery",      # Nmap
-        "gobuster",       # Gobuster Driver,
+        #"discovery",      # Nmap
+        #"gobuster",       # Gobuster Driver,
         "auth",           # static creds
         "form_discovery", # HTML form crawl
         "brute",          # brute
@@ -109,6 +110,8 @@ class Pipeline:
         if to_auth_static:
             self.run_stage("auth", to_auth_static)
 
+        
+
         # 2) Build full list of URLs for form crawling:
         form_targets = set()
         # a) include the original targets (will be normalized by the driver)
@@ -131,39 +134,107 @@ class Pipeline:
         # 3) Crawl forms on every discovered URL
         self.run_stage("form_discovery", list(form_targets))
 
+        #auth for dvwa
+        auth = DVWAAuthDriver("http://127.0.0.1/DVWA", "admin", "password")
+        if auth.login():
+            session = auth.get_session()
+            phpsessid = auth.get_cookie()
+            self.logger.info(f"[auth] DVWA login successful: {self.config.get('dvwa_user', 'admin')} (PHPSESSID {phpsessid})")
+        else:
+            self.logger.warning("[auth] DVWA login failed.")
 
-        # 4) HydraHttp brute for auth_required but *no* static creds
+        dvwa_url = "http://127.0.0.1/DVWA"
+        dvwa_session = self.session_mgr.get(dvwa_url.rstrip("/"))
+        if not dvwa_session:
+            self.logger.warning(f"[pipeline] No DVWA session found for {dvwa_url}")
+        else:
+            # Find login forms in form discovery results for DVWA
+            dvwa_forms = []
+            for url, result in self.results.get("form_discovery", {}).items():
+                # Normalize URL (strip query, trailing slash)
+                norm_url = url.split("?")[0].rstrip("/")
+                if norm_url == dvwa_url.rstrip("/"):
+                    dvwa_forms.extend(result.get("forms", []))
+
+            if not dvwa_forms:
+                self.logger.warning(f"[pipeline] No DVWA login forms discovered at {dvwa_url}")
+            else:
+                for form in dvwa_forms:
+                    self.logger.info(f"[pipeline] Running hydra_http on DVWA login form: {form.get('action')}")
+                    # Call hydra_http driver with authenticated session
+                    self.run_stage(
+                        "hydra_http",
+                        [dvwa_url],
+                        form=form,
+                        userlist=self.config["hydra_userlist"],
+                        passlist=self.config["hydra_passlist"],
+                        session=dvwa_session
+            )
+            # Target both SQLi and Blind SQLi modules
+            sqli_paths = [
+                "/vulnerabilities/sqli/",
+                "/vulnerabilities/sqli_blind/"
+            ]
+            for path in sqli_paths:
+                vuln_url = f"{dvwa_url.rstrip('/')}{path}"
+                # Optionally, check if a form was discovered for this URL
+                forms = []
+                for url, result in self.results.get("form_discovery", {}).items():
+                    norm_url = url.split("?")[0].rstrip("/")
+                    if norm_url == vuln_url.rstrip("/"):
+                        forms.extend(result.get("forms", []))
+                if not forms:
+                    self.logger.warning(f"[pipeline] No forms found for {vuln_url} (SQLMap)")
+                else:
+                    for form in forms:
+                        self.logger.info(f"[pipeline] Running SQLMap on DVWA form: {vuln_url} ({form.get('action')})")
+                        self.run_stage(
+                            "sqlmap",
+                            [vuln_url],
+                            forms=[form],          # or form=form, adapt to your driver
+                            session=dvwa_session   # pass cookies/session for auth
+                        )
+
+       # 4) HydraHttp brute for auth_required but *no* static creds
         for url, result in self.results.get("form_discovery", {}).items():
-            # For every discovered URL with forms
             forms = result.get("forms", [])
-            print("Trying brute on:", url, [f['action'] for f in forms])
+            form_actions = [f.get('action') for f in forms]
+            self.logger.info(f"Trying brute on: {url}, forms: {form_actions}")
 
             # Only brute if URL requires auth and doesn't have static creds
-            url_for_auth = url.split("?")[0]  # or normalize/strip to match your auth_required config
+            url_for_auth = url.split("?")[0]  # normalize if needed
             if url_for_auth in auth_req and url_for_auth not in static_creds:
                 for form in forms:
+                    session = self.session_mgr.get(url_for_auth) if hasattr(self, 'session_mgr') else None
                     self.run_stage(
                         "hydra_http",
                         [url],
                         form=form,
                         userlist=self.config["hydra_userlist"],
-                        passlist=self.config["hydra_passlist"]
+                        passlist=self.config["hydra_passlist"],
+                        session=session
                     )
-                creds = self.results.get("hydra_http", {}).get(url, {}).get("credentials", [])
-                if creds:
-                    user, pw = creds[0]["username"], creds[0]["password"]
-                    self.config.setdefault("auth_credentials", {})[url_for_auth] = {
-                        "login_url":       form["action"],
-                        "username_field":  self.config.get("username_field", "username"),
-                        "password_field":  self.config.get("password_field", "password"),
-                        "username":        user,
-                        "password":        pw
-                    }
+
+                    creds = self.results.get("hydra_http", {}).get(url, {}).get("credentials", [])
+                    if creds:
+                        user, pw = creds[0]["username"], creds[0]["password"]
+                        self.logger.info(f"[hydra_http] Credentials found: {user}:{pw} for {url}")
+                        self.config.setdefault("auth_credentials", {})[url_for_auth] = {
+                            "login_url":      form.get("action"),
+                            "username_field": self.config.get("username_field", "username"),
+                            "password_field": self.config.get("password_field", "password"),
+                            "username":       user,
+                            "password":       pw
+                        }
+                    else:
+                        self.logger.info(f"[hydra_http] No credentials found for {url}")
+
+
 
         # 5) Dynamic auth with discovered creds
-        to_auth_dynamic = [t for t in targets if t in auth_req and t in self.config.get("auth_credentials", {})]
-        if to_auth_dynamic:
-            self.run_stage("auth", to_auth_dynamic)
+        #to_auth_dynamic = [t for t in targets if t in auth_req and t in self.config.get("auth_credentials", {})]
+        #if to_auth_dynamic:
+        #    self.run_stage("auth", to_auth_dynamic)
 
         
         

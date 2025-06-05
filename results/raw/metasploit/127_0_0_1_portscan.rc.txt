@@ -1,0 +1,13 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/127_0_0_1_portscan.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_portscan.rc)> use auxiliary/scanner/portscan/tcp
+[0mresource (modules/drivers/exploitation/msf_scripts/127_0_0_1_portscan.rc)> set RHOSTS 127.0.0.1
+[0mRHOSTS => 127.0.0.1
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_portscan.rc)> set PORTS 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+[0mPORTS => 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_portscan.rc)> run
+[0m[1m[32m[+][0m 127.0.0.1:            - 127.0.0.1:80 - TCP OPEN
+[1m[32m[+][0m 127.0.0.1:            - 127.0.0.1:3306 - TCP OPEN
+[1m[34m[*][0m 127.0.0.1:            - Scanned 1 of 1 hosts (100% complete)
+[1m[34m[*][0m Auxiliary module execution completed
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_portscan.rc)> exit
+[0m

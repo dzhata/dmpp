@@ -1,0 +1,11 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_portscan.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_portscan.rc)> use auxiliary/scanner/portscan/tcp
+[0mresource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_portscan.rc)> set RHOSTS 127.0.0.1:3000
+[0mRHOSTS => 127.0.0.1:3000
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_portscan.rc)> set PORTS 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+[0mPORTS => 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_portscan.rc)> run
+[0m[1m[31m[-][0m 127.0.0.1:3000:       - Msf::OptionValidateError The following options failed to validate:
+[1m[31m[-][0m 127.0.0.1:3000:       - Invalid option RHOSTS: Host resolution failed: 127.0.0.1:3000
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_3000_portscan.rc)> exit
+[0m

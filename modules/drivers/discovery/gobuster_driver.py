@@ -11,13 +11,16 @@ from modules.core.driver import BaseToolDriver, DriverResult, ParsedResult
 from modules.core.utils import safe_target_path  # helper to create consistent filenames
 
 
-def run_gobuster_with_auto_exclude(target, output_file, base_cmd, logger):
+def run_gobuster_with_auto_exclude(target, output_file, base_cmd, logger, timeout_seconds=200):
     """
-    Run Gobuster, and if it fails due to ambiguous 200 status for non-existent URLs,
-    extract the suggested length and retry with --exclude-length.
+    Run Gobuster. If ambiguous 200s for non-existent URLs, extract length and retry with --exclude-length.
     """
-    proc = subprocess.run(base_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    # 0: hits found, 1: no hits
+    cmd = ["timeout", str(timeout_seconds)] + base_cmd
+    proc = subprocess.run(
+        cmd,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
+    )
     if proc.returncode in (0, 1):
         return proc
 
@@ -26,14 +29,16 @@ def run_gobuster_with_auto_exclude(target, output_file, base_cmd, logger):
     if "matches the provided options for non existing urls" in err and m:
         length = m.group(1)
         logger.info(f"[GobusterDriver] Retrying with --exclude-length {length}")
+        # Insert --exclude-length just before -o (output) argument
         retry_cmd = []
         inserted = False
-        for v in base_cmd:
+        for idx, v in enumerate(base_cmd):
             if v == '-o' and not inserted:
                 retry_cmd += ["--exclude-length", length]
                 inserted = True
             retry_cmd.append(v)
-        proc2 = subprocess.run(retry_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        cmd_retry = ["timeout", str(timeout_seconds)] + retry_cmd
+        proc2 = subprocess.run(cmd_retry, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         return proc2
 
     logger.error(f"[GobusterDriver] Gobuster failed: {err}")
@@ -41,7 +46,7 @@ def run_gobuster_with_auto_exclude(target, output_file, base_cmd, logger):
 
 
 class GobusterDriver(BaseToolDriver):
-    name = "dirb"  # Stage name “dirb” kept for pipeline compatibility
+    name = "dirb"  # Legacy name for pipeline compatibility
 
     def __init__(self, config: dict, session_mgr, logger: logging.Logger):
         super().__init__(config, session_mgr, logger)
@@ -63,9 +68,9 @@ class GobusterDriver(BaseToolDriver):
         )
         os.makedirs(self.output_dir, exist_ok=True)
 
-    @retry(stop=stop_after_attempt(3), wait=wait_fixed(5), reraise=True)
+    @retry(stop=stop_after_attempt(1), wait=wait_fixed(5), reraise=True)
     def run(self, target: str, **kwargs) -> DriverResult:
-        # Build normalized URL
+        # Normalize URL
         raw = target if target.startswith(("http://", "https://")) else f"http://{target}"
         p = urlparse(raw)
         host = p.netloc
@@ -74,12 +79,13 @@ class GobusterDriver(BaseToolDriver):
             path += "/"
         url = urlunparse((p.scheme, host, path, "", "", ""))
 
-        # Determine safe output filename
+        # Output filename
         safe = safe_target_path(target, p.path)
         out_file = os.path.join(self.output_dir, f"{safe}.txt")
         os.makedirs(os.path.dirname(out_file), exist_ok=True)
 
-        # Execute Gobuster with auto-exclusion logic
+        # Assemble Gobuster command
+        # Do not allow self.args to include output/user/wordlist params
         cmd = [
             self.binary,
             *self.args,
@@ -87,35 +93,40 @@ class GobusterDriver(BaseToolDriver):
             "-w", self.wordlist,
             "-o", out_file
         ]
-        self.logger.info(f"[GobusterDriver] Running: {' '.join(cmd)}", extra={"target": target})
-        proc = run_gobuster_with_auto_exclude(target, out_file, cmd, self.logger)
+        self.logger.info(f"[GobusterDriver] Running: {' '.join(cmd)}")
+        try:
+            proc = run_gobuster_with_auto_exclude(
+                target, out_file, cmd, self.logger, timeout_seconds=600
+            )
+        except Exception as e:
+            self.logger.error(f"[GobusterDriver] Gobuster exception: {e}")
+            raise
 
-        # Handle return codes
+        # Return code handling
         if proc.returncode == 1:
-            # No hits: create empty output file for consistent parsing
+            # No hits: create empty output for consistent parsing
             try:
                 open(out_file, 'w').close()
             except Exception as e:
-                self.logger.error(f"[GobusterDriver] Failed to create empty output: {e}", extra={"target": target})
+                self.logger.error(f"[GobusterDriver] Failed to create empty output: {e}")
             return DriverResult(raw_output=out_file)
 
         if proc.returncode == 0:
             # Hits found: ensure file exists
             if not os.path.exists(out_file):
                 self.logger.warning(
-                    f"[GobusterDriver] Expected output file missing despite hits, creating empty: {out_file}",
-                    extra={"target": target}
+                    f"[GobusterDriver] Expected output file missing despite hits, creating empty: {out_file}"
                 )
                 open(out_file, 'w').close()
             return DriverResult(raw_output=out_file)
 
-        # Other codes should have been caught in auto-exclude logic
+        # Other codes should have been handled
         err = proc.stderr.decode(errors="ignore")
-        self.logger.error(f"[GobusterDriver] Scan failed (code {proc.returncode}): {err}", extra={"target": target})
+        self.logger.error(f"[GobusterDriver] Scan failed (code {proc.returncode}): {err}")
         raise RuntimeError(f"Gobuster scan failed (code {proc.returncode})")
 
     def parse(self, raw_output_path: str) -> ParsedResult:
-        # If for some reason the file is still missing, return empty paths
+        # Return empty if file missing
         if not os.path.exists(raw_output_path):
             self.logger.warning(f"[GobusterDriver] Missing file at parse: {raw_output_path}")
             return ParsedResult(data={"paths": []})
@@ -128,7 +139,6 @@ class GobusterDriver(BaseToolDriver):
                     parts = line.split()
                     paths.append(parts[0])
         self.logger.debug(
-            f"[GobusterDriver] Parsed {len(paths)} paths from {raw_output_path}",
-            extra={"raw": raw_output_path}
+            f"[GobusterDriver] Parsed {len(paths)} paths from {raw_output_path}"
         )
         return ParsedResult(data={"paths": paths})

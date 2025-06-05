@@ -1,0 +1,11 @@
+[1m[34m[*][0m Processing modules/drivers/exploitation/msf_scripts/127_0_0_1_DVWA__portscan.rc for ERB directives.
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_DVWA__portscan.rc)> use auxiliary/scanner/portscan/tcp
+[0mresource (modules/drivers/exploitation/msf_scripts/127_0_0_1_DVWA__portscan.rc)> set RHOSTS 127.0.0.1/DVWA/
+[0mRHOSTS => 127.0.0.1/DVWA/
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_DVWA__portscan.rc)> set PORTS 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+[0mPORTS => 21,22,23,25,80,139,445,3306,5432,3632,8180,8080
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_DVWA__portscan.rc)> run
+[0m[1m[31m[-][0m 127.0.0.1/DVWA/:      - Msf::OptionValidateError The following options failed to validate:
+[1m[31m[-][0m 127.0.0.1/DVWA/:      - Invalid option RHOSTS: Host resolution failed: 127.0.0.1/DVWA/
+resource (modules/drivers/exploitation/msf_scripts/127_0_0_1_DVWA__portscan.rc)> exit
+[0m
